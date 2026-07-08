@@ -12,6 +12,7 @@ from __future__ import annotations
 import pandas as pd
 
 from analysis.connectors.matomo_reporting import MatomoReportingConnector
+from analysis.matomo_segments import DEVICE_SEGMENTS
 
 CONFIGS = [
     (
@@ -65,12 +66,6 @@ CONFIGS = [
     ),
 ]
 
-SEGMENTS = {
-    "desktop": "deviceType==desktop",
-    # « mobile » regroupe smartphones ET tablettes (`,` = OU dans un segment Matomo).
-    "mobile": "deviceType==smartphone,deviceType==tablet",
-}
-
 
 def get_completion_simulateurs(
     date: str, matomo: MatomoReportingConnector | None = None
@@ -93,7 +88,7 @@ def get_completion_simulateurs(
             return get_completion_simulateurs(date, client)
 
     rows = []
-    for device, segment in SEGMENTS.items():
+    for device, segment in DEVICE_SEGMENTS.items():
         # Collecte des patterns uniques pour limiter les appels API
         unique_patterns = {
             p for *_, start_p, result_p in CONFIGS for p in (start_p, result_p)

@@ -49,11 +49,11 @@ On lance JupyterLab (`uv run jupyter lab`) et on crée un notebook sous
 accéder aux données sans réécrire la plomberie :
 
 ```python
-# Source SQL — réplica Matomo (données de visites)
-from analysis.connectors.matomo import MatomoSQLConnector
+# Source SQL — réplica Matomo (données de visites), connecteur SYNCHRONE
+from analysis.connectors.matomo import MatomoSQLConnectorSync
 
-async with MatomoSQLConnector() as matomo:
-    df = await matomo.run_query_df("SELECT 1")
+with MatomoSQLConnectorSync() as matomo:
+    df = matomo.run_query_df("SELECT 1")
 
 # Source API — reporting Matomo (vues par URL, événements)
 from analysis.connectors.matomo_reporting import MatomoReportingConnector
@@ -61,6 +61,12 @@ from analysis.connectors.matomo_reporting import MatomoReportingConnector
 with MatomoReportingConnector() as matomo:
     urls = matomo.get_page_urls(period="day", date="2026-06-01")
 ```
+
+> Un `MatomoSQLConnector` **asynchrone** (`asyncpg`) existe aussi et reste utilisé
+> par les notebooks historiques (`async with … await matomo.run_query(...)`).
+> Pour tout nouveau code, préférer `MatomoSQLConnectorSync` : un report bâti
+> dessus reste une simple fonction synchrone `get_x(date) -> DataFrame`, appelable
+> **sans `await`** — même geste qu'un report basé sur l'API Reporting.
 
 Un notebook peut rester purement exploratoire. **Mais** si le but est de suivre
 une donnée dans le temps (une métrique que l'on veut voir se mettre à jour
@@ -90,6 +96,16 @@ deux morceaux :
 La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
 `ingest_all.INGESTERS` pour qu'il soit exécuté par le cronjob. Voir
 `commands/ingest_simulateurs.py` comme modèle complet.
+
+### Reports disponibles
+
+- **`completion_simulateurs`** — taux de complétion des simulateurs (start /
+  result) par device, via l'API de reporting Matomo. Table `completion_simulateurs`.
+- **`contrib_cc_clicks`** — pour chaque contribution générique du site (slugs
+  du sitemap public) et chaque device, le nombre de visites Matomo sur les
+  pages de la contribution (générique + personnalisées par convention
+  collective) et le nombre de visites ayant cliqué « afficher les informations
+  sans/avec convention collective ». Table `contrib_cc_clicks`.
 
 ## La base Metabase (destination)
 
@@ -127,17 +143,20 @@ au premier ingest, aucune étape de schéma manuelle n'est requise.
 
 ## Ingérer des données dans Metabase
 
-Deux console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
+Trois console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
 l'**upsert** dans la base PostgreSQL de Metabase :
 
-- **`ingest-all`** — lance **tous** les ingesters (actuellement `simulateurs`).
-  C'est le job planifié. **Sans argument, il cible J-2** (l'avant-veille, UTC —
-  Matomo a alors archivé et stabilisé cette journée). C'est le point d'extension :
-  pour ajouter un report, exposer un `Ingester` dans son module de commande et
-  l'enregistrer dans `ingest_all.INGESTERS`.
+- **`ingest-all`** — lance **tous** les ingesters (actuellement `simulateurs` et
+  `contrib_cc_clicks`). C'est le job planifié. **Sans argument, il cible J-2**
+  (l'avant-veille, UTC — Matomo a alors archivé et stabilisé cette journée).
+  C'est le point d'extension : pour ajouter un report, exposer un `Ingester`
+  dans son module de commande et l'enregistrer dans `ingest_all.INGESTERS`.
 - **`ingest-simulateurs`** — lance uniquement l'ingester de complétion des
   simulateurs pour un jour ou une période explicite. Pratique pour un run manuel
   ou un backfill.
+- **`ingest-contrib-cc-clicks`** — lance uniquement l'ingester des visites par
+  contribution et des clics « afficher les informations (CC) », pour un jour
+  ou une période explicite.
 
 ```bash
 # forme planifiée : agrège J-2 avec tous les ingesters (ce que lance le cronjob)
@@ -150,9 +169,13 @@ uv run ingest-all 2026-06-01 --end 2026-06-30
 # uniquement les simulateurs, jour / période explicite
 uv run ingest-simulateurs 2026-06-01
 uv run ingest-simulateurs 2026-06-01 --end 2026-06-30
+
+# uniquement les visites/clics CC par contribution, jour / période explicite
+uv run ingest-contrib-cc-clicks 2026-06-01
+uv run ingest-contrib-cc-clicks 2026-06-01 --end 2026-06-30
 ```
 
-Les deux lisent deux jeux de réglages dans `.env` :
+Toutes ces commandes lisent deux jeux de réglages dans `.env` :
 
 | Variable                                                       | Utilisé pour                                                              |
 | -------------------------------------------------------------- | ------------------------------------------------------------------------- |
@@ -160,8 +183,47 @@ Les deux lisent deux jeux de réglages dans `.env` :
 | `METABASE_DB_HOST` / `_PORT` / `_USER` / `_PASSWORD` / `_NAME` | destination — Postgres Metabase (défaut : la BDD `docker-compose` locale) |
 
 La table cible de chaque report est créée à son premier run (ex.
-`completion_simulateurs`, clé primaire `date, device, titre`), donc réingérer un
+`completion_simulateurs`, clé primaire `date, device, titre` ; ou
+`contrib_cc_clicks`, clé primaire `date, device, slug`), donc réingérer un
 jour écrase ses lignes de façon idempotente — sûr à planifier quotidiennement.
+
+### À la main dans le cluster (Kubernetes)
+
+En prod, le CronJob `cron-analysis` lance `ingest-all` chaque nuit. Pour un run
+manuel, on crée un Job **à partir de ce CronJob** : il hérite de l'image, du
+secret `analysis` et des ressources. Chaque ingester étant un console script
+distinct dans l'image (le conteneur lance `ingest-all` par défaut), il suffit de
+**surcharger la commande du conteneur** pour n'en lancer qu'un — ou pour cibler
+une période.
+
+```bash
+NS=cdtn-admin   # namespace de l'environnement visé
+
+# 1) Tout, sur J-2 (comme le cron) — le plus simple
+kubectl -n "$NS" create job analysis-manual --from=cronjob/cron-analysis
+
+# 2) Tout, sur une période précise (surcharge des arguments)
+kubectl -n "$NS" create job analysis-backfill --from=cronjob/cron-analysis \
+  --dry-run=client -o json \
+| jq '.spec.template.spec.containers[0].command = ["ingest-all","2026-06-01","--end","2026-06-30"]' \
+| kubectl -n "$NS" apply -f -
+
+# 3) UN SEUL ingester (ex. contrib_cc_clicks), sur J-2…
+kubectl -n "$NS" create job contrib-cc-manual --from=cronjob/cron-analysis \
+  --dry-run=client -o json \
+| jq '.spec.template.spec.containers[0].command = ["ingest-contrib-cc-clicks"]' \
+| kubectl -n "$NS" apply -f -
+#    …ou sur une période : command = ["ingest-contrib-cc-clicks","2026-06-01","--end","2026-06-30"]
+
+# Suivre les logs puis nettoyer
+kubectl -n "$NS" logs -f job/contrib-cc-manual
+kubectl -n "$NS" delete job contrib-cc-manual
+```
+
+`--from=cronjob/cron-analysis` marche même quand le CronJob est **suspendu**
+(dev/preprod) : `suspend` ne bloque que le déclenchement planifié, pas les
+créations manuelles. Sans `jq`, utiliser `-o yaml`, éditer la ligne `command:`
+du conteneur, puis `kubectl apply -f -`.
 
 ## Lint / formatage
 
@@ -186,7 +248,8 @@ analysis/
 │   │   └── metabase_db.py        # MetabaseDBConnector (destination, générique)
 │   ├── reports/                  # calcul des agrégats journaliers (DataFrame)
 │   └── commands/                 # commandes d'ingestion (report + couche BDD)
-│       ├── ingest_all.py         # lance tous les ingesters — job planifié
-│       └── ingest_simulateurs.py # ingester simulateurs (modèle)
+│       ├── ingest_all.py               # lance tous les ingesters — job planifié
+│       ├── ingest_simulateurs.py       # ingester simulateurs (modèle)
+│       └── ingest_contrib_cc_clicks.py # ingester visites/clics CC par contribution
 └── notebooks/                    # analyses exploratoires
 ```

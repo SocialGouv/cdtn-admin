@@ -136,6 +136,7 @@ class MatomoReportingConnector:
         filter_pattern: str | None = None,
         secondary_dimension: str = "eventName",
         segment: str | None = None,
+        filter_limit: int = -1,
     ) -> list[dict[str, Any]]:
         """Return the flat ``Events.getAction`` report for ``date``.
 
@@ -143,19 +144,48 @@ class MatomoReportingConnector:
         metric. ``filter_pattern`` (a regex) is pushed down to Matomo so only
         matching event actions cross the wire; ``secondaryDimension`` defaults to
         ``eventName`` (so ``flat`` mode expands one row per action/name pair).
-        ``segment`` restricts the report to a Matomo segment.
+        ``segment`` restricts the report to a Matomo segment. ``filter_limit=-1``
+        (the default) disables Matomo's row truncation, matching
+        :meth:`get_page_urls` — important here since a single event action can
+        flatten into one row per distinct event name (e.g. one per contribution
+        slug), and the default limit would silently drop the long tail.
         """
         params: dict[str, Any] = {
             "period": period,
             "date": date,
             "secondaryDimension": secondary_dimension,
             "flat": 1,
+            "filter_limit": filter_limit,
         }
         if filter_pattern:
             params["filter_pattern"] = filter_pattern
         if segment:
             params["segment"] = segment
         return self._call("Events.getAction", **params)
+
+    def get_visits_summary(
+        self,
+        date: str,
+        *,
+        period: str = "day",
+        segment: str | None = None,
+    ) -> int:
+        """Return ``nb_visits`` from ``VisitsSummary.get`` for ``date``/``segment``.
+
+        Unlike :meth:`get_page_urls` (one row per URL), ``VisitsSummary.get``
+        returns a single aggregate for whatever the segment matches — the right
+        call when the caller has already built a segment expression (e.g. an
+        OR of several ``pageUrl`` clauses for one contribution slug, possibly
+        ANDed with a device segment) and only wants the total visit count for
+        it, not a per-URL breakdown.
+        """
+        params: dict[str, Any] = {"period": period, "date": date}
+        if segment:
+            params["segment"] = segment
+        data = self._call("VisitsSummary.get", **params)
+        if isinstance(data, dict):
+            return int(data.get("nb_visits", 0) or 0)
+        return 0
 
     def close(self) -> None:
         self._client.close()

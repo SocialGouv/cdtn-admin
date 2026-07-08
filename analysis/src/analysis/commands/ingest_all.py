@@ -21,13 +21,14 @@ import sys
 from datetime import UTC, datetime, timedelta
 from datetime import date as Date
 
-from analysis.commands import ingest_simulateurs
+from analysis.commands import ingest_contrib_cc_clicks, ingest_simulateurs
 from analysis.commands._runner import Ingester, iter_days, parse_date, run_ingest
 
 # Registre des reports à ingérer. Ajouter ici le ``INGESTER`` de chaque nouveau
 # report (un import + une entrée suffisent).
 INGESTERS: list[Ingester] = [
     ingest_simulateurs.INGESTER,
+    ingest_contrib_cc_clicks.INGESTER,
 ]
 
 # Décalage par défaut : J-2 (avant-veille).
@@ -42,8 +43,8 @@ def _default_day() -> Date:
 def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
-            "Lance tous les ingesters (simulateurs, …) vers la base Metabase. "
-            "Sans argument, ingère la journée J-2 (avant-veille, UTC)."
+            "Lance tous les ingesters (simulateurs, contrib_cc_clicks, …) vers la "
+            "base Metabase. Sans argument, ingère la journée J-2 (avant-veille, UTC)."
         )
     )
     parser.add_argument(

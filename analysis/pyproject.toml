@@ -22,6 +22,7 @@ dependencies = [
 [project.scripts]
 ingest-all = "analysis.commands.ingest_all:main"
 ingest-simulateurs = "analysis.commands.ingest_simulateurs:main"
+ingest-contrib-cc-clicks = "analysis.commands.ingest_contrib_cc_clicks:main"
 
 [build-system]
 requires = ["uv_build>=0.11.22,<0.12.0"]

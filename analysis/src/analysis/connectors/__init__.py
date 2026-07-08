@@ -1,6 +1,6 @@
 """Database and API connectors used by the analysis notebooks/scripts."""
 
-from analysis.connectors.matomo import MatomoSQLConnector
+from analysis.connectors.matomo import MatomoSQLConnector, MatomoSQLConnectorSync
 from analysis.connectors.matomo_reporting import (
     MatomoReportingConnector,
     MatomoReportingError,
@@ -8,6 +8,7 @@ from analysis.connectors.matomo_reporting import (
 
 __all__ = [
     "MatomoSQLConnector",
+    "MatomoSQLConnectorSync",
     "MatomoReportingConnector",
     "MatomoReportingError",
 ]
