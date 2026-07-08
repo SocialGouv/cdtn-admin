@@ -1,207 +1,192 @@
 # analysis
 
-Notebook-based analytics for **cdtn-admin**. Connects to the Matomo
-PostgreSQL database and explores search-behaviour statistics with pandas,
-seaborn and matplotlib.
+Brique d'analytics pour **cdtn-admin**. Elle sert à deux choses :
 
-This is a standalone Python project managed with [uv](https://docs.astral.sh/uv/).
-It lives outside the pnpm/Lerna workspace and has no link to the Node packages.
+- **Alimenter Metabase.** Récupérer des données depuis Matomo (via l'**API de
+  reporting exclusivement**), les transformer, et produire des **agrégats**
+  insérés dans la base PostgreSQL de Metabase. Ce sont ces agrégats qui
+  alimentent les dashboards Metabase (notamment les **KPIs**).
+- **Faire des analyses rapides** via des **notebooks** sur les données de Matomo,
+  soit via l'API de reporting, soit via les données de visites disponibles dans
+  une BDD PostgreSQL (réplica Matomo).
 
-## Prerequisites
+C'est un projet Python autonome géré avec [uv](https://docs.astral.sh/uv/). Il
+vit en dehors du workspace pnpm/Lerna et n'a aucun lien avec les packages Node.
+
+## Prérequis
 
 - [uv](https://docs.astral.sh/uv/getting-started/installation/) (`brew install uv`)
-- uv manages the Python version (3.13, pinned in `.python-version`) for you.
+- uv gère pour vous la version de Python (3.13, épinglée dans `.python-version`).
 
-## Setup
+## Installation
 
 ```bash
 cd analysis
-uv sync                     # creates .venv and installs everything
-cp .env.example .env        # then fill in the PG_MATOMO_* credentials
+uv sync                     # crée .venv et installe tout
+cp .env.example .env        # puis renseigner les credentials
 ```
 
-The `.env` holds the connection to the Matomo database:
+Le fichier `.env` regroupe trois jeux de variables :
 
-| Variable             | Description                       |
-| -------------------- | --------------------------------- |
-| `PG_MATOMO_USER`     | database user                     |
-| `PG_MATOMO_PASSWORD` | database password                 |
-| `PG_MATOMO_HOST`     | host (e.g. the Matomo PG replica) |
-| `PG_MATOMO_DB`       | database name                     |
-| `PG_MATOMO_PORT`     | port (default `5432`)             |
+| Variable                                                                                       | Rôle                                                                                                                                                                                                                     |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `PG_MATOMO_USER` / `PG_MATOMO_PASSWORD` / `PG_MATOMO_HOST` / `PG_MATOMO_DB` / `PG_MATOMO_PORT` | **Source SQL** — connexion au réplica PostgreSQL de Matomo (données de visites, event data). Utilisé par les notebooks via `MatomoSQLConnector`.                                                                         |
+| `MATOMO_BASE_URL` / `MATOMO_SITE_ID` / `MATOMO_TOKEN_AUTH`                                     | **Source API** — API HTTP de reporting Matomo (vues par URL, événements). Utilisé par les reports/ingesters via `MatomoReportingConnector`.                                                                              |
+| `METABASE_DB_HOST` / `_PORT` / `_USER` / `_PASSWORD` / `_NAME`                                 | **Destination** — base PostgreSQL de Metabase écrite par les commandes d'ingestion. **Optionnel en local** : les valeurs par défaut correspondent déjà au `docker compose up -d metabase-db` du repo (port hôte `5433`). |
 
-## Run the notebooks
+## Lancer les notebooks
 
 ```bash
-uv run jupyter lab          # open notebooks/search_stats.ipynb
+uv run jupyter lab
 ```
 
-`search_stats.ipynb` aggregates `search` / `selectResult` events from
-`matomo_partitioned` into search sessions and charts how results are selected.
+## Fonctionnement global
 
-## Reports
+### 1. Créer un notebook
 
-### Monthly views — générique vs. personnalisées (par contribution)
-
-`analysis/src/analysis/reports/contrib_monthly_views.py` builds, **for every
-contribution** on the site, the monthly views of the single **générique** page
-against the **summed** views of all per-convention-collective **personnalisées**
-pages, over January → June 2026, with a cumulative total. The full list of
-contributions is enumerated from the public
-[sitemap](https://code.travail.gouv.fr/sitemap.xml) (the ~46 generic
-`/contribution/{slug}` pages). Personalized URLs are matched across the slug
-migration (flat `/contribution/{idcc}-{slug}` **and** nested
-`/contribution/{slug}/{idcc}-{cc}`). It uses the Matomo **HTTP Reporting API**
-(`MATOMO_*` in `.env`), not the SQL replica.
-
-```bash
-# synthetic data, no credentials nor network needed — proves the pipeline
-uv run python -m analysis.reports.contrib_monthly_views --demo
-
-# live — reads MATOMO_BASE_URL / MATOMO_SITE_ID / MATOMO_TOKEN_AUTH from .env
-uv run python -m analysis.reports.contrib_monthly_views --start 2026-01-01 --end 2026-06-30
-```
-
-Outputs one wide CSV under `analysis/output/` — one row per contribution with
-`{YYYY-MM}_generic` / `{YYYY-MM}_perso` columns for each month plus
-`cumul_generic` / `cumul_perso` / `cumul_total`, sorted by total desc — and a
-top-N `générique` vs `perso Σ CC` stacked-bar PNG. It also prints the top table.
-Use `--metric visits` for `nb_visits`, `--top N` to size the chart, `--refresh` to
-bypass the cache.
-
-> **Limite connue — agrégation « Autres » de Matomo.** Matomo plafonne le nombre de
-> lignes conservées par rapport à l'archivage (`datatable_archiving_maximum_rows_actions`)
-> et replie la longue traîne des pages `/contribution/` dans un bucket
-> `/contribution/ - Autres` que `filter_limit=-1` ne peut pas désagréger. Le rapport
-> est donc fiable pour les contributions à **fort trafic**, mais **sous-compte la
-> traîne** (pages perso par CC, contributions à faible trafic qui lisent alors 0).
-> `autres_by_month()` chiffre ce volume non ventilé (≈ la moitié du total sur
-> jan–juin 2026). Correctif complet : relever la limite d'archivage côté serveur
-> Matomo, ou passer par un segment / le log d'actions brut.
-
-The raw Matomo result is **cached** to `analysis/output/.cache/` keyed by the date
-range, so re-running with a different metric or chart is instant. The companion
-playground is `notebooks/contrib_monthly_views.ipynb`
-(`uv run jupyter lab notebooks/contrib_monthly_views.ipynb`); set `DEMO = True`
-there for an instant, credential-free preview.
-
-### Simulator completion rate (per day / device)
-
-`analysis/src/analysis/reports/completion_simulateurs.py` computes, **for a given
-day**, the completion funnel of each simulator on the site. For every simulator in
-its `CONFIGS` list and every device segment (`global`, `desktop`, `mobile`) it
-returns the number of visits, `Start` events and `Result` events. The completion
-rate itself is **not** stored — it is simply `Result / Start`, derived at display
-time in Metabase. Like the report above it uses the Matomo **HTTP Reporting API**
-(`MATOMO_*` in `.env`), through the reusable `MatomoReportingConnector`
-(`Events.getAction` + `Actions.getPageUrls`), not the SQL replica.
+On lance JupyterLab (`uv run jupyter lab`) et on crée un notebook sous
+`notebooks/`. Le notebook s'appuie sur les **fonctions communes** du package pour
+accéder aux données sans réécrire la plomberie :
 
 ```python
-from analysis.reports.completion_simulateurs import get_completion_simulateurs
-
-df = get_completion_simulateurs("2026-06-01")
-# columns: device, titre, visites, Start, Result
-```
-
-It is the data source consumed by the `ingest-simulateurs` command below.
-
-## The Metabase database (destination)
-
-The ingest commands don't write to Matomo — they **aggregate** data and store the
-result into a dedicated **Metabase PostgreSQL database**, which then powers the
-Metabase dashboards. This is the *destination* store, separate from the read-only
-Matomo replica used as a *source*.
-
-Locally this database ships with the repo's **Docker Compose** stack (defined at
-the repo root, not here). Bring it up from the **repository root** before running
-any ingest command:
-
-```bash
-# from the repo root
-docker compose up -d metabase-db   # the Postgres store the commands write to
-docker compose up -d metabase      # optional: the Metabase UI on http://localhost:3030
-```
-
-The `metabase-db` service exposes Postgres on **host port `5433`** with these
-credentials — which are exactly the defaults of `MetabaseDBSettings` in
-`config.py`, so a local run needs **no `METABASE_DB_*` entry in `.env`**:
-
-| Setting             | Local Docker value  |
-| ------------------- | ------------------- |
-| `METABASE_DB_HOST`  | `localhost`         |
-| `METABASE_DB_PORT`  | `5433`              |
-| `METABASE_DB_USER`  | `metabase`          |
-| `METABASE_DB_PASSWORD` | `metabasepassword` |
-| `METABASE_DB_NAME`  | `metabase`          |
-
-Set the `METABASE_DB_*` variables in `.env` only to target another database (e.g.
-a remote/staging Metabase). The target table is created automatically on the
-first ingest, so no manual schema step is required.
-
-## Ingest data into Metabase
-
-Two console scripts (declared in `pyproject.toml`) aggregate data and **upsert**
-it into the Metabase PostgreSQL database that feeds the dashboards:
-
-- **`ingest-all`** — runs **every** ingester (currently just `simulateurs`). This
-  is the scheduled job. **Without an argument it targets J-2** (the day before
-  yesterday, UTC — by then Matomo has archived and stabilised that day). It is the
-  extension point: to add a new report, expose an `Ingester` in its command module
-  and register it in `ingest_all.INGESTERS`.
-- **`ingest-simulateurs`** — runs only the simulator-completion ingester for an
-  explicit day or range. Handy for a manual run or a backfill.
-
-```bash
-# scheduled shape: aggregate J-2 with every ingester (what the cronjob runs)
-uv run ingest-all
-
-# a specific day / range, all ingesters
-uv run ingest-all 2026-06-01
-uv run ingest-all 2026-06-01 --end 2026-06-30
-
-# just the simulators, explicit day / range
-uv run ingest-simulateurs 2026-06-01
-uv run ingest-simulateurs 2026-06-01 --end 2026-06-30
-```
-
-Both read two sets of settings from `.env`:
-
-| Variable                                                     | Used for                                              |
-| ------------------------------------------------------------ | ----------------------------------------------------- |
-| `MATOMO_BASE_URL` / `MATOMO_SITE_ID` / `MATOMO_TOKEN_AUTH`    | source — Matomo Reporting API (completion data)       |
-| `METABASE_DB_HOST` / `_PORT` / `_USER` / `_PASSWORD` / `_NAME` | destination — Metabase Postgres (defaults to the local `docker-compose` DB) |
-
-Each report's target table is created on its first run (e.g.
-`completion_simulateurs`, primary key `date, device, titre`), so re-ingesting a
-day overwrites its rows idempotently — safe to schedule daily.
-
-## Usage in code
-
-```python
+# Source SQL — réplica Matomo (données de visites)
 from analysis.connectors.matomo import MatomoSQLConnector
 
 async with MatomoSQLConnector() as matomo:
     df = await matomo.run_query_df("SELECT 1")
+
+# Source API — reporting Matomo (vues par URL, événements)
+from analysis.connectors.matomo_reporting import MatomoReportingConnector
+
+with MatomoReportingConnector() as matomo:
+    urls = matomo.get_page_urls(period="day", date="2026-06-01")
 ```
 
-## Linting / formatting
+Un notebook peut rester purement exploratoire. **Mais** si le but est de suivre
+une donnée dans le temps (une métrique que l'on veut voir se mettre à jour
+régulièrement dans un dashboard), l'objectif est de faire produire au notebook, en
+sortie, un **tableau de données agrégées sur la journée** — une ligne par
+dimension, pour un jour donné — qui pourra ensuite être inséré dans une table
+Metabase (étape 2).
 
-Run the same checks as CI:
+### 2. Alimenter Metabase
+
+Un **cronjob** exécute chaque nuit `ingest-all`, qui alimente la base PostgreSQL
+de Metabase avec les agrégats de la veille (les dashboards se rafraîchissent
+alors automatiquement). Pour brancher une nouvelle donnée sur ce cronjob, il faut
+deux morceaux :
+
+1. **Un report** dans `src/analysis/reports/` : une fonction qui construit le
+   **tableau agrégé** d'une journée (un `DataFrame`). On s'appuie sur le notebook
+   de l'étape précédente pour figer la logique de calcul, puis on la porte ici en
+   code de package. Le report ne connaît que Matomo — il ne touche pas à la BDD.
+2. **Une commande d'ingestion** dans `src/analysis/commands/` : elle appelle le
+   report pour un jour donné et prend en charge la **couche BDD** — définition de
+   la table cible (`CREATE TABLE IF NOT EXISTS`), requête d'upsert
+   (`INSERT ... ON CONFLICT`), et mapping du `DataFrame` vers les lignes. Le
+   connecteur `MetabaseDBConnector` reste générique : c'est la commande qui
+   fournit son schéma et son insert.
+
+La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
+`ingest_all.INGESTERS` pour qu'il soit exécuté par le cronjob. Voir
+`commands/ingest_simulateurs.py` comme modèle complet.
+
+## La base Metabase (destination)
+
+Les commandes d'ingestion n'écrivent **pas** dans Matomo : elles **agrègent** la
+donnée et stockent le résultat dans une base **PostgreSQL de Metabase** dédiée,
+qui alimente ensuite les dashboards. C'est le _destination store_, distinct du
+réplica Matomo (lecture seule) utilisé comme _source_.
+
+En local, cette base est fournie par la stack **Docker Compose** du repo (définie
+à la racine, pas ici). La démarrer depuis la **racine du dépôt** avant toute
+commande d'ingestion :
+
+```bash
+# depuis la racine du repo
+docker compose up -d metabase-db   # le Postgres où écrivent les commandes
+docker compose up -d metabase      # optionnel : l'UI Metabase sur http://localhost:3030
+```
+
+Le service `metabase-db` expose Postgres sur le **port hôte `5433`** avec les
+credentials ci-dessous — qui sont exactement les valeurs par défaut de
+`MetabaseDBSettings` dans `config.py`, donc un run local ne nécessite **aucune**
+entrée `METABASE_DB_*` dans `.env` :
+
+| Réglage                | Valeur Docker locale |
+| ---------------------- | -------------------- |
+| `METABASE_DB_HOST`     | `localhost`          |
+| `METABASE_DB_PORT`     | `5433`               |
+| `METABASE_DB_USER`     | `metabase`           |
+| `METABASE_DB_PASSWORD` | `metabasepassword`   |
+| `METABASE_DB_NAME`     | `metabase`           |
+
+Ne renseigner les variables `METABASE_DB_*` dans `.env` que pour cibler une autre
+base (ex. un Metabase distant/staging). La table cible est créée automatiquement
+au premier ingest, aucune étape de schéma manuelle n'est requise.
+
+## Ingérer des données dans Metabase
+
+Deux console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
+l'**upsert** dans la base PostgreSQL de Metabase :
+
+- **`ingest-all`** — lance **tous** les ingesters (actuellement `simulateurs`).
+  C'est le job planifié. **Sans argument, il cible J-2** (l'avant-veille, UTC —
+  Matomo a alors archivé et stabilisé cette journée). C'est le point d'extension :
+  pour ajouter un report, exposer un `Ingester` dans son module de commande et
+  l'enregistrer dans `ingest_all.INGESTERS`.
+- **`ingest-simulateurs`** — lance uniquement l'ingester de complétion des
+  simulateurs pour un jour ou une période explicite. Pratique pour un run manuel
+  ou un backfill.
+
+```bash
+# forme planifiée : agrège J-2 avec tous les ingesters (ce que lance le cronjob)
+uv run ingest-all
+
+# un jour / une période précise, tous les ingesters
+uv run ingest-all 2026-06-01
+uv run ingest-all 2026-06-01 --end 2026-06-30
+
+# uniquement les simulateurs, jour / période explicite
+uv run ingest-simulateurs 2026-06-01
+uv run ingest-simulateurs 2026-06-01 --end 2026-06-30
+```
+
+Les deux lisent deux jeux de réglages dans `.env` :
+
+| Variable                                                       | Utilisé pour                                                              |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `MATOMO_BASE_URL` / `MATOMO_SITE_ID` / `MATOMO_TOKEN_AUTH`     | source — API de reporting Matomo                                          |
+| `METABASE_DB_HOST` / `_PORT` / `_USER` / `_PASSWORD` / `_NAME` | destination — Postgres Metabase (défaut : la BDD `docker-compose` locale) |
+
+La table cible de chaque report est créée à son premier run (ex.
+`completion_simulateurs`, clé primaire `date, device, titre`), donc réingérer un
+jour écrase ses lignes de façon idempotente — sûr à planifier quotidiennement.
+
+## Lint / formatage
+
+Mêmes checks que la CI :
 
 ```bash
 uv run ruff check .
 uv run ruff format --check .
 ```
 
-## Layout
+## Arborescence
 
 ```
 analysis/
-├── pyproject.toml            # project + deps + ruff config
-├── uv.lock                   # pinned, reproducible versions
+├── pyproject.toml                # projet + deps + config ruff + console scripts
+├── uv.lock                       # versions épinglées, reproductibles
 ├── src/analysis/
-│   ├── config.py             # typed settings (reads .env)
-│   └── connectors/matomo.py  # MatomoSQLConnector
-└── notebooks/
-    └── search_stats.ipynb
+│   ├── config.py                 # settings typés (lecture .env)
+│   ├── connectors/
+│   │   ├── matomo.py             # MatomoSQLConnector (source SQL, réplica)
+│   │   ├── matomo_reporting.py   # MatomoReportingConnector (source API)
+│   │   └── metabase_db.py        # MetabaseDBConnector (destination, générique)
+│   ├── reports/                  # calcul des agrégats journaliers (DataFrame)
+│   └── commands/                 # commandes d'ingestion (report + couche BDD)
+│       ├── ingest_all.py         # lance tous les ingesters — job planifié
+│       └── ingest_simulateurs.py # ingester simulateurs (modèle)
+└── notebooks/                    # analyses exploratoires
 ```
