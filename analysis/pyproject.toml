@@ -20,6 +20,7 @@ dependencies = [
 ]
 
 [project.scripts]
+ingest-all = "analysis.commands.ingest_all:main"
 ingest-simulateurs = "analysis.commands.ingest_simulateurs:main"
 
 [build-system]

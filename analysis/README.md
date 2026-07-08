@@ -138,30 +138,42 @@ Set the `METABASE_DB_*` variables in `.env` only to target another database (e.g
 a remote/staging Metabase). The target table is created automatically on the
 first ingest, so no manual schema step is required.
 
-## Ingest simulator completion into Metabase
+## Ingest data into Metabase
 
-`ingest-simulateurs` is a console script (declared in `pyproject.toml`) that runs
-the completion aggregation above for one day or a date range and **upserts** the
-result into the `completion_simulateurs` table of the Metabase PostgreSQL
-database — the daily job that feeds the Metabase dashboards.
+Two console scripts (declared in `pyproject.toml`) aggregate data and **upsert**
+it into the Metabase PostgreSQL database that feeds the dashboards:
+
+- **`ingest-all`** — runs **every** ingester (currently just `simulateurs`). This
+  is the scheduled job. **Without an argument it targets J-2** (the day before
+  yesterday, UTC — by then Matomo has archived and stabilised that day). It is the
+  extension point: to add a new report, expose an `Ingester` in its command module
+  and register it in `ingest_all.INGESTERS`.
+- **`ingest-simulateurs`** — runs only the simulator-completion ingester for an
+  explicit day or range. Handy for a manual run or a backfill.
 
 ```bash
-# a single day
-uv run ingest-simulateurs 2026-06-01
+# scheduled shape: aggregate J-2 with every ingester (what the cronjob runs)
+uv run ingest-all
 
-# an inclusive date range (one upsert per day)
+# a specific day / range, all ingesters
+uv run ingest-all 2026-06-01
+uv run ingest-all 2026-06-01 --end 2026-06-30
+
+# just the simulators, explicit day / range
+uv run ingest-simulateurs 2026-06-01
 uv run ingest-simulateurs 2026-06-01 --end 2026-06-30
 ```
 
-It reads two sets of settings from `.env`:
+Both read two sets of settings from `.env`:
 
 | Variable                                                     | Used for                                              |
 | ------------------------------------------------------------ | ----------------------------------------------------- |
 | `MATOMO_BASE_URL` / `MATOMO_SITE_ID` / `MATOMO_TOKEN_AUTH`    | source — Matomo Reporting API (completion data)       |
 | `METABASE_DB_HOST` / `_PORT` / `_USER` / `_PASSWORD` / `_NAME` | destination — Metabase Postgres (defaults to the local `docker-compose` DB) |
 
-The target table is created on first run (`date, device, titre` primary key), so
-re-ingesting a day overwrites its rows idempotently — safe to schedule daily.
+Each report's target table is created on its first run (e.g.
+`completion_simulateurs`, primary key `date, device, titre`), so re-ingesting a
+day overwrites its rows idempotently — safe to schedule daily.
 
 ## Usage in code
 

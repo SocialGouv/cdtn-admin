@@ -19,49 +19,49 @@ CONFIGS = [
         "indemnite-rupture-conventionnelle",
         "Indemnité de rupture conventionnelle",
         "start",
-        "result"
+        "result",
     ),
     (
         "view_step_Indemnité de licenciement",
         "indemnite-licenciement",
         "Indemnité de licenciement",
         "start",
-        "result"
+        "result",
     ),
     (
         "view_step_Préavis de démission",
         "preavis-demission",
         "Préavis de démission",
         "start",
-        "result"
+        "result",
     ),
     (
         "view_step_Indemnité de précarité",
         "indemnite-precarite",
-        "Indemnité de précarité", # last step : indemnite
+        "Indemnité de précarité",  # last step : indemnite
         "start",
-        "indemnite"
+        "indemnite",
     ),
     (
         "view_step_Préavis de licenciement",
         "preavis-licenciement",
         "Préavis de licenciement",
         "start",
-        "results"
+        "results",
     ),
     (
         "view_step_Heures d'absence pour rechercher un emploi",
         "heures-recherche-emploi",
         "Heures d'absence pour rechercher un emploi",
         "start",
-        "results"
+        "results",
     ),
     (
         "view_step_Préavis de départ ou de mise à la retraite",
         "preavis-retraite",
         "Préavis de départ ou de mise à la retraite",
         "intro",
-        "result"
+        "result",
     ),
 ]
 
@@ -105,8 +105,14 @@ def get_completion_simulateurs(
 
         for action, url_filter, titre, start_pattern, result_pattern in CONFIGS:
             r = _calcul_conversion(
-                matomo, date, dfs[start_pattern], dfs[result_pattern],
-                action, url_filter, segment, titre,
+                matomo,
+                date,
+                dfs[start_pattern],
+                dfs[result_pattern],
+                action,
+                url_filter,
+                segment,
+                titre,
             )
             r["device"] = device
             rows.append(r)
