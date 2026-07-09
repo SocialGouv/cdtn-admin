@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.77.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.4...v2.77.5) (2026-07-09)
+
+### Bug Fixes
+
+- **ci:** mise à jour de la version de node ([2a1a180](https://github.com/SocialGouv/cdtn-admin/commit/2a1a180bf151bc688567a31c527e606676d8d2fc))
+- **sitemap:** ajout du slug de la convention collective dans l'URL ([#1701](https://github.com/SocialGouv/cdtn-admin/issues/1701)) ([69e125e](https://github.com/SocialGouv/cdtn-admin/commit/69e125e3f837502d2e4b5bcf0bf5f8349e56cf11))
+
 ## [2.77.4](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.3...v2.77.4) (2026-07-07)
 
 ### Bug Fixes
