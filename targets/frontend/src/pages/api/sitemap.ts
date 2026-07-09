@@ -22,7 +22,7 @@ const slugStartsWithNumber = (slug: string) => {
 const findCCSlug = (idcc: string, document: Document[]): string | undefined => {
   const idccNum = parseInt(idcc);
   return document.find((doc) => {
-    return doc.source === SOURCES.CONTRIBUTIONS && doc.document.num === idccNum;
+    return doc.source === SOURCES.CCN && doc.document.num === idccNum;
   })?.slug;
 };
 
@@ -56,7 +56,6 @@ export async function toUrlEntries(
       const slugAfterFirstDash = doc.slug.slice(doc.slug.indexOf("-") + 1);
       projectURL = `${baseUrl}/${source}/${slugAfterFirstDash}/${findCCSlug(doc.document.idcc, documents) ?? doc.document.idcc}`;
     }
-    // const projectURL = `${baseUrl}/${source}/${doc.slug}`;
     return toUrlEntry(projectURL, date, priority);
   });
 
