@@ -1,3 +1,5 @@
+- "!include accords_accords.yaml"
+- "!include accords_ingested_archives.yaml"
 - "!include agreement_agreements.yaml"
 - "!include auth_users.yaml"
 - "!include contribution_agreement_messages.yaml"

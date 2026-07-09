@@ -8,6 +8,7 @@ import * as tar from "tar-fs";
 import yargs from "yargs";
 
 import type { CdtnDocument } from ".";
+import { updateAccords } from "./accords";
 import { updateKaliArticles, updateLegiArticles } from "./articles";
 import { batchPromises, chunk } from "./lib/batchPromises";
 import {
@@ -189,6 +190,16 @@ async function main() {
     console.log("update kali articles");
     await updateKaliArticles();
   }
+
+  // L'ingestion des accords dépend d'une source externe (DILA) ; on l'isole
+  // pour qu'une indisponibilité n'échoue pas tout le run d'ingestion.
+  console.log("update accords");
+  try {
+    await updateAccords();
+  } catch (err: unknown) {
+    console.error("accords ingestion failed, skipping", err);
+  }
+
   return ids;
 }
 

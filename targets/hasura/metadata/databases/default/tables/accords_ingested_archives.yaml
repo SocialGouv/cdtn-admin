@@ -1,0 +1,3 @@
+table:
+  name: ingested_archives
+  schema: accords
