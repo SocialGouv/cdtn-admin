@@ -8,6 +8,7 @@ import * as tar from "tar-fs";
 import yargs from "yargs";
 
 import type { CdtnDocument } from ".";
+import { updateAccords } from "./accords";
 import { updateKaliArticles, updateLegiArticles } from "./articles";
 import { batchPromises, chunk } from "./lib/batchPromises";
 import {
@@ -19,6 +20,7 @@ import {
 import getFicheTravailEmploi from "./transform/fiche-travail-emploi";
 import getFichesServicePublic from "./transform/fichesServicePublic/index";
 import getCdtDocuments from "./transform/legi-data/index";
+import { sendMattermostMessage } from "@shared/utils";
 
 interface Args {
   dryRun: unknown;
@@ -189,6 +191,25 @@ async function main() {
     console.log("update kali articles");
     await updateKaliArticles();
   }
+
+  // L'ingestion des accords dépend d'une source externe (DILA) ; on l'isole
+  // pour qu'une indisponibilité n'échoue pas tout le run d'ingestion.
+  console.log("update accords");
+  try {
+    await updateAccords();
+  } catch (err: unknown) {
+    const webhook = process.env.MATTERMOST_WEBHOOK;
+    if (!webhook) {
+      throw err;
+    }
+    console.error("accords ingestion failed, skipping", err);
+    await sendMattermostMessage(
+      webhook,
+      `Echec de la mise à jour des accords d'entreprise ${err}.`,
+      process.env.MATTERMOST_CHANNEL_EXPORT
+    );
+  }
+
   return ids;
 }
 
