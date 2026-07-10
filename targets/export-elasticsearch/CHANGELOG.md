@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.77.6](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.5...v2.77.6) (2026-07-10)
+
+### Bug Fixes
+
+- **accord:** ajout de l'ingestion des accords d'entreprise ([#1702](https://github.com/SocialGouv/cdtn-admin/issues/1702)) ([19b1ebd](https://github.com/SocialGouv/cdtn-admin/commit/19b1ebd6ca8ef3ac594414f68400a6db19fc0250))
+
 ## [2.77.5](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.4...v2.77.5) (2026-07-09)
 
 **Note:** Version bump only for package export-elasticsearch
