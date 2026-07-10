@@ -152,3 +152,38 @@ query fetchDocument($source: String) {
   }
 }
 `;
+
+export const getAccordsCountQuery = `
+  query accords_count($today: date!) {
+    accords_aggregate: accords_accords_aggregate(
+      where: { date_fin: { _gt: $today } }
+    ) {
+      aggregate {
+        count
+      }
+    }
+  }
+`;
+
+export const getAccordsQuery = `
+  query accords($limit: Int!, $offset: Int!, $today: date!) {
+    accords: accords_accords(
+      where: { date_fin: { _gt: $today } }
+      limit: $limit
+      offset: $offset
+      order_by: { id: asc }
+    ) {
+      id
+      title
+      siret
+      date_maj
+      date_depot
+      date_effet
+      date_fin
+      date_diffusion
+      conforme_version_integrale
+      themes
+      signataires
+    }
+  }
+`;
