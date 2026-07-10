@@ -1,5 +1,6 @@
 import { Client } from "@elastic/elasticsearch";
 import {
+  ACCORDS,
   createIndex,
   deleteOldIndex,
   documentMapping,
@@ -10,6 +11,7 @@ import {
 } from "@socialgouv/cdtn-elasticsearch";
 import { logger } from "@shared/utils";
 
+import { populateAccords } from "./accords";
 import { cdtnDocumentsGen } from "./cdtnDocuments";
 import { context } from "./context";
 import { populateSuggestions } from "./suggestion";
@@ -64,6 +66,7 @@ async function runIngester(
 
   const DOCUMENT_INDEX_NAME = `${ES_INDEX_PREFIX}_${DOCUMENTS}`;
   const SUGGEST_INDEX_NAME = `${ES_INDEX_PREFIX}_${SUGGESTIONS}`;
+  const ACCORD_INDEX_NAME = `${ES_INDEX_PREFIX}_${ACCORDS}`;
 
   const ELASTICSEARCH_URL = esUrl ?? "http://localhost:9200";
 
@@ -126,6 +129,9 @@ async function runIngester(
   // Indexing Suggestions
   await populateSuggestions(client, `${SUGGEST_INDEX_NAME}-${ts}`);
 
+  // Indexing Accords d'entreprise
+  await populateAccords(client, `${ACCORD_INDEX_NAME}-${ts}`);
+
   // Creating aliases
   await client.indices.updateAliases({
     body: {
@@ -142,6 +148,12 @@ async function runIngester(
             index: `${SUGGEST_INDEX_NAME}-*`,
           },
         },
+        {
+          remove: {
+            alias: `${ACCORD_INDEX_NAME}`,
+            index: `${ACCORD_INDEX_NAME}-*`,
+          },
+        },
 
         {
           add: {
@@ -155,11 +167,17 @@ async function runIngester(
             index: `${SUGGEST_INDEX_NAME}-${ts}`,
           },
         },
+        {
+          add: {
+            alias: `${ACCORD_INDEX_NAME}`,
+            index: `${ACCORD_INDEX_NAME}-${ts}`,
+          },
+        },
       ],
     },
   });
 
-  const patterns = [DOCUMENT_INDEX_NAME, SUGGEST_INDEX_NAME];
+  const patterns = [DOCUMENT_INDEX_NAME, SUGGEST_INDEX_NAME, ACCORD_INDEX_NAME];
 
   await deleteOldIndex({ client, patterns, timestamp: ts });
 }

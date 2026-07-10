@@ -20,6 +20,7 @@ import {
 import getFicheTravailEmploi from "./transform/fiche-travail-emploi";
 import getFichesServicePublic from "./transform/fichesServicePublic/index";
 import getCdtDocuments from "./transform/legi-data/index";
+import { sendMattermostMessage } from "@shared/utils";
 
 interface Args {
   dryRun: unknown;
@@ -197,7 +198,16 @@ async function main() {
   try {
     await updateAccords();
   } catch (err: unknown) {
+    const webhook = process.env.MATTERMOST_WEBHOOK;
+    if (!webhook) {
+      throw err;
+    }
     console.error("accords ingestion failed, skipping", err);
+    await sendMattermostMessage(
+      webhook,
+      `Echec de la mise à jour des accords d'entreprise ${err}.`,
+      process.env.MATTERMOST_CHANNEL_EXPORT
+    );
   }
 
   return ids;

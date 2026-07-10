@@ -6,3 +6,5 @@ export const indexDocumentsBatched: any;
 export const SUGGESTIONS: string;
 export const version: any;
 export const suggestionMapping: any;
+export const ACCORDS: string;
+export const accordMapping: any;
