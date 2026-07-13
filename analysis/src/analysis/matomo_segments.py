@@ -8,8 +8,7 @@ from __future__ import annotations
 
 # Ventilation par type d'appareil. « mobile » regroupe smartphones ET tablettes
 # (`,` = OU dans un segment Matomo). À réutiliser par tout report qui ventile une
-# métrique par device (completion_simulateurs, contrib_cc_clicks, …) plutôt que de
-# redéfinir un dict local.
+# métrique par device plutôt que de redéfinir un dict local.
 DEVICE_SEGMENTS: dict[str, str] = {
     "desktop": "deviceType==desktop",
     "mobile": "deviceType==smartphone,deviceType==tablet",

@@ -101,11 +101,11 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
 
 - **`completion_simulateurs`** — taux de complétion des simulateurs (start /
   result) par device, via l'API de reporting Matomo. Table `completion_simulateurs`.
-- **`contrib_cc_clicks`** — pour chaque contribution générique du site (slugs
+- **`completion_contributions`** — pour chaque contribution générique du site (slugs
   du sitemap public) et chaque device, le nombre de visites Matomo sur les
   pages de la contribution (générique + personnalisées par convention
   collective) et le nombre de visites ayant cliqué « afficher les informations
-  sans/avec convention collective ». Table `contrib_cc_clicks`.
+  sans/avec convention collective ». Table `completion_contributions`.
 
 ## La base Metabase (destination)
 
@@ -147,14 +147,14 @@ Trois console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
 l'**upsert** dans la base PostgreSQL de Metabase :
 
 - **`ingest-all`** — lance **tous** les ingesters (actuellement `simulateurs` et
-  `contrib_cc_clicks`). C'est le job planifié. **Sans argument, il cible J-2**
+  `completion_contributions`). C'est le job planifié. **Sans argument, il cible J-2**
   (l'avant-veille, UTC — Matomo a alors archivé et stabilisé cette journée).
   C'est le point d'extension : pour ajouter un report, exposer un `Ingester`
   dans son module de commande et l'enregistrer dans `ingest_all.INGESTERS`.
 - **`ingest-simulateurs`** — lance uniquement l'ingester de complétion des
   simulateurs pour un jour ou une période explicite. Pratique pour un run manuel
   ou un backfill.
-- **`ingest-contrib-cc-clicks`** — lance uniquement l'ingester des visites par
+- **`ingest-completion-contributions`** — lance uniquement l'ingester des visites par
   contribution et des clics « afficher les informations (CC) », pour un jour
   ou une période explicite.
 
@@ -171,8 +171,8 @@ uv run ingest-simulateurs 2026-06-01
 uv run ingest-simulateurs 2026-06-01 --end 2026-06-30
 
 # uniquement les visites/clics CC par contribution, jour / période explicite
-uv run ingest-contrib-cc-clicks 2026-06-01
-uv run ingest-contrib-cc-clicks 2026-06-01 --end 2026-06-30
+uv run ingest-completion-contributions 2026-06-01
+uv run ingest-completion-contributions 2026-06-01 --end 2026-06-30
 ```
 
 Toutes ces commandes lisent deux jeux de réglages dans `.env` :
@@ -184,7 +184,7 @@ Toutes ces commandes lisent deux jeux de réglages dans `.env` :
 
 La table cible de chaque report est créée à son premier run (ex.
 `completion_simulateurs`, clé primaire `date, device, titre` ; ou
-`contrib_cc_clicks`, clé primaire `date, device, slug`), donc réingérer un
+`completion_contributions`, clé primaire `date, device, slug`), donc réingérer un
 jour écrase ses lignes de façon idempotente — sûr à planifier quotidiennement.
 
 ### À la main dans le cluster (Kubernetes)
@@ -208,16 +208,16 @@ kubectl -n "$NS" create job analysis-backfill --from=cronjob/cron-analysis \
 | jq '.spec.template.spec.containers[0].command = ["ingest-all","2026-06-01","--end","2026-06-30"]' \
 | kubectl -n "$NS" apply -f -
 
-# 3) UN SEUL ingester (ex. contrib_cc_clicks), sur J-2…
-kubectl -n "$NS" create job contrib-cc-manual --from=cronjob/cron-analysis \
+# 3) UN SEUL ingester (ex. completion_contributions), sur J-2…
+kubectl -n "$NS" create job completion-contributions-manual --from=cronjob/cron-analysis \
   --dry-run=client -o json \
-| jq '.spec.template.spec.containers[0].command = ["ingest-contrib-cc-clicks"]' \
+| jq '.spec.template.spec.containers[0].command = ["ingest-completion-contributions"]' \
 | kubectl -n "$NS" apply -f -
-#    …ou sur une période : command = ["ingest-contrib-cc-clicks","2026-06-01","--end","2026-06-30"]
+#    …ou sur une période : command = ["ingest-completion-contributions","2026-06-01","--end","2026-06-30"]
 
 # Suivre les logs puis nettoyer
-kubectl -n "$NS" logs -f job/contrib-cc-manual
-kubectl -n "$NS" delete job contrib-cc-manual
+kubectl -n "$NS" logs -f job/completion-contributions-manual
+kubectl -n "$NS" delete job completion-contributions-manual
 ```
 
 `--from=cronjob/cron-analysis` marche même quand le CronJob est **suspendu**
@@ -250,6 +250,6 @@ analysis/
 │   └── commands/                 # commandes d'ingestion (report + couche BDD)
 │       ├── ingest_all.py               # lance tous les ingesters — job planifié
 │       ├── ingest_simulateurs.py       # ingester simulateurs (modèle)
-│       └── ingest_contrib_cc_clicks.py # ingester visites/clics CC par contribution
+│       └── ingest_completion_contributions.py # ingester visites/clics CC par contribution
 └── notebooks/                    # analyses exploratoires
 ```

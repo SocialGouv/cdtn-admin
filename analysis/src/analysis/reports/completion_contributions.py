@@ -16,7 +16,7 @@ explicitement** — constante ``BASE_SLUGS``, surchargeable via l'argument
 
 Une ligne ``slug="TOTAL"`` par device résume la somme sur toutes les
 contributions (utile en notebook ; **non persistée**, voir
-``analysis.commands.ingest_contrib_cc_clicks``).
+``analysis.commands.ingest_completion_contributions``).
 
 ``nb_visits_click_total`` (= sans_CC + avec_CC) est calculé ici pour fidélité
 avec le calcul d'origine mais n'est pas non plus persisté : c'est une valeur
@@ -38,7 +38,7 @@ _CONTRIB_BASE_URL = "https://code.travail.gouv.fr/contribution/"
 # Contributions à suivre. Liste explicite (et non dérivée du sitemap) : le
 # périmètre suivi est un choix métier, pas « toutes les contributions du site ».
 # Pour changer le périmètre, éditer cette liste ou passer ``base_slugs=`` à
-# ``get_contrib_cc_clicks``.
+# ``get_completion_contributions``.
 BASE_SLUGS: list[str] = [
     "quel-est-le-salaire-minimum",
     "quel-est-le-salaire-minimum-dun-alternant-en-2026",
@@ -90,6 +90,7 @@ BASE_SLUGS: list[str] = [
 
 _EVENT_SANS_CC = "click_afficher_les_informations_sans_CC"
 _EVENT_AVEC_CC = "click_afficher_les_informations_CC"
+_EVENT_AVEC_CC_NON_SUPPORTE = "click_afficher_les_informations_générales"
 
 # Pause entre deux appels VisitsSummary.get (un par slug) pour ne pas bombarder
 # l'API Matomo ; reprise telle quelle du calcul d'origine.
@@ -98,7 +99,7 @@ _REQUEST_SLEEP_SECONDS = 0.2
 _SLUG_FROM_EVENT_NAME_RE = re.compile(r"contribution/([^/?#]+)")
 
 
-def get_contrib_cc_clicks(
+def get_completion_contributions(
     date: str,
     matomo: MatomoReportingConnector | None = None,
     base_slugs: list[str] | None = None,
@@ -115,12 +116,13 @@ def get_contrib_cc_clicks(
 
     Returns:
         DataFrame avec les colonnes : device, slug, nb_visites_uniques,
-        nb_visits_click_sans_CC, nb_visits_click_avec_CC, nb_visits_click_total.
+        nb_visits_click_sans_CC, nb_visits_click_avec_CC,
+        nb_visits_click_avec_CC_non_supporte, nb_visits_click_total.
         Une ligne par (device, slug) plus une ligne ``slug="TOTAL"`` par device.
     """
     if matomo is None:
         with MatomoReportingConnector() as client:
-            return get_contrib_cc_clicks(date, client, base_slugs)
+            return get_completion_contributions(date, client, base_slugs)
 
     slugs = base_slugs if base_slugs is not None else BASE_SLUGS
 
@@ -209,10 +211,18 @@ def _build_result_for_device(
 
     sans_cc = _fetch_event_visits_by_slug(matomo, date, _EVENT_SANS_CC, device_segment)
     avec_cc = _fetch_event_visits_by_slug(matomo, date, _EVENT_AVEC_CC, device_segment)
+    avec_cc_non_supporte = _fetch_event_visits_by_slug(
+        matomo, date, _EVENT_AVEC_CC_NON_SUPPORTE, device_segment
+    )
     seg["nb_visits_click_sans_CC"] = seg["slug"].map(sans_cc).fillna(0).astype(int)
     seg["nb_visits_click_avec_CC"] = seg["slug"].map(avec_cc).fillna(0).astype(int)
+    seg["nb_visits_click_avec_CC_non_supporte"] = (
+        seg["slug"].map(avec_cc_non_supporte).fillna(0).astype(int)
+    )
     seg["nb_visits_click_total"] = (
-        seg["nb_visits_click_sans_CC"] + seg["nb_visits_click_avec_CC"]
+        seg["nb_visits_click_sans_CC"]
+        + seg["nb_visits_click_avec_CC"]
+        + seg["nb_visits_click_avec_CC_non_supporte"]
     )
 
     total = pd.DataFrame(
@@ -221,6 +231,9 @@ def _build_result_for_device(
             "nb_visites_uniques": [seg["nb_visites_uniques"].sum()],
             "nb_visits_click_sans_CC": [seg["nb_visits_click_sans_CC"].sum()],
             "nb_visits_click_avec_CC": [seg["nb_visits_click_avec_CC"].sum()],
+            "nb_visits_click_avec_CC_non_supporte": [
+                seg["nb_visits_click_avec_CC_non_supporte"].sum()
+            ],
             "nb_visits_click_total": [seg["nb_visits_click_total"].sum()],
         }
     )
