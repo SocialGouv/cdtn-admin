@@ -13,9 +13,16 @@ dependencies = [
     "matplotlib>=3.11.0",
     "pandas>=3.0.3",
     "plotly>=6.8.0",
+    "psycopg[binary]>=3.2.0",
     "pydantic-settings>=2.14.2",
+    "requests>=2.32.0",
     "seaborn>=0.13.2",
 ]
+
+[project.scripts]
+ingest-all = "analysis.commands.ingest_all:main"
+ingest-simulateurs = "analysis.commands.ingest_simulateurs:main"
+ingest-completion-contributions = "analysis.commands.ingest_completion_contributions:main"
 
 [build-system]
 requires = ["uv_build>=0.11.22,<0.12.0"]

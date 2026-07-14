@@ -1,0 +1,20 @@
+# Virtualenv & caches
+.venv/
+**/__pycache__/
+.ruff_cache/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Secrets & local env (never bake into the image)
+.env
+
+# Exploratory / heavy artefacts not needed at runtime
+notebooks/
+output/
+scripts/
+
+# VCS / editor
+.git/
+.gitignore
+.vscode/
+.idea/

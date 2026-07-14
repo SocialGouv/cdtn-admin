@@ -33,6 +33,27 @@ class Settings(BaseSettings):
     pg_matomo_port: int = 5432
 
 
+class MetabaseDBSettings(BaseSettings):
+    """Paramètres de connexion à la base PostgreSQL de Metabase.
+
+    Variables d'environnement (fichier ``.env``) :
+    ``METABASE_DB_HOST``, ``METABASE_DB_PORT``, ``METABASE_DB_USER``,
+    ``METABASE_DB_PASSWORD``, ``METABASE_DB_NAME``.
+    """
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    metabase_db_host: str = "localhost"
+    metabase_db_port: int = 5433
+    metabase_db_user: str = "metabase"
+    metabase_db_password: str = "metabasepassword"
+    metabase_db_name: str = "metabase"
+
+
 class ReportingSettings(BaseSettings):
     """Connection settings for the Matomo HTTP Reporting API.
 
@@ -56,4 +77,5 @@ class ReportingSettings(BaseSettings):
 
     matomo_base_url: str
     matomo_site_id: int
-    matomo_token_auth: str
+    # Défaut ``anonymous`` : suffit quand le site autorise le reporting anonyme.
+    matomo_token_auth: str = "anonymous"

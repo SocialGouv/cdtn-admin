@@ -63,3 +63,8 @@ pg:
       oblik.socialgouv.io/min-request-memory: "500Mi"
       oblik.socialgouv.io/min-limit-cpu: "1000m"
       oblik.socialgouv.io/min-limit-memory: "2Gi"
+
+global:
+  # CronJob analysis suspendu en dev : déclenchement manuel uniquement
+  # (`kubectl create job --from=cronjob/cron-analysis ...`).
+  analysisCronSuspend: true

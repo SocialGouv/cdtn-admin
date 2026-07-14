@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cron-analysis
+  annotations:
+    oblik.socialgouv.io/min-request-cpu: "250m"
+    oblik.socialgouv.io/min-request-memory: "512Mi"
+    oblik.socialgouv.io/min-limit-memory: "1Gi"
+spec:
+  # dev/preprod : suspendu -> aucun déclenchement planifié, uniquement manuel
+  # (`kubectl create job --from=cronjob/cron-analysis ...`). Prod : actif.
+  # Piloté par global.analysisCronSuspend (true en dev/preprod, absent = false en prod).
+  suspend: {{ .Values.global.analysisCronSuspend | default false }}
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  # Chaque nuit à 03h30 UTC : après minuit, la journée de la veille est complète.
+  schedule: 30 3 * * *
+  jobTemplate:
+    {{- include "job.analysis" . | nindent 4 }}
