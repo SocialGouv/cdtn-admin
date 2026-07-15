@@ -233,9 +233,18 @@ de lignes ne double pas (c'est tout l'intérêt du `ON CONFLICT`). Nettoie derri
 toi (`DROP TABLE`).
 
 Si en plus des identifiants Matomo sont disponibles, fais un vrai run complet sur
-une journée connue. Sinon, indique clairement à l'utilisateur que seul le run
-Matomo réel reste à faire — mais le schéma et l'idempotence, eux, doivent être
-vérifiés contre la vraie base locale, pas seulement en mémoire.
+une journée connue. Le plus proche de la prod : le service Compose `analysis`
+(image du CronJob nocturne), qui démarre `metabase-db` et écrit dedans —
+
+```bash
+# depuis la racine du repo (requiert analysis/.env : credentials Matomo)
+docker compose run --rm analysis ingest-<name> 2026-06-01   # un ingester, une date
+docker compose run --rm analysis                            # ingest-all, J-2 (le cron)
+```
+
+Sinon, indique clairement à l'utilisateur que seul le run Matomo réel reste à
+faire — mais le schéma et l'idempotence, eux, doivent être vérifiés contre la
+vraie base locale, pas seulement en mémoire.
 
 ## Checklist finale
 
