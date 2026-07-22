@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.77.8](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.7...v2.77.8) (2026-07-22)
+
+### Bug Fixes
+
+- **sitemap:** correction des URLs sur la contribution congès pour évènement familiaux ([3b28a51](https://github.com/SocialGouv/cdtn-admin/commit/3b28a51e2bb8ac1ff8c8b6876c9b30c37c6a71d9))
+
 ## [2.77.7](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.6...v2.77.7) (2026-07-15)
 
 **Note:** Version bump only for package frontend
