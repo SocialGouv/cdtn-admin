@@ -106,6 +106,10 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   pages de la contribution (générique + personnalisées par convention
   collective) et le nombre de visites ayant cliqué « afficher les informations
   sans/avec convention collective ». Table `completion_contributions`.
+- **`nps_scores`** — scores NPS du site (events Matomo `score_0` … `score_10`)
+  par device et par page notée : visiteurs uniques par (device, score, url). Le
+  NPS lui-même (promoteurs 9-10, détracteurs 0-6) n'est pas stocké, Metabase le
+  recalcule. Table `nps_scores`.
 
 ## La base Metabase (destination)
 
@@ -143,11 +147,11 @@ au premier ingest, aucune étape de schéma manuelle n'est requise.
 
 ## Ingérer des données dans Metabase
 
-Trois console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
+Quatre console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
 l'**upsert** dans la base PostgreSQL de Metabase :
 
-- **`ingest-all`** — lance **tous** les ingesters (actuellement `simulateurs` et
-  `completion_contributions`). C'est le job planifié. **Sans argument, il cible J-2**
+- **`ingest-all`** — lance **tous** les ingesters (actuellement `simulateurs`,
+  `completion_contributions` et `nps_scores`). C'est le job planifié. **Sans argument, il cible J-2**
   (l'avant-veille, UTC — Matomo a alors archivé et stabilisé cette journée).
   C'est le point d'extension : pour ajouter un report, exposer un `Ingester`
   dans son module de commande et l'enregistrer dans `ingest_all.INGESTERS`.
@@ -157,6 +161,8 @@ l'**upsert** dans la base PostgreSQL de Metabase :
 - **`ingest-completion-contributions`** — lance uniquement l'ingester des visites par
   contribution et des clics « afficher les informations (CC) », pour un jour
   ou une période explicite.
+- **`ingest-nps-scores`** — lance uniquement l'ingester des scores NPS par device
+  et par page, pour un jour ou une période explicite.
 
 ```bash
 # forme planifiée : agrège J-2 avec tous les ingesters (ce que lance le cronjob)
@@ -173,6 +179,10 @@ uv run ingest-simulateurs 2026-06-01 --end 2026-06-30
 # uniquement les visites/clics CC par contribution, jour / période explicite
 uv run ingest-completion-contributions 2026-06-01
 uv run ingest-completion-contributions 2026-06-01 --end 2026-06-30
+
+# uniquement les scores NPS par device et par page, jour / période explicite
+uv run ingest-nps-scores 2026-06-01
+uv run ingest-nps-scores 2026-06-01 --end 2026-06-30
 ```
 
 Toutes ces commandes lisent deux jeux de réglages dans `.env` :
@@ -250,6 +260,7 @@ analysis/
 │   └── commands/                 # commandes d'ingestion (report + couche BDD)
 │       ├── ingest_all.py               # lance tous les ingesters — job planifié
 │       ├── ingest_simulateurs.py       # ingester simulateurs (modèle)
-│       └── ingest_completion_contributions.py # ingester visites/clics CC par contribution
+│       ├── ingest_completion_contributions.py # ingester visites/clics CC par contribution
+│       └── ingest_nps_scores.py        # ingester scores NPS par device et par page
 └── notebooks/                    # analyses exploratoires
 ```

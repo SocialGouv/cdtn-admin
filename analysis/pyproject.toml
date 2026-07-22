@@ -23,6 +23,7 @@ dependencies = [
 ingest-all = "analysis.commands.ingest_all:main"
 ingest-simulateurs = "analysis.commands.ingest_simulateurs:main"
 ingest-completion-contributions = "analysis.commands.ingest_completion_contributions:main"
+ingest-nps-scores = "analysis.commands.ingest_nps_scores:main"
 
 [build-system]
 requires = ["uv_build>=0.11.22,<0.12.0"]
