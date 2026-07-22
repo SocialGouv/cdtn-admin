@@ -21,7 +21,11 @@ import sys
 from datetime import UTC, datetime, timedelta
 from datetime import date as Date
 
-from analysis.commands import ingest_completion_contributions, ingest_simulateurs
+from analysis.commands import (
+    ingest_completion_contributions,
+    ingest_nps_scores,
+    ingest_simulateurs,
+)
 from analysis.commands._runner import Ingester, iter_days, parse_date, run_ingest
 
 # Registre des reports à ingérer. Ajouter ici le ``INGESTER`` de chaque nouveau
@@ -29,6 +33,7 @@ from analysis.commands._runner import Ingester, iter_days, parse_date, run_inges
 INGESTERS: list[Ingester] = [
     ingest_simulateurs.INGESTER,
     ingest_completion_contributions.INGESTER,
+    ingest_nps_scores.INGESTER,
 ]
 
 # Décalage par défaut : J-2 (avant-veille).
