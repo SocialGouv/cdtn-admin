@@ -183,6 +183,10 @@ def _fetch_event_visits_by_slug(
         return pd.Series(dtype="int64")
     df = df[df["Events_EventAction"] == event_action].copy()
     df["slug"] = df["Events_EventName"].str.extract(_SLUG_FROM_EVENT_NAME_RE)[0]
+    # ``nb_visits`` arrive en chaîne depuis l'API Matomo : sans coercition,
+    # ``groupby(...).sum()`` concatène les valeurs ("12" + "34" -> "1234") au lieu
+    # de les additionner, produisant un entier hors bornes INTEGER côté Postgres.
+    df["nb_visits"] = pd.to_numeric(df["nb_visits"], errors="coerce").fillna(0)
     return df.dropna(subset=["slug"]).groupby("slug")["nb_visits"].sum()
 
 
