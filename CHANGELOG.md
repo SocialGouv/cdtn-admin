@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.77.10](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.9...v2.77.10) (2026-07-27)
+
+### Bug Fixes
+
+- **analysis:** erreur lors de l'ingestion des contributions ([#1706](https://github.com/SocialGouv/cdtn-admin/issues/1706)) ([c20ca15](https://github.com/SocialGouv/cdtn-admin/commit/c20ca15ea4f948eae15b2fecf6d4defe13a7b77e))
+
+### Features
+
+- **analysis:** ajout du job dans le docker compose + doc ([#1704](https://github.com/SocialGouv/cdtn-admin/issues/1704)) ([7aa1a97](https://github.com/SocialGouv/cdtn-admin/commit/7aa1a97047e3e8d9641232a4b0264f0acbd5edc9))
+
 ## [2.77.9](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.8...v2.77.9) (2026-07-22)
 
 ### Features
