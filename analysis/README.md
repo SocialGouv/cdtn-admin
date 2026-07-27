@@ -197,6 +197,40 @@ La table cible de chaque report est créée à son premier run (ex.
 `completion_contributions`, clé primaire `date, device, slug`), donc réingérer un
 jour écrase ses lignes de façon idempotente — sûr à planifier quotidiennement.
 
+### Tester le job nocturne en local (Docker Compose)
+
+Le CronJob de prod lance `ingest-all` chaque nuit. Pour rejouer **exactement** ce
+job en local — même image que la prod, écriture dans la base Metabase locale — le
+`docker-compose.yml` du repo expose un service `analysis` (bâti sur
+`analysis/Dockerfile`). Il est derrière un **profil** : il ne démarre donc pas
+avec `docker compose up`, on le lance à la demande avec `docker compose run`, qui
+démarre au passage la base `metabase-db` et attend qu'elle soit prête.
+
+Prérequis : `analysis/.env` renseigné (credentials Matomo) — le service surcharge
+tout seul `METABASE_DB_HOST`/`_PORT` pour viser la base du réseau Compose.
+
+```bash
+# depuis la racine du repo
+
+# le job nocturne tel quel : ingest-all sur J-2
+docker compose run --rm analysis
+
+# une date / une période précise (mêmes arguments qu'en CLI)
+docker compose run --rm analysis ingest-all 2026-06-01
+docker compose run --rm analysis ingest-all 2026-06-01 --end 2026-06-30
+
+# un seul ingester (itération rapide)
+docker compose run --rm analysis ingest-simulateurs 2026-06-01
+docker compose run --rm analysis ingest-completion-contributions 2026-06-01
+
+# inspecter le résultat (UI Metabase optionnelle)
+docker compose up -d metabase        # http://localhost:3030
+```
+
+Après modification du code, reconstruire l'image :
+`docker compose build analysis`. Pour un run purement **exploratoire** sans Docker
+(notebooks, itération sur un report), rester sur `uv run …` décrit plus haut.
+
 ### À la main dans le cluster (Kubernetes)
 
 En prod, le CronJob `cron-analysis` lance `ingest-all` chaque nuit. Pour un run
