@@ -154,6 +154,9 @@ export const InfographicForm = ({
       if (newData.newSvg && newData.newSvg.length === 1) {
         await uploadFile(newData.newSvg[0]);
       }
+      if (newData.newPdf && newData.newPdf.length === 1) {
+        await uploadFile(newData.newPdf[0]);
+      }
       await onUpsert({
         id: newData.id!,
         title: newData.title!,
