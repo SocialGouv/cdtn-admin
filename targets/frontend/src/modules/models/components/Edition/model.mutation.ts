@@ -28,6 +28,7 @@ const updateModelQuery = gql`
           type
           previewHTML
           displayDate
+          fileId
         ]
       }
     ) {
