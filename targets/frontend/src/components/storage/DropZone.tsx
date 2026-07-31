@@ -31,7 +31,7 @@ export function DropZone({
     async (acceptedFiles: FileWithPath[]) => {
       const formData = new FormData();
       for (const file of acceptedFiles) {
-        formData.append(file.path ?? file.name, file);
+        formData.append(file.name, file);
       }
       onDropCallback(formData);
     },

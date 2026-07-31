@@ -135,7 +135,7 @@ export const InfographicForm = ({
 
   const uploadFile = async (file: DropzoneFile) => {
     const formData = new FormData();
-    formData.append(file.path, file);
+    formData.append(file.name, file);
     return new Promise((resolve, reject) => {
       request(`/api/storage`, {
         body: formData,
@@ -162,7 +162,7 @@ export const InfographicForm = ({
         metaDescription: newData.metaDescription!,
         svgFile: newData.newSvg
           ? {
-              url: newData.newSvg[0].path,
+              url: newData.newSvg[0].name,
               size: `${newData.newSvg[0].size}`,
             }
           : infographic?.svgFile!,
@@ -171,7 +171,7 @@ export const InfographicForm = ({
 
         pdfFile: newData.newPdf
           ? {
-              url: newData.newPdf[0].path,
+              url: newData.newPdf[0].name,
               size: `${newData.newPdf[0].size}`,
             }
           : infographic?.pdfFile!,

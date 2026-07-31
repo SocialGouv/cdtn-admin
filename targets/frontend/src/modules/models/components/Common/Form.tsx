@@ -95,7 +95,7 @@ export const ModelForm = ({
 
   const uploadFile = async (file: DropzoneFile) => {
     const formData = new FormData();
-    formData.append(file.path, file);
+    formData.append(file.name, file);
     return new Promise((resolve, reject) => {
       request(`/api/storage`, {
         body: formData,
@@ -123,7 +123,12 @@ export const ModelForm = ({
         type: newData.type!,
         file: newData.newFile
           ? {
-              url: newData.newFile[0].path,
+              // on conserve l'id du fichier existant : la mutation d'édition ne
+              // met pas `fileId` à jour, donc sans lui la ligne `files` créée
+              // reste orpheline et le modèle garde son ancien document
+              id: model?.file?.id,
+              altText: model?.file?.altText,
+              url: newData.newFile[0].name,
               size: `${newData.newFile[0].size}`,
             }
           : model?.file!,
