@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.77.11](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.10...v2.77.11) (2026-07-31)
+
+### Bug Fixes
+
+- **upload:** correction du remplacement de fichier sur les modèles et les infographies ([#1708](https://github.com/SocialGouv/cdtn-admin/issues/1708)) ([356eec7](https://github.com/SocialGouv/cdtn-admin/commit/356eec792d46e9869bbe07feceda5e1c5bfa0631))
+
+### Features
+
+- **analysis:** ajout du funnel sur l'outils Trouver sa CC ([#1707](https://github.com/SocialGouv/cdtn-admin/issues/1707)) ([dda8896](https://github.com/SocialGouv/cdtn-admin/commit/dda8896703c0a80904db37f3ec7ab6726acf8e73))
+
 ## [2.77.10](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.9...v2.77.10) (2026-07-27)
 
 ### Bug Fixes
