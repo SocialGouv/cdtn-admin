@@ -80,6 +80,18 @@ describe("ModelForm", () => {
     });
   });
 
+  it("laisse le fichier intact quand on sauvegarde sans en déposer un nouveau", async () => {
+    const onUpsert = jest.fn(() => Promise.resolve());
+    render(<ModelForm model={model} onUpsert={onUpsert} />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Sauvegarder" }));
+    await waitFor(() => expect(onUpsert).toHaveBeenCalledTimes(1));
+
+    expect((onUpsert as jest.Mock).mock.calls[0][0].file).toEqual(model.file);
+    // aucun upload ne doit être déclenché
+    expect(request).not.toHaveBeenCalled();
+  });
+
   it("conserve l'id du fichier existant quand on remplace le document", async () => {
     const onUpsert = jest.fn(() => Promise.resolve());
     render(<ModelForm model={model} onUpsert={onUpsert} />);
