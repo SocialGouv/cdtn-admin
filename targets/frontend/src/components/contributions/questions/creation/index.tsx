@@ -16,7 +16,7 @@ export const NewQuestion = (): JSX.Element => {
     }
     const result = await create({
       order: formData.order,
-      seo_title: formData.seo_title ? formData.seo_title : undefined,
+      seo_title: formData.seo_title,
       content: formData.content,
       message_id: formData.message_id ? formData.message_id : undefined, // use to transform empty string sent by the form to undefined
       answers: {

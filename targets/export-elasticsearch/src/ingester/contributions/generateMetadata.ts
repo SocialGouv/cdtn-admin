@@ -31,11 +31,7 @@ export const generateMetadata = (
     );
   }
 
-  return generateCustomMetadata(
-    contribution,
-    breadcrumbs[breadcrumbs.length - 1],
-    agreement
-  );
+  return generateCustomMetadata(contribution, agreement);
 };
 
 const generateGenericMetadata = (
@@ -52,17 +48,12 @@ const generateGenericMetadata = (
 
 const generateCustomMetadata = (
   contribution: DocumentElasticWithSource<ContributionDocumentJson>,
-  breadcrumb: Breadcrumb,
   agreement: DocumentElasticWithSource<AgreementDoc>
 ): ContributionMetadata => {
   return {
     title: contribution.questionName,
     metas: {
-      title: generateMetaTitle(
-        contribution.seoTitle,
-        breadcrumb,
-        agreement.shortTitle
-      ),
+      title: generateMetaTitle(contribution.seoTitle, agreement.shortTitle),
       description: `${contribution.questionName} - ${contribution.description}`,
     },
   };
@@ -70,11 +61,7 @@ const generateCustomMetadata = (
 
 const generateMetaTitle = (
   seoTitle: string | undefined,
-  breadcrumb: Breadcrumb,
   agreementShortTitle: string
 ): string => {
-  if (seoTitle && seoTitle !== "") {
-    return `${seoTitle} - ${agreementShortTitle}`;
-  }
-  return `${breadcrumb.label} - ${agreementShortTitle}`;
+  return `${seoTitle} - ${agreementShortTitle}`;
 };
