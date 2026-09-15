@@ -23,6 +23,11 @@ services:
   www:
     enabled: true
     image: frontend
+    # Quota mémoire de l'env (16Gi) saturé par le surge d'un RollingUpdate -> rollout bloqué
+    # en ReplicaFailure. On remplace avant de créer (pas de surge).
+    strategy:
+      type: RollingUpdate
+      rollingUpdate: { maxSurge: 0, maxUnavailable: 1 }
     replicaCount: 1
     port: 3000
     probePath: /healthz
@@ -48,6 +53,11 @@ services:
   hasura:
     enabled: true
     image: hasura
+    # Quota mémoire de l'env (16Gi) saturé par le surge d'un RollingUpdate -> rollout bloqué
+    # en ReplicaFailure. On remplace avant de créer (pas de surge).
+    strategy:
+      type: RollingUpdate
+      rollingUpdate: { maxSurge: 0, maxUnavailable: 1 }
     replicaCount: 1
     port: 8080
     probePath: /healthz
@@ -66,6 +76,15 @@ services:
         HASURA_GRAPHQL_ENABLED_LOG_TYPES: "startup, http-log, webhook-log, websocket-log, query-log"
     # HASURA_GRAPHQL_DATABASE_URL ← secret CNPG <cluster>-app (clé uri). Le nom du secret
     # est piloté par le gitops (cnpg.name). Défaut alignable : cluster-cdtn-app.
+    # L'image `.cli-migrations-v3` applique les migrations au boot. Elles NE passent PAS sur une base
+    # restaurée (l'état v3 n'est pas dans hdb_catalog.schema_migrations) ni from-scratch (la migration
+    # #89 insert_models viole une FK vers legi_articles, peuplée par l'ingester au runtime).
+    # Poser command/args ci-dessous bypasse l'entrypoint et démarre le serveur seul :
+    #   command: ["graphql-engine"]
+    #   args: ["serve"]
+    # Laisser vide = comportement upstream (migrations au boot).
+    command: []
+    args: []
     extraEnv:
       - name: HASURA_GRAPHQL_DATABASE_URL
         valueFrom:
@@ -76,6 +95,11 @@ services:
   export:
     enabled: true
     image: export
+    # Quota mémoire de l'env (16Gi) saturé par le surge d'un RollingUpdate -> rollout bloqué
+    # en ReplicaFailure. On remplace avant de créer (pas de surge).
+    strategy:
+      type: RollingUpdate
+      rollingUpdate: { maxSurge: 0, maxUnavailable: 1 }
     replicaCount: 1
     port: 8787
     probePath: /healthz

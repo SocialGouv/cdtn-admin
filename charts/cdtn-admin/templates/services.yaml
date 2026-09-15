@@ -44,7 +44,13 @@ metadata:
     reloader.stakater.com/auto: "true"
   {{- end }}
 spec:
-  replicas: {{ $comp.replicaCount | default 1 }}
+  # `| default 1` rendrait 0 -> 1 (sprig traite 0 comme vide) : hasKey permet replicaCount: 0,
+  # indispensable pour descendre hasura pendant un restore (sinon ArgoCD selfHeal le relance).
+  replicas: {{ if hasKey $comp "replicaCount" }}{{ $comp.replicaCount }}{{ else }}1{{ end }}
+  {{- with $comp.strategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "cdtn-admin.selectorLabels" $ctx | nindent 6 }}
@@ -61,6 +67,14 @@ spec:
         - name: {{ $name }}
           image: {{ include "cdtn-admin.image" $ctx | quote }}
           imagePullPolicy: {{ $.Values.imagePullPolicy }}
+          {{- with $comp.command }}
+          command:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $comp.args }}
+          args:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ $comp.port }}
