@@ -1,0 +1,2 @@
+-- Mise à jour de données : les anciennes descriptions ne sont pas conservées,
+-- pas de rollback possible (restaurer depuis une sauvegarde si nécessaire).
