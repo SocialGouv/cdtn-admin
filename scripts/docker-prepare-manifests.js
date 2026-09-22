@@ -25,19 +25,29 @@ const lockfileImporters = (file) => {
   const start = lines.indexOf("importers:");
   if (start === -1) throw new Error(`no \`importers:\` section in ${file}`);
 
-  const importers = [];
+  const body = [];
   for (const line of lines.slice(start + 1)) {
     if (/^\S/.test(line)) break;
-    const match = /^ {2}(\S.*?):\s*$/.exec(line);
+    body.push(line);
+  }
+
+  // Every line indented exactly two spaces is an importer key. pnpm writes a
+  // dependency-less importer inline (`  shared/config: {}`) and a populated one
+  // as a block, so both forms are read here.
+  const keys = body.filter((line) => /^ {2}\S/.test(line));
+  const importers = [];
+  for (const line of keys) {
+    const match = /^ {2}(\S.*?):(?:\s*$|\s+\{\s*\}\s*$)/.exec(line);
     if (match) importers.push(match[1].replace(/^['"]|['"]$/g, ""));
   }
 
-  // Without this the parser fails open: a serialization change pnpm has not
-  // made yet leaves `importers` empty, nothing looks missing, and the check
-  // below silently becomes the no-op it exists to prevent.
-  if (importers.length === 0 || !importers.includes(".")) {
+  // Counting rather than widening the pattern: any key this parser cannot read
+  // would silently narrow the check below into the no-op it exists to prevent,
+  // so an unread key is an error whatever future spelling produced it.
+  if (importers.length !== keys.length || !importers.includes(".")) {
     throw new Error(
-      `could not parse the \`importers:\` section of ${file} (found ${importers.length} entries, root not among them). ` +
+      `could not parse the \`importers:\` section of ${file} ` +
+        `(read ${importers.length} of ${keys.length} keys, root ${importers.includes(".") ? "among" : "not among"} them). ` +
         `The lockfile format changed — update this parser.`
     );
   }
