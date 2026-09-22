@@ -97,10 +97,10 @@ if (missing.length > 0) {
 }
 
 const manifests = listManifests(".");
-const importerOf = (manifest) => {
-  const dir = path.dirname(manifest);
-  return dir === "." ? "." : dir.replace(/^\.\//, "");
-};
+
+// `path.dirname` yields "." for the root manifest, which is how the lockfile
+// spells the root importer.
+const importerOf = (manifest) => path.dirname(manifest);
 
 // Everything still here sits where a `pnpm-workspace.yaml` glob selects, so a
 // manifest the lockfile does not declare is lockfile drift, not noise — and
@@ -118,7 +118,12 @@ if (undeclared.length > 0) {
 }
 
 for (const manifest of manifests) {
-  const parsed = JSON.parse(fs.readFileSync(manifest, "utf8"));
+  let parsed;
+  try {
+    parsed = JSON.parse(fs.readFileSync(manifest, "utf8"));
+  } catch (cause) {
+    throw new Error(`cannot parse ${manifest}`, { cause });
+  }
   if (!parsed.version) continue;
   parsed.version = "0.0.0";
   fs.writeFileSync(manifest, `${JSON.stringify(parsed, null, 2)}\n`);
