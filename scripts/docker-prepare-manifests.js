@@ -102,18 +102,22 @@ const importerOf = (manifest) => {
   return dir === "." ? "." : dir.replace(/^\.\//, "");
 };
 
-// The workspace globs select any directory holding a manifest, so an untracked
-// scratch package in a working tree would ride along — shifting this stage's
-// cache key, and joining a workspace the lockfile does not describe. Keeping
-// only what the lockfile declares makes the output depend on tracked files alone.
-for (const manifest of manifests) {
-  if (importers.includes(importerOf(manifest))) continue;
-  fs.rmSync(manifest);
-  fs.rmdirSync(path.dirname(manifest), { recursive: false });
+// Everything still here sits where a `pnpm-workspace.yaml` glob selects, so a
+// manifest the lockfile does not declare is lockfile drift, not noise — and
+// dropping it would hand pnpm a workspace it believes complete. Raising keeps
+// the same verdict pnpm gives on the untouched tree: ERR_PNPM_OUTDATED_LOCKFILE.
+const undeclared = manifests.filter(
+  (manifest) => !importers.includes(importerOf(manifest))
+);
+if (undeclared.length > 0) {
+  throw new Error(
+    `manifests present but not declared in pnpm-lock.yaml: ${undeclared.join(", ")}. ` +
+      `Run \`pnpm install --lockfile-only\` to record them, or move them out of the ` +
+      `\`shared/\` and \`targets/\` workspace globs.`
+  );
 }
 
 for (const manifest of manifests) {
-  if (!importers.includes(importerOf(manifest))) continue;
   const parsed = JSON.parse(fs.readFileSync(manifest, "utf8"));
   if (!parsed.version) continue;
   parsed.version = "0.0.0";

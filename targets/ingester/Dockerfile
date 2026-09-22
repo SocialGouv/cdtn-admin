@@ -15,9 +15,10 @@ COPY targets/ ./targets/
 
 COPY scripts/docker-prepare-manifests.js ./
 # Anchored on both sides so nothing below depth 2 and nothing loose at depth 1
-# reaches the output; the script then drops any manifest the lockfile does not
-# declare. Modes are set explicitly rather than with `u=rwX`, whose X keeps an
-# already-executable file executable — mode is part of the cache key downstream.
+# reaches the output; what remains sits where a workspace glob selects, and the
+# script refuses any manifest the lockfile does not declare. Modes are set
+# explicitly rather than with `u=rwX`, whose X keeps an already-executable file
+# executable — mode is part of the cache key downstream.
 RUN find ./shared ./targets -mindepth 2 -maxdepth 2 ! -name package.json -exec rm -rf {} + \
   && find ./shared ./targets -mindepth 1 -maxdepth 1 ! -type d -exec rm -rf {} + \
   && find ./shared ./targets -mindepth 1 -maxdepth 1 -type d -empty -delete \
