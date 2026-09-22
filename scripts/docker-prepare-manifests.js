@@ -4,7 +4,10 @@
 // 1. Blanks every `version` field. The release bot rewrites those on every
 //    `chore(release)` without touching pnpm-lock.yaml, which would otherwise
 //    invalidate the install layer for a change that affects no dependency.
-// 2. Asserts every workspace member declared in the lockfile is present.
+// 2. Asserts every workspace member declared in the lockfile is present. The
+//    Dockerfiles copy the `pnpm-workspace.yaml` globs wholesale, so a new member
+//    arrives on its own; this catches the remaining drift, a glob added to the
+//    workspace but not to the COPY lines.
 //
 // Blanking is safe because pnpm records workspace links as `link:<path>` and
 // `--frozen-lockfile` never re-resolves them, so the linked package's declared
@@ -19,6 +22,17 @@ const listManifests = (dir) =>
     if (entry.isDirectory()) return listManifests(full);
     return entry.name === "package.json" ? [full] : [];
   });
+
+// Stripping one leading and one trailing quote unconditionally would truncate an
+// unquoted key that merely ends in one, and a truncated key can land on a
+// directory that does exist — turning the check below back into a silent pass.
+const unquote = (key) => {
+  if (key.length >= 2 && key.startsWith("'") && key.endsWith("'"))
+    return key.slice(1, -1).replace(/''/g, "'");
+  if (key.length >= 2 && key.startsWith('"') && key.endsWith('"'))
+    return JSON.parse(key);
+  return key;
+};
 
 const lockfileImporters = (file) => {
   const lines = fs.readFileSync(file, "utf8").split(/\r?\n/);
@@ -38,7 +52,7 @@ const lockfileImporters = (file) => {
   const importers = [];
   for (const line of keys) {
     const match = /^ {2}(\S.*?):(?:\s*$|\s+\{\s*\}\s*$)/.exec(line);
-    if (match) importers.push(match[1].replace(/^['"]|['"]$/g, ""));
+    if (match) importers.push(unquote(match[1]));
   }
 
   // Counting rather than widening the pattern: any key this parser cannot read

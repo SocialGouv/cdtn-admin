@@ -8,17 +8,19 @@ FROM node:$NODE_VERSION AS manifests
 WORKDIR /manifests
 
 COPY pnpm-lock.yaml .npmrc pnpm-workspace.yaml package.json ./
-COPY shared/types/package.json ./shared/types/
-COPY shared/utils/package.json ./shared/utils/
-COPY shared/elasticsearch/package.json ./shared/elasticsearch/
-COPY shared/eslint-config/package.json ./shared/eslint-config/
-COPY targets/alert-cli/package.json ./targets/alert-cli/
-COPY targets/frontend/package.json ./targets/frontend/
-COPY targets/ingester/package.json ./targets/ingester/
-COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
+# The `pnpm-workspace.yaml` globs, copied wholesale then pruned to manifests:
+# a new workspace member arrives on its own instead of silently missing here.
+COPY shared/ ./shared/
+COPY targets/ ./targets/
 
 COPY scripts/docker-prepare-manifests.js ./
-RUN node docker-prepare-manifests.js && rm docker-prepare-manifests.js
+# Depth-anchored so a stray manifest deeper in the tree (a local `next build`
+# leaves one under .next/standalone) cannot reach the output and shift its
+# cache key. chmod because directory modes otherwise follow the build host.
+RUN find ./shared ./targets -mindepth 2 -maxdepth 2 ! -name package.json -exec rm -rf {} + \
+  && find ./shared ./targets -mindepth 1 -maxdepth 1 -type d -empty -delete \
+  && find ./shared ./targets -type d -exec chmod 755 {} + \
+  && node docker-prepare-manifests.js && rm docker-prepare-manifests.js
 
 
 # Builder stage: install dependencies and build
