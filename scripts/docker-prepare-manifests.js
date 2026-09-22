@@ -29,8 +29,15 @@ const listManifests = (dir) =>
 const unquote = (key) => {
   if (key.length >= 2 && key.startsWith("'") && key.endsWith("'"))
     return key.slice(1, -1).replace(/''/g, "'");
-  if (key.length >= 2 && key.startsWith('"') && key.endsWith('"'))
-    return JSON.parse(key);
+  if (key.length >= 2 && key.startsWith('"') && key.endsWith('"')) {
+    try {
+      return JSON.parse(key);
+    } catch (cause) {
+      // YAML escapes JSON does not share (\x41, \N, \_). Refusing is right, but
+      // the raw parser error would not say which key.
+      throw new Error(`cannot unescape importer key ${key}`, { cause });
+    }
+  }
   return key;
 };
 
@@ -71,8 +78,13 @@ const lockfileImporters = (file) => {
 // `pnpm install --frozen-lockfile` skips an importer whose directory is absent
 // and still exits 0, so a workspace member left out of the Dockerfile COPY list
 // would only surface much later, or not at all.
+// isFile(), not existsSync(): a directory named `package.json` would satisfy
+// mere existence while the manifest it stands for is gone.
 const missing = lockfileImporters("pnpm-lock.yaml").filter(
-  (importer) => !fs.existsSync(path.join(importer, "package.json"))
+  (importer) =>
+    !fs
+      .statSync(path.join(importer, "package.json"), { throwIfNoEntry: false })
+      ?.isFile()
 );
 if (missing.length > 0) {
   throw new Error(

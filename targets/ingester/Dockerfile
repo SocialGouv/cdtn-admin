@@ -14,11 +14,14 @@ COPY shared/ ./shared/
 COPY targets/ ./targets/
 
 COPY scripts/docker-prepare-manifests.js ./
-# Depth-anchored so a stray manifest deeper in the tree (a local `next build`
-# leaves one under .next/standalone) cannot reach the output and shift its
-# cache key. Modes are normalized for the same reason: they otherwise carry
-# the umask of whoever built, which is part of the cache key downstream.
+# Anchored on both sides: nothing below depth 2 and nothing loose at depth 1
+# reaches the output, so neither a manifest left by a local `next build` nor a
+# stray .DS_Store shifts the cache key. A non-member directory holding a
+# package.json still gets through — it is what the workspace glob selects, and
+# pnpm accepts the extra importer without a word. Modes are normalized because
+# they otherwise carry the umask of whoever built, which is part of that key.
 RUN find ./shared ./targets -mindepth 2 -maxdepth 2 ! -name package.json -exec rm -rf {} + \
+  && find ./shared ./targets -mindepth 1 -maxdepth 1 ! -type d -exec rm -rf {} + \
   && find ./shared ./targets -mindepth 1 -maxdepth 1 -type d -empty -delete \
   && chmod -R u=rwX,go=rX . \
   && node docker-prepare-manifests.js && rm docker-prepare-manifests.js
