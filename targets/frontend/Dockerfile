@@ -1,14 +1,12 @@
 # syntax=docker/dockerfile:1.7
 ARG NODE_VERSION=24-alpine
 
-FROM node:$NODE_VERSION AS builder
+# Manifests stage: the release bot rewrites `version` in every workspace manifest
+# without ever touching pnpm-lock.yaml. Blanking those fields keeps the install
+# layer below keyed on dependency data only, so a release does not invalidate it.
+FROM node:$NODE_VERSION AS manifests
 
-WORKDIR /app
-
-ENV PNPM_HOME=/pnpm
-ENV PATH=$PNPM_HOME:$PATH
-
-RUN corepack enable && corepack prepare pnpm@10.30.0 --activate
+WORKDIR /manifests
 
 COPY pnpm-lock.yaml .npmrc pnpm-workspace.yaml package.json ./
 COPY shared/types/package.json ./shared/types/
@@ -19,6 +17,21 @@ COPY targets/alert-cli/package.json ./targets/alert-cli/
 COPY targets/frontend/package.json ./targets/frontend/
 COPY targets/ingester/package.json ./targets/ingester/
 COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
+
+RUN node -e "const fs=require('fs'),p=require('path');const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(p.join(d,e.name)):e.name==='package.json'?[p.join(d,e.name)]:[]);for(const f of walk('.')){const j=JSON.parse(fs.readFileSync(f,'utf8'));if(j.version){j.version='0.0.0';fs.writeFileSync(f,JSON.stringify(j,null,2)+'\n')}}"
+
+
+FROM node:$NODE_VERSION AS builder
+
+WORKDIR /app
+
+ENV PNPM_HOME=/pnpm
+ENV PATH=$PNPM_HOME:$PATH
+
+RUN corepack enable && corepack prepare pnpm@10.30.0 --activate
+
+# Workspace config + lockfile + version-normalized package.jsons for install
+COPY --from=manifests /manifests/ ./
 
 ENV HUSKY=0
 

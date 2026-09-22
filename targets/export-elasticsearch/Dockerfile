@@ -1,16 +1,12 @@
 # syntax=docker/dockerfile:1.7
 ARG NODE_VERSION=24-alpine
 
-FROM node:$NODE_VERSION AS builder
+# Manifests stage: the release bot rewrites `version` in every workspace manifest
+# without ever touching pnpm-lock.yaml. Blanking those fields keeps the install
+# layer below keyed on dependency data only, so a release does not invalidate it.
+FROM node:$NODE_VERSION AS manifests
 
-RUN apk add --update --no-cache python3 make g++
-
-WORKDIR /app
-
-ENV PNPM_HOME=/pnpm
-ENV PATH=$PNPM_HOME:$PATH
-
-RUN corepack enable && corepack prepare pnpm@10.30.0 --activate
+WORKDIR /manifests
 
 COPY pnpm-lock.yaml .npmrc pnpm-workspace.yaml package.json ./
 COPY shared/types/package.json ./shared/types/
@@ -22,12 +18,29 @@ COPY targets/frontend/package.json ./targets/frontend/
 COPY targets/ingester/package.json ./targets/ingester/
 COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
 
+RUN node -e "const fs=require('fs'),p=require('path');const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(p.join(d,e.name)):e.name==='package.json'?[p.join(d,e.name)]:[]);for(const f of walk('.')){const j=JSON.parse(fs.readFileSync(f,'utf8'));if(j.version){j.version='0.0.0';fs.writeFileSync(f,JSON.stringify(j,null,2)+'\n')}}"
+
+
+FROM node:$NODE_VERSION AS builder
+
+RUN apk add --update --no-cache python3 make g++
+
+WORKDIR /app
+
+ENV PNPM_HOME=/pnpm
+ENV PATH=$PNPM_HOME:$PATH
+
+RUN corepack enable && corepack prepare pnpm@10.30.0 --activate
+
+# Workspace config + lockfile + version-normalized package.jsons for install
+COPY --from=manifests /manifests/ ./
+
 ENV HUSKY=0
 
+# Only export-elasticsearch and its workspace dependencies: the frontend tree
+# (the sole @tiptap-pro consumer) is not needed here, so no registry token either.
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
-  --mount=type=secret,id=NPM_TIPTAP_TOKEN \
-  sh -c 'export NPM_TIPTAP_TOKEN=$(cat /run/secrets/NPM_TIPTAP_TOKEN 2>/dev/null || true) && \
-  pnpm install --frozen-lockfile --store-dir=/pnpm/store'
+  pnpm install --frozen-lockfile --store-dir=/pnpm/store --filter export-elasticsearch...
 
 COPY shared/types ./shared/types/
 RUN pnpm --filter=@socialgouv/cdtn-types run build
