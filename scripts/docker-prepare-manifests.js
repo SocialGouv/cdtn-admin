@@ -6,9 +6,9 @@
 //    invalidate the install layer for a change that affects no dependency.
 // 2. Asserts every workspace member declared in the lockfile is present.
 //
-// Blanking versions is safe only because every workspace link uses the
-// range-less `workspace:^` protocol; an exact pin such as `workspace:2.77.0`
-// would resolve against the blanked version and break the install.
+// Blanking is safe because pnpm records workspace links as `link:<path>` and
+// `--frozen-lockfile` never re-resolves them, so the linked package's declared
+// version is not consulted — measured to hold even for an exact `workspace:x.y.z` pin.
 
 const fs = require("fs");
 const path = require("path");
@@ -30,6 +30,16 @@ const lockfileImporters = (file) => {
     if (/^\S/.test(line)) break;
     const match = /^ {2}(\S.*?):\s*$/.exec(line);
     if (match) importers.push(match[1].replace(/^['"]|['"]$/g, ""));
+  }
+
+  // Without this the parser fails open: a serialization change pnpm has not
+  // made yet leaves `importers` empty, nothing looks missing, and the check
+  // below silently becomes the no-op it exists to prevent.
+  if (importers.length === 0 || !importers.includes(".")) {
+    throw new Error(
+      `could not parse the \`importers:\` section of ${file} (found ${importers.length} entries, root not among them). ` +
+        `The lockfile format changed — update this parser.`
+    );
   }
   return importers;
 };

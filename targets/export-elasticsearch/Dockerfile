@@ -68,8 +68,9 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-# From the context, not the builder: the builder's copy went through the
-# `manifests` stage and carries its rewritten formatting.
+# From the context, not the builder: the root manifest has no `version` today so
+# the `manifests` stage leaves it untouched, but taking it from the context keeps
+# that true if one is ever added.
 COPY package.json /app/package.json
 COPY --from=builder /app/shared/utils/build /app/shared/utils/build
 COPY --from=builder /app/shared/utils/package.json /app/shared/utils/package.json
