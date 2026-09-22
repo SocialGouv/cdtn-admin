@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.77.13](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.12...v2.77.13) (2026-09-22)
+
+### Features
+
+- **outils:** simulateur d'indemnité de départ à la retraite ([#1714](https://github.com/SocialGouv/cdtn-admin/issues/1714)) ([a27e9cc](https://github.com/SocialGouv/cdtn-admin/commit/a27e9cc137c5511030a63a2020f88b9a26a9cc18))
+- **themes:** ajout d'un description sur les thèmes ([#1712](https://github.com/SocialGouv/cdtn-admin/issues/1712)) ([5c2349c](https://github.com/SocialGouv/cdtn-admin/commit/5c2349cfc5a9c236201e0b1fa2a3d006a7e34d29))
+
 ## [2.77.12](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.11...v2.77.12) (2026-09-18)
 
 ### Features
