@@ -14,16 +14,14 @@ COPY shared/ ./shared/
 COPY targets/ ./targets/
 
 COPY scripts/docker-prepare-manifests.js ./
-# Anchored on both sides: nothing below depth 2 and nothing loose at depth 1
-# reaches the output, so neither a manifest left by a local `next build` nor a
-# stray .DS_Store shifts the cache key. A non-member directory holding a
-# package.json still gets through — it is what the workspace glob selects, and
-# pnpm accepts the extra importer without a word. Modes are normalized because
-# they otherwise carry the umask of whoever built, which is part of that key.
+# Anchored on both sides so nothing below depth 2 and nothing loose at depth 1
+# reaches the output; the script then drops any manifest the lockfile does not
+# declare. Modes are set explicitly rather than with `u=rwX`, whose X keeps an
+# already-executable file executable — mode is part of the cache key downstream.
 RUN find ./shared ./targets -mindepth 2 -maxdepth 2 ! -name package.json -exec rm -rf {} + \
   && find ./shared ./targets -mindepth 1 -maxdepth 1 ! -type d -exec rm -rf {} + \
   && find ./shared ./targets -mindepth 1 -maxdepth 1 -type d -empty -delete \
-  && chmod -R u=rwX,go=rX . \
+  && find . -type d -exec chmod 0755 {} + && find . -type f -exec chmod 0644 {} + \
   && node docker-prepare-manifests.js && rm docker-prepare-manifests.js
 
 

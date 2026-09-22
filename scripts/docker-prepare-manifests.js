@@ -80,7 +80,9 @@ const lockfileImporters = (file) => {
 // would only surface much later, or not at all.
 // isFile(), not existsSync(): a directory named `package.json` would satisfy
 // mere existence while the manifest it stands for is gone.
-const missing = lockfileImporters("pnpm-lock.yaml").filter(
+const importers = lockfileImporters("pnpm-lock.yaml");
+
+const missing = importers.filter(
   (importer) =>
     !fs
       .statSync(path.join(importer, "package.json"), { throwIfNoEntry: false })
@@ -89,11 +91,29 @@ const missing = lockfileImporters("pnpm-lock.yaml").filter(
 if (missing.length > 0) {
   throw new Error(
     `workspace members declared in pnpm-lock.yaml but missing here: ${missing.join(", ")}. ` +
-      `Add their package.json to the COPY list of the \`manifests\` stage.`
+      `Either a \`pnpm-workspace.yaml\` glob is not covered by the COPY lines of the ` +
+      `\`manifests\` stage, or a .dockerignore rule swallows the manifest.`
   );
 }
 
-for (const manifest of listManifests(".")) {
+const manifests = listManifests(".");
+const importerOf = (manifest) => {
+  const dir = path.dirname(manifest);
+  return dir === "." ? "." : dir.replace(/^\.\//, "");
+};
+
+// The workspace globs select any directory holding a manifest, so an untracked
+// scratch package in a working tree would ride along — shifting this stage's
+// cache key, and joining a workspace the lockfile does not describe. Keeping
+// only what the lockfile declares makes the output depend on tracked files alone.
+for (const manifest of manifests) {
+  if (importers.includes(importerOf(manifest))) continue;
+  fs.rmSync(manifest);
+  fs.rmdirSync(path.dirname(manifest), { recursive: false });
+}
+
+for (const manifest of manifests) {
+  if (!importers.includes(importerOf(manifest))) continue;
   const parsed = JSON.parse(fs.readFileSync(manifest, "utf8"));
   if (!parsed.version) continue;
   parsed.version = "0.0.0";
