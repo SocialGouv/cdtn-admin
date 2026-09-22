@@ -64,7 +64,10 @@ ENV NEXT_PUBLIC_BUCKET_DRAFT_FOLDER=$NEXT_PUBLIC_BUCKET_DRAFT_FOLDER
 COPY shared/eslint-config ./shared/eslint-config/
 COPY targets/frontend ./targets/frontend/
 
+# The mkdir is what makes the restore happen at all: `.next` does not exist yet
+# here, so the `cp` into `.next/cache` fails and the mount stays write-only.
 RUN --mount=type=cache,id=next-cache-frontend,target=/tmp/.next-cache \
+  mkdir -p targets/frontend/.next && \
   cp -a /tmp/.next-cache targets/frontend/.next/cache 2>/dev/null || true && \
   pnpm --filter=frontend run build && \
   rm -rf /tmp/.next-cache/* && \
