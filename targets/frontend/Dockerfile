@@ -1,9 +1,8 @@
 # syntax=docker/dockerfile:1.7
 ARG NODE_VERSION=24-alpine
 
-# Manifests stage: the release bot rewrites `version` in every workspace manifest
-# without ever touching pnpm-lock.yaml. Blanking those fields keeps the install
-# layer below keyed on dependency data only, so a release does not invalidate it.
+# Manifests stage: seeds the install layer with version-blanked manifests, so a
+# release bump does not invalidate it. See scripts/docker-prepare-manifests.js.
 FROM node:$NODE_VERSION AS manifests
 
 WORKDIR /manifests
@@ -18,7 +17,8 @@ COPY targets/frontend/package.json ./targets/frontend/
 COPY targets/ingester/package.json ./targets/ingester/
 COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
 
-RUN node -e "const fs=require('fs'),p=require('path');const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(p.join(d,e.name)):e.name==='package.json'?[p.join(d,e.name)]:[]);for(const f of walk('.')){const j=JSON.parse(fs.readFileSync(f,'utf8'));if(j.version){j.version='0.0.0';fs.writeFileSync(f,JSON.stringify(j,null,2)+'\n')}}"
+COPY scripts/docker-prepare-manifests.js ./
+RUN node docker-prepare-manifests.js && rm docker-prepare-manifests.js
 
 
 FROM node:$NODE_VERSION AS builder

@@ -1,9 +1,8 @@
 # syntax=docker/dockerfile:1.7
 ARG NODE_VERSION=24-alpine
 
-# Manifests stage: the release bot rewrites `version` in every workspace manifest
-# without ever touching pnpm-lock.yaml. Blanking those fields keeps the install
-# layer below keyed on dependency data only, so a release does not invalidate it.
+# Manifests stage: seeds the install layer with version-blanked manifests, so a
+# release bump does not invalidate it. See scripts/docker-prepare-manifests.js.
 FROM node:$NODE_VERSION AS manifests
 
 WORKDIR /manifests
@@ -18,7 +17,8 @@ COPY targets/frontend/package.json ./targets/frontend/
 COPY targets/ingester/package.json ./targets/ingester/
 COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
 
-RUN node -e "const fs=require('fs'),p=require('path');const walk=d=>fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(p.join(d,e.name)):e.name==='package.json'?[p.join(d,e.name)]:[]);for(const f of walk('.')){const j=JSON.parse(fs.readFileSync(f,'utf8'));if(j.version){j.version='0.0.0';fs.writeFileSync(f,JSON.stringify(j,null,2)+'\n')}}"
+COPY scripts/docker-prepare-manifests.js ./
+RUN node docker-prepare-manifests.js && rm docker-prepare-manifests.js
 
 
 FROM node:$NODE_VERSION AS builder
@@ -36,6 +36,11 @@ RUN corepack enable && corepack prepare pnpm@10.30.0 --activate
 COPY --from=manifests /manifests/ ./
 
 ENV HUSKY=0
+
+# `.npmrc` interpolates ${NPM_TIPTAP_TOKEN}. When the variable is undefined pnpm
+# discards the WHOLE file — including the `public-hoist-pattern` lines — instead
+# of just that entry. Defining it empty keeps the rest of `.npmrc` honored.
+ENV NPM_TIPTAP_TOKEN=
 
 # Only export-elasticsearch and its workspace dependencies: the frontend tree
 # (the sole @tiptap-pro consumer) is not needed here, so no registry token either.
@@ -63,7 +68,9 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-COPY --from=builder /app/package.json /app/package.json
+# From the context, not the builder: the builder's copy went through the
+# `manifests` stage and carries its rewritten formatting.
+COPY package.json /app/package.json
 COPY --from=builder /app/shared/utils/build /app/shared/utils/build
 COPY --from=builder /app/shared/utils/package.json /app/shared/utils/package.json
 COPY --from=builder /app/shared/utils/node_modules /app/shared/utils/node_modules
