@@ -16,10 +16,11 @@ COPY targets/ ./targets/
 COPY scripts/docker-prepare-manifests.js ./
 # Depth-anchored so a stray manifest deeper in the tree (a local `next build`
 # leaves one under .next/standalone) cannot reach the output and shift its
-# cache key. chmod because directory modes otherwise follow the build host.
+# cache key. Modes are normalized for the same reason: they otherwise carry
+# the umask of whoever built, which is part of the cache key downstream.
 RUN find ./shared ./targets -mindepth 2 -maxdepth 2 ! -name package.json -exec rm -rf {} + \
   && find ./shared ./targets -mindepth 1 -maxdepth 1 -type d -empty -delete \
-  && find ./shared ./targets -type d -exec chmod 755 {} + \
+  && chmod -R u=rwX,go=rX . \
   && node docker-prepare-manifests.js && rm docker-prepare-manifests.js
 
 
