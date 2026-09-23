@@ -1,6 +1,31 @@
 # syntax=docker/dockerfile:1.7
 ARG NODE_VERSION=24-alpine
 
+# Manifests stage: seeds the install layer with version-blanked manifests, so a
+# release bump does not invalidate it. See scripts/docker-prepare-manifests.js.
+FROM node:$NODE_VERSION AS manifests
+
+WORKDIR /manifests
+
+COPY pnpm-lock.yaml .npmrc pnpm-workspace.yaml package.json ./
+# The `pnpm-workspace.yaml` globs, copied wholesale then pruned to manifests:
+# a new workspace member arrives on its own instead of silently missing here.
+COPY shared/ ./shared/
+COPY targets/ ./targets/
+
+COPY scripts/docker-prepare-manifests.js ./
+# Anchored on both sides so nothing below depth 2 and nothing loose at depth 1
+# reaches the output; what remains sits where a workspace glob selects, and the
+# script refuses any manifest the lockfile does not declare. Modes are set
+# explicitly rather than with `u=rwX`, whose X keeps an already-executable file
+# executable — mode is part of the cache key downstream.
+RUN find ./shared ./targets -mindepth 2 -maxdepth 2 ! -name package.json -exec rm -rf {} + \
+  && find ./shared ./targets -mindepth 1 -maxdepth 1 ! -type d -exec rm -rf {} + \
+  && find ./shared ./targets -mindepth 1 -maxdepth 1 -type d -empty -delete \
+  && find . -type d -exec chmod 0755 {} + && find . -type f -exec chmod 0644 {} + \
+  && node docker-prepare-manifests.js && rm docker-prepare-manifests.js
+
+
 FROM node:$NODE_VERSION AS builder
 
 WORKDIR /app
@@ -10,15 +35,8 @@ ENV PATH=$PNPM_HOME:$PATH
 
 RUN corepack enable && corepack prepare pnpm@10.30.0 --activate
 
-COPY pnpm-lock.yaml .npmrc pnpm-workspace.yaml package.json ./
-COPY shared/types/package.json ./shared/types/
-COPY shared/utils/package.json ./shared/utils/
-COPY shared/elasticsearch/package.json ./shared/elasticsearch/
-COPY shared/eslint-config/package.json ./shared/eslint-config/
-COPY targets/alert-cli/package.json ./targets/alert-cli/
-COPY targets/frontend/package.json ./targets/frontend/
-COPY targets/ingester/package.json ./targets/ingester/
-COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
+# Workspace config + lockfile + version-normalized package.jsons for install
+COPY --from=manifests /manifests/ ./
 
 ENV HUSKY=0
 
@@ -45,7 +63,10 @@ ENV NEXT_PUBLIC_BUCKET_DRAFT_FOLDER=$NEXT_PUBLIC_BUCKET_DRAFT_FOLDER
 COPY shared/eslint-config ./shared/eslint-config/
 COPY targets/frontend ./targets/frontend/
 
+# The mkdir is what makes the restore happen at all: `.next` does not exist yet
+# here, so the `cp` into `.next/cache` fails and the mount stays write-only.
 RUN --mount=type=cache,id=next-cache-frontend,target=/tmp/.next-cache \
+  mkdir -p targets/frontend/.next && \
   cp -a /tmp/.next-cache targets/frontend/.next/cache 2>/dev/null || true && \
   pnpm --filter=frontend run build && \
   rm -rf /tmp/.next-cache/* && \

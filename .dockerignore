@@ -5,7 +5,7 @@
 .kontinuous
 **/*.md
 **/node_modules
-**/.next/cache
+**/.next
 **/data/*
 shared/*/build
 targets/*/build
