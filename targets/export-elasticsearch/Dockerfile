@@ -26,6 +26,31 @@ RUN find ./shared ./targets -mindepth 2 -maxdepth 2 ! -name package.json -exec r
   && node docker-prepare-manifests.js && rm docker-prepare-manifests.js
 
 
+# Runtime dependency tree: the builder needs devDependencies to typecheck, the
+# runner does not. Keyed on the manifests stage alone, so it survives a release.
+FROM node:$NODE_VERSION AS deps-prod
+
+RUN apk add --update --no-cache python3 make g++
+
+WORKDIR /app
+
+ENV PNPM_HOME=/pnpm
+ENV PATH=$PNPM_HOME:$PATH
+
+RUN corepack enable && corepack prepare pnpm@10.30.0 --activate
+
+COPY --from=manifests /manifests/ ./
+
+ENV HUSKY=0
+ENV NPM_TIPTAP_TOKEN=
+# The root `prepare` runs `test -n "$CI" || husky install`, and husky is a dev
+# dependency absent from a --prod tree; CI is the guard the script itself expects.
+ENV CI=true
+
+RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
+  pnpm install --frozen-lockfile --store-dir=/pnpm/store --filter export-elasticsearch... --prod
+
+
 FROM node:$NODE_VERSION AS builder
 
 RUN apk add --update --no-cache python3 make g++
@@ -79,15 +104,15 @@ WORKDIR /app
 COPY package.json /app/package.json
 COPY --from=builder /app/shared/utils/build /app/shared/utils/build
 COPY --from=builder /app/shared/utils/package.json /app/shared/utils/package.json
-COPY --from=builder /app/shared/utils/node_modules /app/shared/utils/node_modules
+COPY --from=deps-prod /app/shared/utils/node_modules /app/shared/utils/node_modules
 COPY --from=builder /app/shared/types/build /app/shared/types/build
 COPY --from=builder /app/shared/types/package.json /app/shared/types/package.json
 COPY --from=builder /app/shared/elasticsearch /app/shared/elasticsearch
 COPY --from=builder /app/targets/export-elasticsearch/dataset /app/targets/export-elasticsearch/dataset
 COPY --from=builder /app/targets/export-elasticsearch/package.json /app/targets/export-elasticsearch/package.json
 COPY --from=builder /app/targets/export-elasticsearch/build /app/targets/export-elasticsearch/build
-COPY --from=builder /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
-COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=deps-prod /app/targets/export-elasticsearch/node_modules /app/targets/export-elasticsearch/node_modules
+COPY --from=deps-prod /app/node_modules /app/node_modules
 
 USER 1000
 
