@@ -111,6 +111,68 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   NPS lui-même (promoteurs 9-10, détracteurs 0-6) n'est pas stocké, Metabase le
   recalcule. Table `nps_scores`.
 
+## Pipeline L2 (audit de taxonomie de contenu)
+
+`src/analysis/l2/` est un pipeline à part : contrairement aux reports
+ci-dessus, il n'alimente **pas** Metabase et ne tourne **pas** dans le cronjob
+`ingest-all`. C'est un outil d'audit éditorial occasionnel — pas une métrique
+quotidienne — qui construit, pour chaque L2 (sous-thème) du site, une
+« signature » sémantique (embeddings de documents + facettes extraites par
+LLM), pour repérer les documents possiblement mal classés, suggérer des L2
+complémentaires à cross-lier, faire correspondre des questions libres à
+leurs L2, rédiger une description publique de chaque rubrique, et
+recommander des documents d'autres sources pour chaque document d'une
+source donnée. Sortie : des fichiers `.xlsx` pour relecture humaine
+(éditoriale, avant toute publication) — pas une table Postgres.
+
+Onze étapes, chacune un console script séparé (voir la docstring de
+`analysis.l2` pour le détail) :
+
+```bash
+uv run l2-build-docs                                    # Elasticsearch -> docs.csv, l2_l1.json
+uv run l2-extract-facets analysis/output/l2/docs.csv analysis/output/l2/l2_l1.json
+    # -> facets_raw.csv : LLM (Claude), contexte L1/L2 injecté, ~1 appel/doc -- plusieurs heures
+    #    PAS d'embeddings à ce stade -- voir l2-embed-facets
+uv run l2-embed-facets analysis/output/l2/facets_raw.csv
+    # -> facets.csv : embeddings (--provider openai|albert, découplé de l'extraction
+    #    pour pouvoir changer de modèle d'embeddings sans tout ré-extraire)
+uv run l2-canonicalize-facets analysis/output/l2/facets.csv
+    # optionnel : fusionne les formulations quasi identiques (colonne canonical_facet)
+uv run l2-build-sessions analysis/output/l2/docs.csv # Matomo -> visits.parquet, sessions.parquet (requête lourde)
+uv run l2-embed-questions questions.csv                  # optionnel, pour le cas d'usage 3
+uv run l2-run-pipeline analysis/output/l2/docs.csv analysis/output/l2/facets.csv analysis/output/l2/l2_l1.json \
+    --sessions analysis/output/l2/sessions.parquet --questions analysis/output/l2/questions.parquet
+uv run l2-describe-classes analysis/output/l2/docs.csv analysis/output/l2/facets.csv analysis/output/l2/l2_l1.json
+    # -> l2_descriptions.xlsx : une description publique (brouillon) par rubrique L2
+uv run l2-recommend-content analysis/output/l2/docs.csv analysis/output/l2/facets.csv
+    # -> fiches_service_public_recommendations.xlsx : pour chaque fiche_service_public,
+    #    top-N documents recommandés parmi modeles_de_courriers/contributions/outils
+uv run l2-complementary-embeddings analysis/output/l2/docs.csv analysis/output/l2/l2_l1.json
+    # -> complementary_l2_embeddings.xlsx : cas d'usage 2 seul, embeddings uniquement
+    #    (ni facets.csv ni sessions.parquet requis) -- hors de l2-run-pipeline
+uv run l2-recommend-links analysis/output/l2/docs.csv analysis/output/l2/facets.csv analysis/output/l2/l2_l1.json
+    # -> fiches_service_public_links.xlsx : L2 complémentaires + documents recommandés,
+    #    classés ENSEMBLE par recouvrement de facettes canonicalisées (nécessite
+    #    d'avoir lancé l2-canonicalize-facets) -- voir la docstring pour le détail
+```
+
+Nécessite les settings `ELASTICSEARCH_SEARCH_ENGINE_*`, `OPENAI_*`,
+`ANTHROPIC_*` et (optionnel) `ALBERT_*` dans `.env` (en plus de
+`PG_MATOMO_*` pour l'étape sessions) : `l2-build-docs` embarque les
+documents via OpenAI (`analysis.connectors.openai`, HTTP brut, sans
+dépendance au SDK `openai`), `l2-embed-facets` embarque les facettes via le
+même provider par défaut (`--provider albert` si besoin), `l2-embed-questions`
+reste sur Albert. **Ces espaces d'embeddings ne sont pas comparables entre
+eux** — `signatures`/`describe-classes`/`recommend-content` font toutes de
+la similarité cosinus entre docs et facettes/questions, donc régénérer
+`docs.csv` avec un nouveau provider suppose de régénérer `facets.csv`/
+`questions.csv` avec le même. `l2-extract-facets` et `l2-describe-classes`
+appellent Claude plutôt qu'Albert pour la génération (voir `ANTHROPIC_*`
+dans `.env` — `analysis.connectors.claude.ClaudeClient`, HTTP brut, sans
+dépendance au SDK `anthropic`). Les artefacts `docs`/`facets` sont au format
+CSV, `sessions`/`questions` en Parquet ; tout va par défaut sous
+`analysis/output/l2/` (ignoré par git — voir `.gitignore`).
+
 ## La base Metabase (destination)
 
 Les commandes d'ingestion n'écrivent **pas** dans Matomo : elles **agrègent** la
@@ -289,12 +351,23 @@ analysis/
 │   ├── connectors/
 │   │   ├── matomo.py             # MatomoSQLConnector (source SQL, réplica)
 │   │   ├── matomo_reporting.py   # MatomoReportingConnector (source API)
+│   │   ├── elasticsearch.py      # ElasticsearchDocsConnector (source, pipeline L2)
+│   │   ├── albert.py             # AlbertClient + embeddings (LLM, pipeline L2)
+│   │   ├── claude.py             # ClaudeClient (LLM, describe_classes -- HTTP brut)
+│   │   ├── openai.py             # embeddings OpenAI -- HTTP brut, pas encore câblé
 │   │   └── metabase_db.py        # MetabaseDBConnector (destination, générique)
 │   ├── reports/                  # calcul des agrégats journaliers (DataFrame)
-│   └── commands/                 # commandes d'ingestion (report + couche BDD)
-│       ├── ingest_all.py               # lance tous les ingesters — job planifié
-│       ├── ingest_simulateurs.py       # ingester simulateurs (modèle)
-│       ├── ingest_completion_contributions.py # ingester visites/clics CC par contribution
+│   ├── commands/                 # commandes d'ingestion (report + couche BDD)
+│   │   ├── ingest_all.py               # lance tous les ingesters — job planifié
+│   │   ├── ingest_simulateurs.py       # ingester simulateurs (modèle)
+│   │   ├── ingest_completion_contributions.py # ingester visites/clics CC par contribution
+│   └── l2/                       # pipeline d'audit de taxonomie (voir plus haut)
+│       ├── build_docs.py, extract_facets.py, embed_facets.py
+│       ├── canonicalize_facets.py, build_sessions.py, embed_questions.py
+│       ├── signatures.py, use_cases.py   # logique pure, sans réseau
+│       ├── run_pipeline.py, describe_classes.py, recommend_content.py
+│       ├── complementary_embeddings.py, recommend_links.py
+│       └── io.py
 │       └── ingest_nps_scores.py        # ingester scores NPS par device et par page
 └── notebooks/                    # analyses exploratoires
 ```

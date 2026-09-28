@@ -30,4 +30,12 @@ analysis/output/
 analysis/notebooks/*.html
 analysis/notebooks/*.pdf
 analysis/notebooks/*_files/
+# L2 pipeline data dumps (regenerate via `analysis.l2.*` -- see analysis/README.md);
+# these are large (hundreds of MB) CSV/XLSX exports, not source.
+analysis/notebooks/l2/*.csv
+analysis/notebooks/l2/*.xlsx
+analysis/notebooks/l2/*.json
+# analysis.l2.io's parquet cache for docs/facets CSVs (derived, any location)
+*.cache.parquet
+*.cache.meta.json
 
