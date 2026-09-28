@@ -25,8 +25,8 @@ from analysis.l2.signatures import (
     L2Signature,
     greedy_matches,
     l2_normalize,
-    max_facet_similarity,
     stack_embeddings,
+    topk_mean_facet_similarity,
     validate_self_consistency,
 )
 
@@ -205,17 +205,18 @@ def build_doc_facet_index(
 def facet_max_similarities(
     doc_id: str, doc_ids: list[str], doc_facet_index: dict
 ) -> np.ndarray:
-    """:func:`analysis.l2.signatures.max_facet_similarity` from ``doc_id`` to
-    every id in ``doc_ids``, in order -- the array form used to gate/rank a
-    whole candidate pool by facet-level similarity instead of whole-document
-    cosine similarity. A ``doc_id`` missing from ``doc_facet_index`` (no
-    facets of the selected types) scores ``-inf`` against everything.
+    """:func:`analysis.l2.signatures.topk_mean_facet_similarity` from
+    ``doc_id`` to every id in ``doc_ids``, in order -- the array form used
+    to gate/rank a whole candidate pool by facet-level similarity instead
+    of whole-document cosine similarity. A ``doc_id`` missing from
+    ``doc_facet_index`` (no facets of the selected types) scores ``-inf``
+    against everything.
     """
     empty = np.empty((0, 0))
     own = doc_facet_index.get(doc_id, {}).get("embeddings", empty)
     return np.array(
         [
-            max_facet_similarity(
+            topk_mean_facet_similarity(
                 own, doc_facet_index.get(target_id, {}).get("embeddings", empty)
             )
             for target_id in doc_ids

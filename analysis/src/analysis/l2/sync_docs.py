@@ -59,9 +59,8 @@ import pandas as pd
 
 from analysis.connectors.claude import ClaudeClient
 from analysis.connectors.elasticsearch import ElasticsearchDocsConnector
-from analysis.connectors.openai import embed_texts
 from analysis.l2 import io
-from analysis.l2.build_docs import assign_l2_l1, format_for_embedding
+from analysis.l2.build_docs import assign_l2_l1, embed_documents_chunked
 from analysis.l2.embed_facets import embed_facets_df
 from analysis.l2.extract_facets import (
     extract_facets_batch,
@@ -248,9 +247,8 @@ def apply_reconciliation(
             f"⏳ OpenAI: embedding {len(embed_targets)} new/changed document(s)…",
             flush=True,
         )
-        embeddings = embed_texts([format_for_embedding(d) for d in embed_targets])
         embedded_df = pd.DataFrame(embed_targets)
-        embedded_df["embedding"] = embeddings.apply(list, axis=1).values
+        embedded_df["embedding"] = embed_documents_chunked(embed_targets)
         embedded_df[_CONTENT_HASH_COL] = [
             content_hash(d.get("title"), d.get("text"), d.get("breadcrumbs"))
             for d in embed_targets
