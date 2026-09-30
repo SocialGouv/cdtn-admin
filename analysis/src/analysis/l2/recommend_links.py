@@ -40,19 +40,23 @@ highest facet-to-facet match) -- the latter rescues a candidate whose
 match is diluted inside a long, multi-topic source document's own
 embedding; see :func:`rank_document_candidates`.
 
-Output: one row per ``(source document, candidate)`` -- long/tidy, not the
-wide ``complementary_l2_1/2`` shape -- as ``.xlsx``, same review-first
-convention as the rest of the pipeline; sort by ``source_doc_id`` then
-``combined_rank`` to see each page's best cross-links first, regardless of
-type. A ``.md`` version is written alongside it -- one section per source
-document (alphabetical by title), its links listed in ``combined_rank``
-order -- for reading top to bottom rather than filtering a spreadsheet.
-Every source document gets at least one row/section, including a document
-that matched nothing in either pool (``confidence="no_candidates"``, every
-candidate column blank) -- silently dropping it would look identical to it
-never having been processed at all. ``source_l2``/``source_l1`` carry the
-document's own current classification, so a reviewer doesn't need to cross-
-reference ``docs.csv`` to see what's being linked *from*.
+Output: one row per ``(source document, candidate)`` internally -- long/
+tidy, not the wide ``complementary_l2_1/2`` shape -- written as two files
+with different audiences. ``{source}_links.json`` (see
+:func:`to_links_json`) is for a downstream consumer that applies these as
+real links on the live documents: one object per source document, document
+candidates only (an L2 isn't a single page you can point a link at), just
+the fields needed to place and trust a link (id, slug, label, source,
+confidence, score, rank) -- not the facet-overlap "why". ``{source}_links.md``
+carries the full picture for a human instead -- both candidate types, every
+scoring ingredient, one section per source document (alphabetical by
+title), links listed in ``combined_rank`` order. Every source document gets
+at least one row/section in both, including a document that matched
+nothing in either pool (``confidence="no_candidates"``) -- silently
+dropping it would look identical to it never having been processed at all.
+``source_l2``/``source_l1`` carry the document's own current
+classification, so neither file needs a cross-reference into ``docs.csv``
+to see what's being linked *from*.
 
 Run it::
 
@@ -68,6 +72,7 @@ and canonical facets.
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 
 import numpy as np
@@ -143,6 +148,8 @@ DEFAULT_L2_PROFILE_TOP_N = 20  # per facet type, so up to ~60 canonical facets/c
 _OUTPUT_COLUMNS = [
     "source_doc_id",
     "source_title",
+    "source_slug",
+    "source_source",
     "source_l2",
     "source_l1",
     "source_canonical_facets",
@@ -152,6 +159,7 @@ _OUTPUT_COLUMNS = [
     "confidence",
     "candidate_id",
     "candidate_label",
+    "candidate_slug",
     "candidate_source",
     "candidate_l2",
     "candidate_l1",
@@ -362,6 +370,7 @@ def rank_complementary_l2_candidates(
             {
                 "candidate_id": r["l2"],
                 "candidate_label": r["l2"],
+                "candidate_l2": r["l2"],
                 "candidate_l1": l2_to_l1.get(r["l2"], ""),
                 "source_affinity": "not_applicable",
                 "embedding_similarity": float(r["similarity"]),
@@ -465,8 +474,10 @@ def rank_document_candidates(
             {
                 "candidate_id": target_id,
                 "candidate_label": row_meta["title"],
+                "candidate_slug": row_meta["slug"],
                 "candidate_source": row_meta["source"],
                 "candidate_l2": candidate_l2,
+                "candidate_l1": l2_to_l1.get(candidate_l2, ""),
                 "source_affinity": source_affinity(
                     candidate_l2, own_l2, own_l1, l2_to_l1
                 ),
@@ -656,9 +667,11 @@ def build_links_table(
 
         combined.insert(0, "source_doc_id", doc_id)
         combined.insert(1, "source_title", row.title)
-        combined.insert(2, "source_l2", own_l2)
-        combined.insert(3, "source_l1", l2_to_l1.get(own_l2, ""))
-        combined.insert(4, "source_canonical_facets", own_canonical_facets)
+        combined.insert(2, "source_slug", row.slug)
+        combined.insert(3, "source_source", source)
+        combined.insert(4, "source_l2", own_l2)
+        combined.insert(5, "source_l1", l2_to_l1.get(own_l2, ""))
+        combined.insert(6, "source_canonical_facets", own_canonical_facets)
         tables.append(combined)
 
     if not tables:
@@ -674,8 +687,9 @@ def build_links_table(
 def render_markdown(table: pd.DataFrame, *, source: str) -> str:
     """Render :func:`build_links_table`'s output as Markdown, grouped by
     source document -- one section per document, its links listed by
-    ``combined_rank``, for quick browsing. The ``.xlsx`` stays the tool for
-    sorting/filtering; this is for reading top to bottom.
+    ``combined_rank``, for quick browsing. The ``.json`` (see
+    :func:`to_links_json`) is for a consumer to act on; this is for a human
+    to read top to bottom.
     """
     lines = [f"# Cross-links for `{source}`", ""]
 
@@ -740,6 +754,113 @@ def render_markdown(table: pd.DataFrame, *, source: str) -> str:
         lines.append("")
 
     return "\n".join(lines)
+
+
+# --------------------------------------------------------------------------- #
+# JSON export (for a downstream consumer, not a human reviewer)
+# --------------------------------------------------------------------------- #
+
+
+def _json_safe(value):
+    """A cell value, made JSON-serializable: NaN/NaT -> ``None`` (``json.dumps``
+    otherwise emits a bare ``NaN`` token, which is not valid JSON and
+    ``JSON.parse`` rejects outright), numpy scalars (``int64``, ``float64``,
+    ...) -> the equivalent native Python type (``json.dumps`` raises on
+    those directly).
+    """
+    if pd.isna(value):
+        return None
+    if isinstance(value, np.generic):
+        return value.item()
+    return value
+
+
+# Every per-link field from _OUTPUT_COLUMNS except the source_* ones, which
+# are hoisted onto the parent document object instead of repeated on each
+# link.
+_LINK_JSON_COLUMNS = [
+    "candidate_type",
+    "combined_rank",
+    "rank_within_type",
+    "confidence",
+    "candidate_id",
+    "candidate_label",
+    "candidate_slug",
+    "candidate_source",
+    "candidate_l2",
+    "candidate_l1",
+    "source_affinity",
+    "n_shared_canonical_facets",
+    "shared_canonical_facets",
+    "embedding_similarity",
+    "combined_score",
+]
+# Conceptually integers, but the source column is float64 in practice: a
+# "no candidates" placeholder row (see build_links_table) leaves these NaN
+# for that source document, which upcasts the whole column from int64.
+# Safe to force back to int here -- by the time a row reaches this
+# function it's a real candidate, never that placeholder.
+_LINK_INT_COLUMNS = {"combined_rank", "rank_within_type", "n_shared_canonical_facets"}
+
+
+def _json_link_value(row: pd.Series, col: str):
+    value = _json_safe(row[col])
+    return int(value) if value is not None and col in _LINK_INT_COLUMNS else value
+
+
+_DOC_JSON_COLUMNS = [
+    "source_doc_id",
+    "source_slug",
+    "source_title",
+    "source_source",
+    "source_l2",
+    "source_l1",
+    "source_canonical_facets",
+]
+
+
+def to_links_json(table: pd.DataFrame) -> list[dict]:
+    """:func:`build_links_table`'s output as one object per source
+    document, each with a ``links`` array -- meant for a consumer that
+    applies these as real links on the live documents; carries the same
+    full detail as the ``.md`` export (both candidate types, every scoring
+    ingredient), just reshaped from one flat table into one object per
+    source document.
+
+    Both candidate types are included, distinguished by ``candidate_type``
+    (``"document"`` or ``"l2"``), sorted together by ``combined_rank`` --
+    the one blended ranking both types are scored on together (see
+    :func:`combined_score`). An L2 candidate has no ``candidate_slug``/
+    ``candidate_source`` (``null``) since it isn't a single page -- its
+    ``candidate_id`` *is* the L2's own slug (also mirrored onto
+    ``candidate_l2`` so that field is never null either way), and paired
+    with ``candidate_l1`` a consumer that wants to link to the theme page
+    can build ``/themes/{candidate_l1}#{candidate_id}`` itself.
+
+    A source document with no qualifying candidate still gets an entry
+    with an empty ``links`` list, not a dropped one -- a consumer that
+    fully replaces a document's links on each run needs to see it to know
+    to clear them, not just no longer be told.
+    """
+    if table.empty:
+        return []
+
+    docs = []
+    headers = table.drop_duplicates("source_doc_id")[_DOC_JSON_COLUMNS]
+    for _, header in headers.iterrows():
+        doc_id = header["source_doc_id"]
+        doc_rows = table[
+            (table["source_doc_id"] == doc_id) & table["candidate_id"].notna()
+        ].sort_values("combined_rank")
+
+        links = [
+            {col: _json_link_value(r, col) for col in _LINK_JSON_COLUMNS}
+            for _, r in doc_rows.iterrows()
+        ]
+        doc_entry = {col: _json_safe(header[col]) for col in _DOC_JSON_COLUMNS}
+        doc_entry["links"] = links
+        docs.append(doc_entry)
+    return docs
 
 
 def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -836,7 +957,7 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--out",
         type=Path,
         default=Path(__file__).resolve().parents[3] / "output" / "l2",
-        help="output directory for the review .xlsx file",
+        help="output directory for the .json (consumer) and .md (review) files",
     )
     return parser.parse_args(argv)
 
@@ -876,15 +997,18 @@ def main(argv: list[str] | None = None) -> None:
     )
 
     args.out.mkdir(parents=True, exist_ok=True)
-    out_path = args.out / f"{args.source}_links.xlsx"
-    table.to_excel(out_path, index=False)
+
+    json_path = args.out / f"{args.source}_links.json"
+    json_path.write_text(
+        json.dumps(to_links_json(table), ensure_ascii=False, indent=2), encoding="utf-8"
+    )
 
     md_path = args.out / f"{args.source}_links.md"
     md_path.write_text(render_markdown(table, source=args.source), encoding="utf-8")
 
     n_docs = table["source_doc_id"].nunique() if not table.empty else 0
     print(f"\n✓ {len(table)} candidate links across {n_docs} {args.source} documents")
-    print(f"✓ {out_path}")
+    print(f"✓ {json_path}")
     print(f"✓ {md_path}")
 
     if n_docs:
