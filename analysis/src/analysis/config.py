@@ -79,3 +79,87 @@ class ReportingSettings(BaseSettings):
     matomo_site_id: int
     # Défaut ``anonymous`` : suffit quand le site autorise le reporting anonyme.
     matomo_token_auth: str = "anonymous"
+
+
+class ElasticsearchSettings(BaseSettings):
+    """Connection settings for the cdtn-search Elasticsearch cluster.
+
+    Read from ``ELASTICSEARCH_SEARCH_ENGINE_HOST`` / ``_USER`` / ``_PASSWORD`` —
+    the same variable names already used by the shared search stack elsewhere in
+    the monorepo. Only needed by the L2 pipeline's document-fetch stage
+    (``analysis.l2.build_docs``).
+    """
+
+    model_config = SettingsConfigDict(
+        env_file=_ENV_FILE,
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    elasticsearch_search_engine_host: str
+    elasticsearch_search_engine_user: str
+    elasticsearch_search_engine_password: str
+
+
+class AlbertSettings(BaseSettings):
+    """Connection settings for Albert (Etalab's LLM API).
+
+    Read from ``.env``: ``ALBERT_API_URL`` / ``ALBERT_API_KEY`` /
+    ``ALBERT_EMBEDDINGS_MODEL`` / ``ALBERT_LLM_MODEL``. Used by the L2 pipeline
+    for document/facet/question embeddings and for facet extraction (chat
+    completions).
+    """
+
+    model_config = SettingsConfigDict(
+        env_file=_ENV_FILE,
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    albert_api_url: str = "https://albert.api.etalab.gouv.fr"
+    albert_api_key: str
+    albert_embeddings_model: str = "openweight-embeddings"
+    albert_llm_model: str = "openai/gpt-oss-120b"
+
+
+class AnthropicSettings(BaseSettings):
+    """Connection settings for the Claude (Anthropic) API.
+
+    Read from ``.env``: ``ANTHROPIC_API_KEY`` / ``ANTHROPIC_MODEL``. Used
+    where a call site wants Claude instead of Albert for chat completions
+    (e.g. ``analysis.l2.describe_classes``).
+
+    ``anthropic_workspace_id`` is only needed for an API key that isn't
+    scoped to a single workspace (an org-level key) -- such a key is
+    otherwise rejected with a 400. Leave unset when using a workspace-scoped
+    key (create one under a specific workspace in the Console), which is the
+    normal case and needs no workspace id at all.
+    """
+
+    model_config = SettingsConfigDict(
+        env_file=_ENV_FILE,
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    anthropic_api_key: str
+    anthropic_model: str = "claude-opus-5"
+    anthropic_workspace_id: str | None = None
+
+
+class OpenAISettings(BaseSettings):
+    """Connection settings for the OpenAI API.
+
+    Read from ``.env``: ``OPENAI_API_KEY`` / ``OPENAI_EMBEDDINGS_MODEL``. Used
+    where a call site wants OpenAI instead of Albert for embeddings (e.g. an
+    alternative to ``analysis.connectors.albert.embed_texts``).
+    """
+
+    model_config = SettingsConfigDict(
+        env_file=_ENV_FILE,
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    openai_api_key: str
+    openai_embeddings_model: str = "text-embedding-3-large"
