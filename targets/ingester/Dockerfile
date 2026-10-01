@@ -1,6 +1,31 @@
 # syntax=docker/dockerfile:1.7
 ARG NODE_VERSION=24-alpine
 
+# Manifests stage: seeds the install layer with version-blanked manifests, so a
+# release bump does not invalidate it. See scripts/docker-prepare-manifests.js.
+FROM node:$NODE_VERSION AS manifests
+
+WORKDIR /manifests
+
+COPY pnpm-lock.yaml .npmrc pnpm-workspace.yaml package.json ./
+# The `pnpm-workspace.yaml` globs, copied wholesale then pruned to manifests:
+# a new workspace member arrives on its own instead of silently missing here.
+COPY shared/ ./shared/
+COPY targets/ ./targets/
+
+COPY scripts/docker-prepare-manifests.js ./
+# Anchored on both sides so nothing below depth 2 and nothing loose at depth 1
+# reaches the output; what remains sits where a workspace glob selects, and the
+# script refuses any manifest the lockfile does not declare. Modes are set
+# explicitly rather than with `u=rwX`, whose X keeps an already-executable file
+# executable — mode is part of the cache key downstream.
+RUN find ./shared ./targets -mindepth 2 -maxdepth 2 ! -name package.json -exec rm -rf {} + \
+  && find ./shared ./targets -mindepth 1 -maxdepth 1 ! -type d -exec rm -rf {} + \
+  && find ./shared ./targets -mindepth 1 -maxdepth 1 -type d -empty -delete \
+  && find . -type d -exec chmod 0755 {} + && find . -type f -exec chmod 0644 {} + \
+  && node docker-prepare-manifests.js && rm docker-prepare-manifests.js
+
+
 # Builder stage: install dependencies and build
 FROM node:$NODE_VERSION AS builder
 
@@ -15,18 +40,15 @@ ENV PATH=$PNPM_HOME:$PATH
 
 RUN corepack enable && corepack prepare pnpm@10.30.0 --activate
 
-# Copy workspace config + lockfile + package.jsons for install
-COPY pnpm-lock.yaml .npmrc pnpm-workspace.yaml package.json ./
-COPY shared/types/package.json ./shared/types/
-COPY shared/utils/package.json ./shared/utils/
-COPY shared/elasticsearch/package.json ./shared/elasticsearch/
-COPY shared/eslint-config/package.json ./shared/eslint-config/
-COPY targets/alert-cli/package.json ./targets/alert-cli/
-COPY targets/frontend/package.json ./targets/frontend/
-COPY targets/ingester/package.json ./targets/ingester/
-COPY targets/export-elasticsearch/package.json ./targets/export-elasticsearch/
+# Workspace config + lockfile + version-normalized package.jsons for install
+COPY --from=manifests /manifests/ ./
 
 ENV HUSKY=0
+
+# `.npmrc` interpolates ${NPM_TIPTAP_TOKEN}. When the variable is undefined pnpm
+# discards the WHOLE file — including the `public-hoist-pattern` lines — instead
+# of just that entry. Defining it empty keeps the rest of `.npmrc` honored.
+ENV NPM_TIPTAP_TOKEN=
 
 # Install dependencies with pnpm store cache
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
