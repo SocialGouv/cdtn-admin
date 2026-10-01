@@ -110,6 +110,18 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   par device et par page notée : visiteurs uniques par (device, score, url). Le
   NPS lui-même (promoteurs 9-10, détracteurs 0-6) n'est pas stocké, Metabase le
   recalcule. Table `nps_scores`.
+- **`taux_personnalisation_simulateurs`** — pour 6 simulateurs (rupture
+  conventionnelle, licenciement, préavis de démission, précarité, préavis de
+  licenciement, préavis de départ/mise à la retraite), classe chaque visite allée
+  au résultat en réponse **personnalisée** (`cc_select_traitée`), **non
+  personnalisée** (`cc_select_non_traitée`) ou **Code du travail** (`click_p3`).
+  Source : réplica SQL Matomo, séquence d'events reconstruite par visite. Une
+  visite n'incrémente qu'une colonne par simulateur (priorité personnalisée >
+  non personnalisée > cdt). Les visites sans réponse classée (résultat non
+  atteint ou atteint sans signal CC) vont dans `nb_non_complete`. Les taux ne
+  sont pas stockés : personnalisation = `nb_personnalisee / nb_visites_total_complete`,
+  non complétion = `nb_non_complete / (nb_visites_total_complete + nb_non_complete)`.
+  Table `taux_personnalisation_simulateurs`.
 
 ## La base Metabase (destination)
 
@@ -151,7 +163,7 @@ Quatre console scripts (déclarés dans `pyproject.toml`) agrègent la donnée e
 l'**upsert** dans la base PostgreSQL de Metabase :
 
 - **`ingest-all`** — lance **tous** les ingesters (actuellement `simulateurs`,
-  `completion_contributions` et `nps_scores`). C'est le job planifié. **Sans argument, il cible J-2**
+  `completion_contributions`, `nps_scores` et `taux-personnalisation`). C'est le job planifié. **Sans argument, il cible J-2**
   (l'avant-veille, UTC — Matomo a alors archivé et stabilisé cette journée).
   C'est le point d'extension : pour ajouter un report, exposer un `Ingester`
   dans son module de commande et l'enregistrer dans `ingest_all.INGESTERS`.
@@ -163,6 +175,9 @@ l'**upsert** dans la base PostgreSQL de Metabase :
   ou une période explicite.
 - **`ingest-nps-scores`** — lance uniquement l'ingester des scores NPS par device
   et par page, pour un jour ou une période explicite.
+- **`ingest-taux-personnalisation`** — lance uniquement l'ingester du taux de
+  personnalisation des simulateurs, pour un jour ou une période explicite (c'est
+  la commande du backfill manuel, ex. sur 1 an).
 
 ```bash
 # forme planifiée : agrège J-2 avec tous les ingesters (ce que lance le cronjob)
@@ -183,6 +198,9 @@ uv run ingest-completion-contributions 2026-06-01 --end 2026-06-30
 # uniquement les scores NPS par device et par page, jour / période explicite
 uv run ingest-nps-scores 2026-06-01
 uv run ingest-nps-scores 2026-06-01 --end 2026-06-30
+
+# uniquement le taux de personnalisation (backfill)
+uv run ingest-taux-personnalisation 2026-06-01 --end 2026-06-30
 ```
 
 Toutes ces commandes lisent deux jeux de réglages dans `.env` :
@@ -295,6 +313,7 @@ analysis/
 │       ├── ingest_all.py               # lance tous les ingesters — job planifié
 │       ├── ingest_simulateurs.py       # ingester simulateurs (modèle)
 │       ├── ingest_completion_contributions.py # ingester visites/clics CC par contribution
-│       └── ingest_nps_scores.py        # ingester scores NPS par device et par page
+│       ├── ingest_nps_scores.py        # ingester scores NPS par device et par page
+│       └── ingest_taux_personnalisation.py # ingester taux de personnalisation
 └── notebooks/                    # analyses exploratoires
 ```

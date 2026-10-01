@@ -25,6 +25,7 @@ from analysis.commands import (
     ingest_completion_contributions,
     ingest_nps_scores,
     ingest_simulateurs,
+    ingest_taux_personnalisation,
 )
 from analysis.commands._runner import Ingester, iter_days, parse_date, run_ingest
 
@@ -34,6 +35,7 @@ INGESTERS: list[Ingester] = [
     ingest_simulateurs.INGESTER,
     ingest_completion_contributions.INGESTER,
     ingest_nps_scores.INGESTER,
+    ingest_taux_personnalisation.INGESTER,
 ]
 
 # Décalage par défaut : J-2 (avant-veille).
