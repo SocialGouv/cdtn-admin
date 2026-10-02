@@ -41,6 +41,19 @@ SIMULATEURS: list[str] = [
 
 DEVICES: list[str] = list(DEVICE_SEGMENTS)
 
+# Les events ``click_p3`` (``name``) et ``cc_select_p1/p2`` (``action``) portent
+# le simulateur sous deux formes selon le front : le titre pour les indemnités de
+# départ, le code ``PublicodesSimulator`` pour les autres. On normalise vers le
+# titre.
+_TITRE_BY_CODE: dict[str, str] = {
+    "RUPTURE_CONVENTIONNELLE": "Indemnité de rupture conventionnelle",
+    "INDEMNITE_LICENCIEMENT": "Indemnité de licenciement",
+    "PREAVIS_DEMISSION": "Préavis de démission",
+    "INDEMNITE_PRECARITE": "Indemnité de précarité",
+    "PREAVIS_LICENCIEMENT": "Préavis de licenciement",
+    "PREAVIS_RETRAITE": "Préavis de départ ou de mise à la retraite",
+}
+
 _VIEW_STEP_PREFIX = "view_step_"
 # Étapes d'entrée d'une simulation (``start``, ou ``intro`` pour la retraite).
 _START_STEPS = {"start", "intro"}
@@ -210,17 +223,24 @@ def _classify_visit(visit: pd.DataFrame) -> dict[str, str]:
                 outcome = _outcome(signals.get(titre, set()))
                 if outcome and _better(outcome, outcomes.get(titre)):
                     outcomes[titre] = outcome
-        elif category in _CATEGORIES_SELECT and action in SIMULATEURS:
-            current = action
-        elif action == _ACTION_NOT_SELECTED and name in SIMULATEURS:
-            current = name
-            signals.setdefault(name, set()).add(_ACTION_NOT_SELECTED)
+        elif category in _CATEGORIES_SELECT and _to_titre(action):
+            current = _to_titre(action)
+        elif action == _ACTION_NOT_SELECTED and _to_titre(name):
+            current = _to_titre(name)
+            signals.setdefault(current, set()).add(_ACTION_NOT_SELECTED)
         elif action in (_ACTION_TREATED, _ACTION_UNTREATED) and current:
             signals.setdefault(current, set()).add(action)
 
     for titre in touched - outcomes.keys():
         outcomes[titre] = _NON_COMPLETE
     return outcomes
+
+
+def _to_titre(value: str) -> str | None:
+    """Titre du simulateur d'après un titre ou un code ``PublicodesSimulator``."""
+    if value in SIMULATEURS:
+        return value
+    return _TITRE_BY_CODE.get(value)
 
 
 def _outcome(signals: set[str]) -> str | None:
