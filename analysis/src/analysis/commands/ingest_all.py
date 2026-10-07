@@ -22,9 +22,9 @@ from datetime import UTC, datetime, timedelta
 from datetime import date as Date
 
 from analysis.commands import (
-    ingest_completion_contributions,
     ingest_nps_scores,
     ingest_simulateurs,
+    ingest_taux_contributions,
     ingest_taux_personnalisation,
 )
 from analysis.commands._runner import Ingester, iter_days, parse_date, run_ingest
@@ -33,8 +33,8 @@ from analysis.commands._runner import Ingester, iter_days, parse_date, run_inges
 # report (un import + une entrée suffisent).
 INGESTERS: list[Ingester] = [
     ingest_simulateurs.INGESTER,
-    ingest_completion_contributions.INGESTER,
     ingest_nps_scores.INGESTER,
+    ingest_taux_contributions.INGESTER,
     ingest_taux_personnalisation.INGESTER,
 ]
 

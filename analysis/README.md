@@ -101,11 +101,6 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
 
 - **`completion_simulateurs`** — taux de complétion des simulateurs (start /
   result) par device, via l'API de reporting Matomo. Table `completion_simulateurs`.
-- **`completion_contributions`** — pour chaque contribution générique du site (slugs
-  du sitemap public) et chaque device, le nombre de visites Matomo sur les
-  pages de la contribution (générique + personnalisées par convention
-  collective) et le nombre de visites ayant cliqué « afficher les informations
-  sans/avec convention collective ». Table `completion_contributions`.
 - **`nps_scores`** — scores NPS du site (events Matomo `score_0` … `score_10`)
   par device et par page notée : visiteurs uniques par (device, score, url). Le
   NPS lui-même (promoteurs 9-10, détracteurs 0-6) n'est pas stocké, Metabase le
@@ -122,6 +117,19 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   sont pas stockés : personnalisation = `nb_personnalisee / nb_visites_total_complete`,
   non complétion = `nb_non_complete / (nb_visites_total_complete + nb_non_complete)`.
   Table `taux_personnalisation_simulateurs`.
+
+- **`taux_contributions`** — taux de complétion et de personnalisation des
+  contributions de `BASE_SLUGS`, par device. Source : réplica SQL Matomo.
+  Seules les visites ayant vu la page **générique** à un moment de la visite sont
+  comptées (`nb_visites_total`). Chaque visite ayant cliqué « Afficher les
+  informations » est rangée dans **un seul** cas, par priorité : résultat de la CC
+  (`nb_visites_cc`) > CDT faute de réponse pour la CC
+  (`nb_visites_cdt_cc_non_traitee`) > CDT sans CC (`nb_visites_cdt`). Les taux ne
+  sont pas stockés, Metabase les calcule :
+  - complétion = somme des trois cas / `nb_visites_total` ;
+  - personnalisation = `nb_visites_cc` / `nb_visites_total`.
+
+  Remplace `completion_contributions` et `contrib_monthly_views` (API Matomo). Table `taux_contributions`.
 
 ## La base Metabase (destination)
 
@@ -163,16 +171,16 @@ Quatre console scripts (déclarés dans `pyproject.toml`) agrègent la donnée e
 l'**upsert** dans la base PostgreSQL de Metabase :
 
 - **`ingest-all`** — lance **tous** les ingesters (actuellement `simulateurs`,
-  `completion_contributions`, `nps_scores` et `taux-personnalisation`). C'est le job planifié. **Sans argument, il cible J-2**
+  `nps_scores`, `taux-contributions` et `taux-personnalisation`). C'est le job planifié. **Sans argument, il cible J-2**
   (l'avant-veille, UTC — Matomo a alors archivé et stabilisé cette journée).
   C'est le point d'extension : pour ajouter un report, exposer un `Ingester`
   dans son module de commande et l'enregistrer dans `ingest_all.INGESTERS`.
 - **`ingest-simulateurs`** — lance uniquement l'ingester de complétion des
   simulateurs pour un jour ou une période explicite. Pratique pour un run manuel
   ou un backfill.
-- **`ingest-completion-contributions`** — lance uniquement l'ingester des visites par
-  contribution et des clics « afficher les informations (CC) », pour un jour
-  ou une période explicite.
+- **`ingest-taux-contributions`** — lance uniquement l'ingester des taux de
+  complétion et de personnalisation des contributions, pour un jour ou une
+  période explicite.
 - **`ingest-nps-scores`** — lance uniquement l'ingester des scores NPS par device
   et par page, pour un jour ou une période explicite.
 - **`ingest-taux-personnalisation`** — lance uniquement l'ingester du taux de
@@ -191,9 +199,9 @@ uv run ingest-all 2026-06-01 --end 2026-06-30
 uv run ingest-simulateurs 2026-06-01
 uv run ingest-simulateurs 2026-06-01 --end 2026-06-30
 
-# uniquement les visites/clics CC par contribution, jour / période explicite
-uv run ingest-completion-contributions 2026-06-01
-uv run ingest-completion-contributions 2026-06-01 --end 2026-06-30
+# uniquement les taux des contributions, jour / période explicite
+uv run ingest-taux-contributions 2026-06-01
+uv run ingest-taux-contributions 2026-06-01 --end 2026-06-30
 
 # uniquement les scores NPS par device et par page, jour / période explicite
 uv run ingest-nps-scores 2026-06-01
@@ -212,7 +220,7 @@ Toutes ces commandes lisent deux jeux de réglages dans `.env` :
 
 La table cible de chaque report est créée à son premier run (ex.
 `completion_simulateurs`, clé primaire `date, device, titre` ; ou
-`completion_contributions`, clé primaire `date, device, slug`), donc réingérer un
+`taux_contributions`, clé primaire `date, device, slug`), donc réingérer un
 jour écrase ses lignes de façon idempotente — sûr à planifier quotidiennement.
 
 ### Tester le job nocturne en local (Docker Compose)
@@ -239,7 +247,7 @@ docker compose run --rm analysis ingest-all 2026-06-01 --end 2026-06-30
 
 # un seul ingester (itération rapide)
 docker compose run --rm analysis ingest-simulateurs 2026-06-01
-docker compose run --rm analysis ingest-completion-contributions 2026-06-01
+docker compose run --rm analysis ingest-taux-contributions 2026-06-01
 
 # inspecter le résultat (UI Metabase optionnelle)
 docker compose up -d metabase        # http://localhost:3030
@@ -270,16 +278,16 @@ kubectl -n "$NS" create job analysis-backfill --from=cronjob/cron-analysis \
 | jq '.spec.template.spec.containers[0].command = ["ingest-all","2026-06-01","--end","2026-06-30"]' \
 | kubectl -n "$NS" apply -f -
 
-# 3) UN SEUL ingester (ex. completion_contributions), sur J-2…
-kubectl -n "$NS" create job completion-contributions-manual --from=cronjob/cron-analysis \
+# 3) UN SEUL ingester (ex. taux_contributions), sur J-2…
+kubectl -n "$NS" create job taux-contributions-manual --from=cronjob/cron-analysis \
   --dry-run=client -o json \
-| jq '.spec.template.spec.containers[0].command = ["ingest-completion-contributions"]' \
+| jq '.spec.template.spec.containers[0].command = ["ingest-taux-contributions"]' \
 | kubectl -n "$NS" apply -f -
-#    …ou sur une période : command = ["ingest-completion-contributions","2026-06-01","--end","2026-06-30"]
+#    …ou sur une période : command = ["ingest-taux-contributions","2026-06-01","--end","2026-06-30"]
 
 # Suivre les logs puis nettoyer
-kubectl -n "$NS" logs -f job/completion-contributions-manual
-kubectl -n "$NS" delete job completion-contributions-manual
+kubectl -n "$NS" logs -f job/taux-contributions-manual
+kubectl -n "$NS" delete job taux-contributions-manual
 ```
 
 `--from=cronjob/cron-analysis` marche même quand le CronJob est **suspendu**
@@ -312,7 +320,7 @@ analysis/
 │   └── commands/                 # commandes d'ingestion (report + couche BDD)
 │       ├── ingest_all.py               # lance tous les ingesters — job planifié
 │       ├── ingest_simulateurs.py       # ingester simulateurs (modèle)
-│       ├── ingest_completion_contributions.py # ingester visites/clics CC par contribution
+│       ├── ingest_taux_contributions.py # ingester taux de complétion/personnalisation des contributions
 │       ├── ingest_nps_scores.py        # ingester scores NPS par device et par page
 │       └── ingest_taux_personnalisation.py # ingester taux de personnalisation
 └── notebooks/                    # analyses exploratoires
