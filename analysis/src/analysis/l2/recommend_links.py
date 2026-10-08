@@ -80,6 +80,7 @@ import pandas as pd
 from tqdm import tqdm
 
 from analysis.l2 import io
+from analysis.l2.tagging_payload import write_payload
 from analysis.l2.signatures import (
     build_l2_signatures,
     l2_normalize,
@@ -102,8 +103,11 @@ DEFAULT_TARGET_SOURCES: tuple[str, ...] = (
 DEFAULT_L2_POOL = 8
 DEFAULT_L2_TOP_K = 2
 DEFAULT_DOC_POOL = 12
-DEFAULT_DOC_TOP_K = 4
-DEFAULT_MIN_SIMILARITY = 0.75
+DEFAULT_DOC_TOP_K = 3
+# Tuned on human good/bad votes (tools/votes/link_tags.csv), see README
+# "Réglage de l2-recommend-links": 0.75 dropped half of the links editors
+# voted good (and left ~87% of fiches without any document link).
+DEFAULT_MIN_SIMILARITY = 0.60
 # "doc": gate/rank document candidates by whole-document embedding cosine
 # similarity (production default). "facet": gate/rank by the single highest
 # facet-to-facet cosine similarity between the two documents instead -- a
@@ -959,6 +963,13 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=Path(__file__).resolve().parents[3] / "output" / "l2",
         help="output directory for the .json (consumer) and .md (review) files",
     )
+    parser.add_argument(
+        "--no-tagging-payload",
+        dest="tagging_payload",
+        action="store_false",
+        help="skip writing tagging_payload.json (cleartext input of "
+        "tools/encrypt.mjs for the link-tagging UI) next to the links",
+    )
     return parser.parse_args(argv)
 
 
@@ -998,10 +1009,14 @@ def main(argv: list[str] | None = None) -> None:
 
     args.out.mkdir(parents=True, exist_ok=True)
 
+    links_json = to_links_json(table)
     json_path = args.out / f"{args.source}_links.json"
     json_path.write_text(
-        json.dumps(to_links_json(table), ensure_ascii=False, indent=2), encoding="utf-8"
+        json.dumps(links_json, ensure_ascii=False, indent=2), encoding="utf-8"
     )
+
+    if args.tagging_payload:
+        write_payload(links_json, l2_to_l1, docs_df, args.out / "tagging_payload.json")
 
     md_path = args.out / f"{args.source}_links.md"
     md_path.write_text(render_markdown(table, source=args.source), encoding="utf-8")

@@ -1,6 +1,6 @@
 """L2 pipeline, weight-fitting: derive training preferences from co-click
 behavior instead of hand-labeling, then validate the fit against the small
-hand-labeled set (:mod:`analysis.l2.fit_weights`'s ``weight_preferences.txt``)
+hand-labeled set (the tagging UI's ``link_tags.csv``, see :mod:`analysis.l2.fit_weights`)
 kept as a held-out check rather than folded into training.
 
 Why: ``l2-fit-weights`` only had 9 hand-labeled preferences to fit from,
@@ -27,7 +27,7 @@ Run it::
         analysis/output/l2/facets.csv \\
         analysis/output/l2/l2_l1.json \\
         analysis/output/l2/sessions.parquet \\
-        analysis/output/l2/weight_preferences.txt
+        analysis/tools/votes/link_tags.csv
 
 No credentials needed -- pure computation over already-computed embeddings/
 facets/sessions.
@@ -50,7 +50,7 @@ from analysis.l2.fit_weights import (
     FITTED_KEYS,
     build_training_pairs,
     fit_weight_deltas,
-    parse_preferences,
+    load_votes,
 )
 from analysis.l2.recommend_links import (
     DEFAULT_FACET_BASIS,
@@ -188,7 +188,7 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "hand_labeled_preferences",
         type=Path,
-        help="path to the small hand-labeled 'doc_id, candidate_id' file -- "
+        help="path to the hand-labeled link_tags.csv (good/bad votes) -- "
         "held out as a validation check, never trained on",
     )
     parser.add_argument("--source", default=DEFAULT_SOURCE)
@@ -221,8 +221,7 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--save-preferences",
         type=Path,
         default=None,
-        help="also write the derived (doc_id, candidate_id) pairs to this "
-        "path, in the same format as a hand-labeled preferences file",
+        help="also write the derived 'doc_id, candidate_id' pairs to this path",
     )
     args = parser.parse_args(argv)
     args.target_sources = (
@@ -295,9 +294,9 @@ def main(argv: list[str] | None = None) -> None:
         "co-click training set (what was fit on)", diffs, w_default, w_fitted
     )
 
-    hand_preferences = parse_preferences(args.hand_labeled_preferences)
+    hand_good, hand_bad = load_votes(args.hand_labeled_preferences)
     hand_diffs = build_training_pairs(
-        hand_preferences, docs_df, facets_df, l2_to_l1, **build_kwargs
+        hand_good, docs_df, facets_df, l2_to_l1, bad_preferences=hand_bad, **build_kwargs
     )
     _report_accuracy(
         "hand-labeled set (held out, NOT trained on)", hand_diffs, w_default, w_fitted
