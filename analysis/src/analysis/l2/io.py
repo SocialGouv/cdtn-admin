@@ -82,8 +82,8 @@ def _load_cached(path: Path) -> pd.DataFrame | None:
     if not cache_path.exists() or not meta_path.exists():
         return None
     try:
-        fingerprint_matches = (
-            json.loads(meta_path.read_text()) == _source_fingerprint(path)
+        fingerprint_matches = json.loads(meta_path.read_text()) == _source_fingerprint(
+            path
         )
     except (json.JSONDecodeError, OSError):
         return None
@@ -158,8 +158,8 @@ def load_facets(path: str | Path) -> pd.DataFrame:
 
 def save_facets_raw(facets_df: pd.DataFrame, path: str | Path) -> None:
     """Write the un-embedded facets table (doc_id, text, type, salience) to
-    ``path`` as CSV -- :mod:`analysis.l2.extract_facets`'s output, before
-    :mod:`analysis.l2.embed_facets` attaches an ``embedding`` column."""
+    ``path`` as CSV -- :mod:`analysis.l2.facets.extract`'s output, before
+    :mod:`analysis.l2.facets.embed` attaches an ``embedding`` column."""
     facets_df.to_csv(path, index=False)
 
 
