@@ -1,0 +1,55 @@
+table:
+  name: news_legi_references
+  schema: news
+configuration:
+  column_config:
+    article_id:
+      custom_name: articleId
+    news_id:
+      custom_name: newsId
+  custom_column_names:
+    article_id: articleId
+    news_id: newsId
+  custom_root_fields: {}
+object_relationships:
+  - name: news
+    using:
+      foreign_key_constraint_on: news_id
+  - name: legiArticle
+    using:
+      foreign_key_constraint_on: article_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - article_id
+        - id
+        - news_id
+        - order
+    comment: ""
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - article_id
+        - id
+        - news_id
+        - order
+      filter: {}
+    comment: ""
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - article_id
+        - news_id
+        - order
+      filter: {}
+      check: {}
+    comment: ""
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}
+    comment: ""

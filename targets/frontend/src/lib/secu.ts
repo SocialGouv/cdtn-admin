@@ -6,6 +6,7 @@ export const ALLOWED_JPG = [".jpg", ".jpeg"];
 export const ALLOWED_SVG = [".svg"];
 export const ALLOWED_PDF = [".pdf"];
 export const ALLOWED_DOC = [".doc", ".docx"];
+export const ALLOWED_WEBP = [".webp"];
 
 const ALLOWED_EXTENSIONS = [
   ...ALLOWED_PNG,
@@ -13,6 +14,7 @@ const ALLOWED_EXTENSIONS = [
   ...ALLOWED_SVG,
   ...ALLOWED_PDF,
   ...ALLOWED_DOC,
+  ...ALLOWED_WEBP,
 ];
 
 export const isAllowedFile = (file: formidable.File) => {

@@ -1,0 +1,2 @@
+CREATE TABLE "news"."news_legi_references" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "news_id" uuid NOT NULL, "article_id" text NOT NULL, "order" integer NOT NULL DEFAULT 0, PRIMARY KEY ("id"), FOREIGN KEY ("news_id") REFERENCES "news"."news"("id") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("article_id") REFERENCES "public"."legi_articles"("id") ON UPDATE restrict ON DELETE restrict, UNIQUE ("news_id", "article_id"));
+COMMENT ON TABLE "news"."news_legi_references" IS E'Références legifrance sur les actualités';

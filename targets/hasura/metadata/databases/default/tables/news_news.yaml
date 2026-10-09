@@ -7,6 +7,14 @@ configuration:
       custom_name: createdAt
     display_date:
       custom_name: displayDate
+    image_alt:
+      custom_name: imageAlt
+    image_author:
+      custom_name: imageAuthor
+    image_id:
+      custom_name: imageId
+    image_license:
+      custom_name: imageLicense
     meta_description:
       custom_name: metaDescription
     meta_title:
@@ -16,10 +24,18 @@ configuration:
   custom_column_names:
     created_at: createdAt
     display_date: displayDate
+    image_alt: imageAlt
+    image_author: imageAuthor
+    image_id: imageId
+    image_license: imageLicense
     meta_description: metaDescription
     meta_title: metaTitle
     updated_at: updatedAt
   custom_root_fields: {}
+object_relationships:
+  - name: imageFile
+    using:
+      foreign_key_constraint_on: image_id
 array_relationships:
   - name: news_cdtn_references
     using:
@@ -27,6 +43,20 @@ array_relationships:
         column: news_id
         table:
           name: news_cdtn_references
+          schema: news
+  - name: news_legi_references
+    using:
+      foreign_key_constraint_on:
+        column: news_id
+        table:
+          name: news_legi_references
+          schema: news
+  - name: news_other_references
+    using:
+      foreign_key_constraint_on:
+        column: news_id
+        table:
+          name: news_other_references
           schema: news
 insert_permissions:
   - role: super
@@ -41,6 +71,10 @@ insert_permissions:
         - created_at
         - updated_at
         - id
+        - image_id
+        - image_alt
+        - image_author
+        - image_license
     comment: ""
 select_permissions:
   - role: super
@@ -54,6 +88,10 @@ select_permissions:
         - created_at
         - updated_at
         - id
+        - image_id
+        - image_alt
+        - image_author
+        - image_license
       filter: {}
     comment: ""
 update_permissions:
@@ -68,6 +106,10 @@ update_permissions:
         - created_at
         - updated_at
         - id
+        - image_id
+        - image_alt
+        - image_author
+        - image_license
       filter: {}
       check: {}
     comment: ""
