@@ -1,20 +1,14 @@
 table:
-  name: news_cdtn_references
+  name: news_other_references
   schema: news
 configuration:
   column_config:
-    cdtn_id:
-      custom_name: cdtnId
     news_id:
       custom_name: newsId
   custom_column_names:
-    cdtn_id: cdtnId
     news_id: newsId
   custom_root_fields: {}
 object_relationships:
-  - name: document
-    using:
-      foreign_key_constraint_on: cdtn_id
   - name: news
     using:
       foreign_key_constraint_on: news_id
@@ -23,16 +17,20 @@ insert_permissions:
     permission:
       check: {}
       columns:
-        - cdtn_id
+        - id
         - news_id
+        - label
+        - url
         - order
     comment: ""
 select_permissions:
   - role: super
     permission:
       columns:
-        - cdtn_id
+        - id
         - news_id
+        - label
+        - url
         - order
       filter: {}
     comment: ""
@@ -40,8 +38,9 @@ update_permissions:
   - role: super
     permission:
       columns:
-        - cdtn_id
         - news_id
+        - label
+        - url
         - order
       filter: {}
       check: {}

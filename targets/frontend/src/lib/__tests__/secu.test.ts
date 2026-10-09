@@ -50,6 +50,15 @@ describe("secu.ts", () => {
       await expect(isUploadFileSafe(file)).resolves.toBe(true);
     });
 
+    test("should resolve true for WebP files", async () => {
+      const file: formidable.File = {
+        originalFilename: "image.webp",
+        mimetype: "image/webp",
+      } as formidable.File;
+
+      await expect(isUploadFileSafe(file)).resolves.toBe(true);
+    });
+
     test("should resolve true for SVG files without script tags", async () => {
       (fs.readFileSync as jest.Mock).mockReturnValue("<svg></svg>");
 

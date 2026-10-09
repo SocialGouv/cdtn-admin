@@ -1,7 +1,6 @@
 import { gql, useMutation } from "urql";
 import { FormDataResult } from "../Common";
-import { NewsInsertInput } from "../graphql.type";
-import { CdtnReference } from "../../../../components/forms/CdtnReferences/type";
+import { formatNewsRelations, NewsInsertInput } from "../graphql.type";
 
 const insertNewsQuery = gql`
   mutation InsertNews($news: news_news_insert_input!) {
@@ -37,9 +36,17 @@ export const useNewsInsertMutation = (): MutationFn => {
         content: data.content,
         metaDescription: data.metaDescription,
         displayDate: data.displayDate,
-        news_cdtn_references: {
-          data: formatCdtnReferences(data.cdtnReferences),
-        },
+        imageAlt: data.imageAlt,
+        imageAuthor: data.imageAuthor,
+        imageLicense: data.imageLicense,
+        ...formatNewsRelations(data),
+        ...(data.imageFile
+          ? {
+              imageFile: {
+                data: { url: data.imageFile.url, size: data.imageFile.size },
+              },
+            }
+          : {}),
       },
     });
     if (result.error) {
@@ -51,10 +58,4 @@ export const useNewsInsertMutation = (): MutationFn => {
     return result.data?.insert_news_news_one;
   };
   return resultFunction;
-};
-
-const formatCdtnReferences = (refs: CdtnReference[]) => {
-  return refs.map((ref) => ({
-    cdtnId: ref.document.cdtnId,
-  }));
 };

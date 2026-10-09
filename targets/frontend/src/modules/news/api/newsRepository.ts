@@ -1,4 +1,9 @@
-import { NewsRequest, NewsResponse, selectNewsQuery } from "./news.query";
+import {
+  mapNewsRow,
+  NewsRequest,
+  NewsResponse,
+  selectNewsQuery,
+} from "./news.query";
 import { ApiClient } from "src/lib/api";
 import { News } from "../type";
 
@@ -19,9 +24,9 @@ export class NewsRepository {
     if (error) {
       throw error;
     }
-    if (!data) {
+    if (!data?.news) {
       throw new Error(`Pas d'actualité pour l'id ${id}`);
     }
-    return data.news;
+    return mapNewsRow(data.news);
   }
 }

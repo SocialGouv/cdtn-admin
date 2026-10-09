@@ -1,29 +1,30 @@
 table:
-  name: news_cdtn_references
+  name: news_legi_references
   schema: news
 configuration:
   column_config:
-    cdtn_id:
-      custom_name: cdtnId
+    article_id:
+      custom_name: articleId
     news_id:
       custom_name: newsId
   custom_column_names:
-    cdtn_id: cdtnId
+    article_id: articleId
     news_id: newsId
   custom_root_fields: {}
 object_relationships:
-  - name: document
-    using:
-      foreign_key_constraint_on: cdtn_id
   - name: news
     using:
       foreign_key_constraint_on: news_id
+  - name: legiArticle
+    using:
+      foreign_key_constraint_on: article_id
 insert_permissions:
   - role: super
     permission:
       check: {}
       columns:
-        - cdtn_id
+        - article_id
+        - id
         - news_id
         - order
     comment: ""
@@ -31,7 +32,8 @@ select_permissions:
   - role: super
     permission:
       columns:
-        - cdtn_id
+        - article_id
+        - id
         - news_id
         - order
       filter: {}
@@ -40,7 +42,7 @@ update_permissions:
   - role: super
     permission:
       columns:
-        - cdtn_id
+        - article_id
         - news_id
         - order
       filter: {}
