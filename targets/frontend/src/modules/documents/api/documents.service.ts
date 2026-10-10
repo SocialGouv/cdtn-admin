@@ -1,5 +1,9 @@
 import { DocumentsRepository } from "./documents.repository";
-import { ConflictError, NotFoundError } from "src/lib/api/ApiErrors";
+import {
+  ConflictError,
+  InvalidQueryError,
+  NotFoundError,
+} from "src/lib/api/ApiErrors";
 import { InformationsRepository } from "src/modules/informations";
 import {
   ContributionRepository,
@@ -180,7 +184,9 @@ export class DocumentsService {
           });
         }
         const errors = getNewsPublicationErrors(news);
-        if (errors.length) throw new Error(errors.join(" "));
+        if (errors.length) {
+          throw new InvalidQueryError(errors.join(" "), null);
+        }
         document = mapNewsToDocument(news, document);
         break;
       }
