@@ -17,7 +17,9 @@ describe("checkNewsImage", () => {
     const check = checkNewsImage({ ...valid, size: 420 * KO });
 
     expect(check.errors).toEqual([]);
-    expect(check.warning).toContain("420 Ko");
+    expect(check.warning).toBe(
+      "Fichier de 420 Ko : pensez à compresser l'image."
+    );
   });
 
   it("refuse un format non accepté", () => {

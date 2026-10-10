@@ -46,6 +46,9 @@ export const mapNewsToDocument = (
               sizeOctet: parseInt(data.imageFile.size ?? "0"),
               alt: data.imageAlt ?? "",
               license: data.imageLicense ?? "free",
+              ...(data.imageWidth && data.imageHeight
+                ? { width: data.imageWidth, height: data.imageHeight }
+                : {}),
               ...(data.imageAuthor ? { author: data.imageAuthor } : {}),
             },
           }

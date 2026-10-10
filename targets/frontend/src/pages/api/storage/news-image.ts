@@ -15,6 +15,7 @@ import {
   buildNewsImageBaseName,
   findAvailableNewsImageKey,
 } from "src/modules/news/api/newsImageKey";
+import { checkUploadedNewsImage } from "src/modules/news/api/readServerImage";
 
 const FORMAT_ERROR =
   "Format non accepté. Formats attendus : WebP, JPEG ou PNG.";
@@ -66,14 +67,23 @@ function uploadNewsImage(req: NextApiRequest, res: NextApiResponse) {
         .status(400)
         .json({ success: false, errorMessage: FORMAT_ERROR });
     }
+    const buffer = fs.readFileSync(getUploadedFilePath(file));
+    const check = await checkUploadedNewsImage(buffer, file.mimetype ?? "");
+    if (check.errors.length) {
+      return res
+        .status(400)
+        .json({ success: false, errorMessage: check.errors.join(" ") });
+    }
     try {
       const key = await findAvailableNewsImageKey(
         buildNewsImageBaseName(title),
         extension,
         apiFileExists
       );
-      await uploadApiFiles(key, fs.readFileSync(getUploadedFilePath(file)));
-      res.status(200).json({ success: true, key });
+      await uploadApiFiles(key, buffer);
+      res
+        .status(200)
+        .json({ success: true, key, width: check.width, height: check.height });
     } catch (error) {
       console.error("An error occurred while uploading the news image", error);
       res.status(500).json({

@@ -15,6 +15,10 @@ configuration:
       custom_name: imageId
     image_license:
       custom_name: imageLicense
+    image_width:
+      custom_name: imageWidth
+    image_height:
+      custom_name: imageHeight
     meta_description:
       custom_name: metaDescription
     meta_title:
@@ -28,6 +32,8 @@ configuration:
     image_author: imageAuthor
     image_id: imageId
     image_license: imageLicense
+    image_width: imageWidth
+    image_height: imageHeight
     meta_description: metaDescription
     meta_title: metaTitle
     updated_at: updatedAt
@@ -75,6 +81,8 @@ insert_permissions:
         - image_alt
         - image_author
         - image_license
+        - image_width
+        - image_height
     comment: ""
 select_permissions:
   - role: super
@@ -92,6 +100,8 @@ select_permissions:
         - image_alt
         - image_author
         - image_license
+        - image_width
+        - image_height
       filter: {}
     comment: ""
 update_permissions:
@@ -110,6 +120,8 @@ update_permissions:
         - image_alt
         - image_author
         - image_license
+        - image_width
+        - image_height
       filter: {}
       check: {}
     comment: ""

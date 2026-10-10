@@ -39,6 +39,8 @@ export const useNewsInsertMutation = (): MutationFn => {
         imageAlt: data.imageAlt,
         imageAuthor: data.imageAuthor,
         imageLicense: data.imageLicense,
+        imageWidth: data.imageWidth,
+        imageHeight: data.imageHeight,
         ...formatNewsRelations(data),
         ...(data.imageFile
           ? {

@@ -69,6 +69,8 @@ export type NewsInsertInput = {
   imageAlt?: string | null;
   imageAuthor?: string | null;
   imageLicense?: string | null;
+  imageWidth?: number | null;
+  imageHeight?: number | null;
   imageFile?: FilesObjRelInsertInput;
   news_cdtn_references?: NewsCdtnReferencesArrRelInsertInput;
   news_legi_references?: NewsLegiReferencesArrRelInsertInput;

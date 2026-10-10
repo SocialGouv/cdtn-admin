@@ -12,6 +12,8 @@ const base = {
   imageAlt: null,
   imageAuthor: null,
   imageLicense: null,
+  imageWidth: null,
+  imageHeight: null,
   newImage: [],
 };
 

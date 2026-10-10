@@ -59,7 +59,7 @@ export const checkNewsImage = ({
       errors,
       warning: `Fichier de ${Math.round(
         size / 1024
-      )} Ko : pensez à compresser l'image ou à utiliser le format WebP.`,
+      )} Ko : pensez à compresser l'image.`,
     };
   }
   return { errors };
@@ -68,7 +68,12 @@ export const checkNewsImage = ({
 export const readImageDimensions = async (
   file: Blob
 ): Promise<{ width: number; height: number }> => {
-  const bitmap = await createImageBitmap(file);
+  let bitmap: ImageBitmap;
+  try {
+    bitmap = await createImageBitmap(file);
+  } catch {
+    throw new Error("Image illisible : le fichier n'a pas pu être décodé.");
+  }
   const dimensions = { width: bitmap.width, height: bitmap.height };
   bitmap.close();
   return dimensions;

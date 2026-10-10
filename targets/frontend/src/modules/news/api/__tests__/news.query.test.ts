@@ -26,6 +26,8 @@ const row: NewsRow = {
   imageAlt: null,
   imageAuthor: null,
   imageLicense: null,
+  imageWidth: null,
+  imageHeight: null,
   legiReferences: [],
   cdtnReferences: [
     { order: 2, document: documentC },

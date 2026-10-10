@@ -16,6 +16,8 @@ export const selectNewsQuery = gql`
       imageAlt
       imageAuthor
       imageLicense
+      imageWidth
+      imageHeight
       imageFile {
         id
         url
