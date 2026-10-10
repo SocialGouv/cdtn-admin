@@ -1,9 +1,5 @@
 import formidable, { IncomingForm } from "formidable";
-import {
-  getUploadedFilePath,
-  isUploadFileSafe,
-  UPLOAD_DIR,
-} from "src/lib/secu";
+import { isUploadFileSafe } from "src/lib/secu";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getApiAllFiles, uploadApiFiles } from "src/lib/upload";
 import fs from "fs";
@@ -23,7 +19,7 @@ async function endPoint(req: NextApiRequest, res: NextApiResponse) {
 }
 
 function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
-  const form = new IncomingForm({ multiples: true, uploadDir: UPLOAD_DIR });
+  const form = new IncomingForm({ multiples: true });
 
   form.parse(req, async (err, _fields, files) => {
     if (err) {
@@ -40,7 +36,7 @@ function uploadFiles(req: NextApiRequest, res: NextApiResponse) {
           .status(400)
           .json({ success: false, errorMessage: "Malicious code detected" });
       }
-      const fileContent = fs.readFileSync(getUploadedFilePath(file));
+      const fileContent = fs.readFileSync(file.filepath);
       await uploadApiFiles(`${file.originalFilename}`, fileContent);
     }
     res.status(200).json({ success: true });
