@@ -1,5 +1,9 @@
 import formidable, { IncomingForm } from "formidable";
-import { isUploadFileSafe } from "src/lib/secu";
+import {
+  getUploadedFilePath,
+  isUploadFileSafe,
+  UPLOAD_DIR,
+} from "src/lib/secu";
 import { NextApiRequest, NextApiResponse } from "next";
 import { apiFileExists, uploadApiFiles } from "src/lib/upload";
 import fs from "fs";
@@ -28,6 +32,7 @@ function uploadNewsImage(req: NextApiRequest, res: NextApiResponse) {
   const form = new IncomingForm({
     multiples: false,
     maxFileSize: NEWS_IMAGE_MAX_BYTES,
+    uploadDir: UPLOAD_DIR,
   });
   form.parse(req, async (err, fields, files) => {
     if (err) {
@@ -67,7 +72,7 @@ function uploadNewsImage(req: NextApiRequest, res: NextApiResponse) {
         extension,
         apiFileExists
       );
-      await uploadApiFiles(key, fs.readFileSync(file.filepath));
+      await uploadApiFiles(key, fs.readFileSync(getUploadedFilePath(file)));
       res.status(200).json({ success: true, key });
     } catch (error) {
       console.error("An error occurred while uploading the news image", error);
