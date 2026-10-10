@@ -88,4 +88,19 @@ describe("mapNewsToDocument", () => {
 
     expect("image" in document).toBe(false);
   });
+
+  it("exporte la date de dernière modification de l'actualité", () => {
+    const { document } = mapNewsToDocument({
+      ...news,
+      updatedAt: "2026-10-10T13:07:55.843403+00:00",
+    });
+
+    expect(document.updatedAt).toBe("2026-10-10T13:07:55.843403+00:00");
+  });
+
+  it("n'exporte pas de date de modification vide", () => {
+    const { document } = mapNewsToDocument({ ...news, updatedAt: "" });
+
+    expect("updatedAt" in document).toBe(false);
+  });
 });

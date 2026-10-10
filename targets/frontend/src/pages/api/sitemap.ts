@@ -37,9 +37,16 @@ export async function toUrlEntries(
   let latestPostDate = new Date("2020-01-01");
 
   const pages = documents.flat().map((doc) => {
-    const date = doc.document?.date
+    const displayed = doc.document?.date
       ? transformStringDate(doc.document.date)
       : new Date(doc.updated_at);
+    const modified = doc.document?.updatedAt
+      ? new Date(doc.document.updatedAt)
+      : undefined;
+    const date =
+      modified && !isNaN(modified.getTime()) && modified > displayed
+        ? modified
+        : displayed;
     if (date.getTime() > latestPostDate.getTime()) {
       latestPostDate = date;
     }

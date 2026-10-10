@@ -6,6 +6,7 @@ export type NewsTemplate = HasuraDocument<NewsTemplateDoc, typeof SOURCES.NEWS>;
 export type NewsTemplateDoc = {
   meta_title: string;
   date: string;
+  updatedAt?: string; // ISO 8601, dernière modification dans l'admin
   author: string;
   content: string;
   meta_description: string;
