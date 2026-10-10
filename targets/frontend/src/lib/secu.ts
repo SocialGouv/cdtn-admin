@@ -1,5 +1,7 @@
 import formidable from "formidable";
 import fs from "fs";
+import os from "os";
+import path from "path";
 
 export const ALLOWED_PNG = [".png"];
 export const ALLOWED_JPG = [".jpg", ".jpeg"];
@@ -26,11 +28,23 @@ export const isAllowedFile = (file: formidable.File) => {
   return ALLOWED_EXTENSIONS.includes("." + extension);
 };
 
+export const UPLOAD_DIR = path.resolve(os.tmpdir());
+
+// formidable écrit les fichiers reçus dans UPLOAD_DIR : on refuse tout chemin
+// qui en sortirait avant de lire le fichier.
+export const getUploadedFilePath = (file: formidable.File): string => {
+  const filepath = path.resolve(UPLOAD_DIR, path.basename(file.filepath));
+  if (!filepath.startsWith(UPLOAD_DIR + path.sep)) {
+    throw new Error("Invalid upload path");
+  }
+  return filepath;
+};
+
 export const isUploadFileSafe = (file: formidable.File): Promise<boolean> => {
   return new Promise((resolve) => {
-    if (!isAllowedFile(file)) resolve(false);
-    if (file.mimetype !== "image/svg+xml") resolve(true);
-    const fileContent = fs.readFileSync(file.filepath, "utf-8");
+    if (!isAllowedFile(file)) return resolve(false);
+    if (file.mimetype !== "image/svg+xml") return resolve(true);
+    const fileContent = fs.readFileSync(getUploadedFilePath(file), "utf-8");
     const isSafe = fileContent.includes("<script>");
     resolve(!isSafe);
   });

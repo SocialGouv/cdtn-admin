@@ -1,4 +1,9 @@
-import { isUploadFileSafe, isAllowedFile } from "../secu";
+import {
+  getUploadedFilePath,
+  isUploadFileSafe,
+  isAllowedFile,
+  UPLOAD_DIR,
+} from "../secu";
 import * as formidable from "formidable";
 import fs from "fs";
 
@@ -28,6 +33,22 @@ describe("secu.ts", () => {
       } as any;
 
       expect(isAllowedFile(file)).toBe(false);
+    });
+  });
+
+  describe("getUploadedFilePath", () => {
+    test("keeps the file inside the upload directory", () => {
+      const file = {
+        filepath: "/somewhere/../else/abc123",
+      } as formidable.File;
+
+      expect(getUploadedFilePath(file)).toBe(`${UPLOAD_DIR}/abc123`);
+    });
+
+    test("rejects a path that does not point to a file", () => {
+      const file = { filepath: "/" } as formidable.File;
+
+      expect(() => getUploadedFilePath(file)).toThrow("Invalid upload path");
     });
   });
 
@@ -65,6 +86,7 @@ describe("secu.ts", () => {
       const file: formidable.File = {
         originalFilename: "test.svg",
         mimetype: "image/svg+xml",
+        filepath: "/tmp/upload-svg",
       } as formidable.File;
 
       await expect(isUploadFileSafe(file)).resolves.toBe(true);
@@ -78,6 +100,7 @@ describe("secu.ts", () => {
       const file: formidable.File = {
         originalFilename: "test.svg",
         mimetype: "image/svg+xml",
+        filepath: "/tmp/upload-svg",
       } as formidable.File;
 
       await expect(isUploadFileSafe(file)).resolves.toBe(false);
