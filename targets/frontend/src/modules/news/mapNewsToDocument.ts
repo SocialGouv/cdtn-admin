@@ -23,6 +23,7 @@ export const mapNewsToDocument = (
     document: {
       meta_title: data.metaTitle,
       date: format(parseISO(data.displayDate), "dd/MM/yyyy"),
+      ...(data.updatedAt ? { updatedAt: data.updatedAt } : {}),
       author: "Ministère du Travail",
       content: data.content,
       meta_description: data.metaDescription,
