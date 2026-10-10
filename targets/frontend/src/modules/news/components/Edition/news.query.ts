@@ -1,34 +1,12 @@
 import { News } from "../../type";
-import { CombinedError, gql, OperationContext, useQuery } from "urql";
-
-export const selectNewsQuery = gql`
-  query SelectNews($id: uuid!) {
-    news: news_news_by_pk(id: $id) {
-      id
-      title
-      metaTitle
-      content
-      metaDescription
-      createdAt
-      updatedAt
-      displayDate
-      cdtnReferences: news_cdtn_references {
-        document {
-          cdtnId: cdtn_id
-          title
-          source
-          slug
-        }
-      }
-    }
-  }
-`;
+import { CombinedError, OperationContext, useQuery } from "urql";
+import {
+  mapNewsRow,
+  NewsResponse,
+  selectNewsQuery,
+} from "../../api/news.query";
 
 export type NewsResult = News;
-
-export type QueryResult = {
-  news: NewsResult;
-};
 
 export type NewsQueryProps = {
   id: string;
@@ -42,7 +20,7 @@ export type NewsQueryResult = {
 };
 
 export const useSelectNewsQuery = ({ id }: NewsQueryProps): NewsQueryResult => {
-  const [{ data, error, fetching }, reexecuteQuery] = useQuery<QueryResult>({
+  const [{ data, error, fetching }, reexecuteQuery] = useQuery<NewsResponse>({
     query: selectNewsQuery,
     requestPolicy: "cache-and-network",
     variables: {
@@ -50,7 +28,7 @@ export const useSelectNewsQuery = ({ id }: NewsQueryProps): NewsQueryResult => {
     },
   });
   return {
-    data: data?.news,
+    data: data?.news ? mapNewsRow(data.news) : undefined,
     error,
     fetching,
     reexecuteQuery,

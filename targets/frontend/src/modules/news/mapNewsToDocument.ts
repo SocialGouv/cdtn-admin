@@ -23,12 +23,37 @@ export const mapNewsToDocument = (
     document: {
       meta_title: data.metaTitle,
       date: format(parseISO(data.displayDate), "dd/MM/yyyy"),
+      ...(data.updatedAt ? { updatedAt: data.updatedAt } : {}),
       author: "Ministère du Travail",
       content: data.content,
       meta_description: data.metaDescription,
-      cdtnReferences: data.cdtnReferences.map((ref) => ({
-        cdtnId: ref.document.cdtnId,
+      cdtnReferences: data.links.flatMap((link) =>
+        link.type === "cdtn" ? [{ cdtnId: link.document.cdtnId }] : []
+      ),
+      links: data.links.map((link) =>
+        link.type === "cdtn"
+          ? { type: "cdtn", cdtnId: link.document.cdtnId }
+          : { type: "external", title: link.label, url: link.url }
+      ),
+      references: data.legiReferences.map(({ legiArticle }) => ({
+        type: "legi",
+        title: `Article ${legiArticle.label} du code du travail`,
+        url: `https://www.legifrance.gouv.fr/codes/article_lc/${legiArticle.cid}`,
       })),
+      ...(data.imageFile
+        ? {
+            image: {
+              filename: data.imageFile.url,
+              sizeOctet: parseInt(data.imageFile.size ?? "0"),
+              alt: data.imageAlt ?? "",
+              license: data.imageLicense ?? "free",
+              ...(data.imageWidth && data.imageHeight
+                ? { width: data.imageWidth, height: data.imageHeight }
+                : {}),
+              ...(data.imageAuthor ? { author: data.imageAuthor } : {}),
+            },
+          }
+        : {}),
     },
   };
 };

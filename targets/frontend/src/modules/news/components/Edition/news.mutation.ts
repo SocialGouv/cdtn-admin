@@ -1,11 +1,21 @@
 import { gql, useMutation } from "urql";
 import { FormDataResult } from "../Common";
-import { CdtnReference } from "../../../../components/forms/CdtnReferences/type";
-import { NewsInsertInput } from "../graphql.type";
+import {
+  FilesConstraint,
+  FilesUpdateColumn,
+  formatNewsRelations,
+  NewsInsertInput,
+} from "../graphql.type";
 
 const updateNewsQuery = gql`
   mutation UpdateNews($id: uuid = "", $news: news_news_insert_input!) {
     delete_news_news_cdtn_references(where: { newsId: { _eq: $id } }) {
+      affected_rows
+    }
+    delete_news_news_legi_references(where: { newsId: { _eq: $id } }) {
+      affected_rows
+    }
+    delete_news_news_other_references(where: { newsId: { _eq: $id } }) {
       affected_rows
     }
     insert_news_news_one(
@@ -18,6 +28,12 @@ const updateNewsQuery = gql`
           content
           metaDescription
           displayDate
+          imageId
+          imageAlt
+          imageAuthor
+          imageLicense
+          imageWidth
+          imageHeight
         ]
       }
     ) {
@@ -57,10 +73,31 @@ export const useNewsUpdateMutation = (): MutationFn => {
         metaTitle: data.metaTitle,
         content: data.content,
         metaDescription: data.metaDescription,
-        news_cdtn_references: {
-          data: formatCdtnReferences(data.cdtnReferences),
-        },
         displayDate: data.displayDate,
+        imageAlt: data.imageAlt,
+        imageAuthor: data.imageAuthor,
+        imageLicense: data.imageLicense,
+        imageWidth: data.imageWidth,
+        imageHeight: data.imageHeight,
+        ...formatNewsRelations(data),
+        ...(data.imageFile
+          ? {
+              imageFile: {
+                data: {
+                  id: data.imageFile.id,
+                  url: data.imageFile.url,
+                  size: data.imageFile.size,
+                },
+                on_conflict: {
+                  constraint: FilesConstraint.FilesPkey,
+                  update_columns: [
+                    FilesUpdateColumn.Url,
+                    FilesUpdateColumn.Size,
+                  ],
+                },
+              },
+            }
+          : { imageId: null }),
       },
     });
     if (result.error) {
@@ -72,10 +109,4 @@ export const useNewsUpdateMutation = (): MutationFn => {
     return result.data?.insert_news_news_one;
   };
   return resultFunction;
-};
-
-const formatCdtnReferences = (refs: CdtnReference[]) => {
-  return refs.map((ref) => ({
-    cdtnId: ref.document.cdtnId,
-  }));
 };

@@ -1,20 +1,23 @@
 import { AlertColor, Button, FormControl, Stack } from "@mui/material";
 import {
-  FormCdtnReferences,
   FormDatePicker,
   FormEditionField,
   FormTextField,
 } from "src/components/forms";
 
 import { useForm } from "react-hook-form";
-import { News, newsSchema } from "../../type";
+import { News } from "../../type";
 import React, { useState } from "react";
 import { SnackBar } from "src/components/utils/SnackBar";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { request } from "src/lib/request";
 import { LoadingButton } from "../../../../components/button/LoadingButton";
+import { buildNewsFormSchema, NewsFormData } from "./formSchema";
+import { NewsImageField } from "./NewsImageField";
+import { NewsLinks } from "./NewsLinks";
+import { NewsLegiReferences } from "./NewsLegiReferences";
 
-type FormData = Partial<z.infer<typeof newsSchemaInsert>>;
+type FormData = Partial<NewsFormData>;
 
 export type FormDataResult = Required<Omit<News, "createdAt" | "updatedAt">>;
 
@@ -29,32 +32,34 @@ const defaultValues: FormData = {
   metaTitle: "",
   content: "",
   metaDescription: "",
-  cdtnReferences: [],
+  links: [],
+  legiReferences: [],
+  imageFile: null,
+  imageAlt: "",
+  imageAuthor: "",
+  imageLicense: null,
+  imageWidth: null,
+  imageHeight: null,
+  newImage: [],
 };
-
-export const newsSchemaInsert = newsSchema.omit({
-  updatedAt: true,
-  createdAt: true,
-});
-
-export const newsSchemaUpdate = newsSchema.omit({
-  updatedAt: true,
-  createdAt: true,
-});
 
 export const NewsForm = ({
   news,
   onUpsert,
   onPublish,
 }: Props): React.ReactElement => {
-  const { control, handleSubmit } = useForm<FormData>({
-    defaultValues: {
-      ...defaultValues,
-      ...news,
-    },
-    resolver: zodResolver(news ? newsSchemaUpdate : newsSchemaInsert),
-    shouldFocusError: true,
-  });
+  const requireImage = !news || !!news.imageFile;
+  const { control, handleSubmit, setValue, trigger, getValues } =
+    useForm<FormData>({
+      defaultValues: {
+        ...defaultValues,
+        ...news,
+        imageAlt: news?.imageAlt ?? "",
+        imageAuthor: news?.imageAuthor ?? "",
+      },
+      resolver: zodResolver(buildNewsFormSchema(requireImage)),
+      shouldFocusError: true,
+    });
 
   const [snack, setSnack] = useState<{
     open: boolean;
@@ -66,6 +71,31 @@ export const NewsForm = ({
 
   const onSubmit = async (newData: FormData) => {
     try {
+      // L'id vient de l'actualité rechargée après chaque sauvegarde, pas du
+      // formulaire : la ligne public.files est ainsi toujours mise à jour sur place.
+      const savedImageId = news?.imageFile?.id ?? undefined;
+      let imageFile = newData.imageFile
+        ? { ...newData.imageFile, id: savedImageId }
+        : null;
+      let imageWidth = imageFile ? (newData.imageWidth ?? null) : null;
+      let imageHeight = imageFile ? (newData.imageHeight ?? null) : null;
+      const file = newData.newImage?.[0];
+      if (file) {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("title", newData.title!);
+        const { key, width, height } = await request(
+          "/api/storage/news-image",
+          { body: fd }
+        );
+        imageFile = {
+          id: savedImageId,
+          url: key,
+          size: `${file.size}`,
+        };
+        imageWidth = width;
+        imageHeight = height;
+      }
       await onUpsert({
         id: newData.id!,
         title: newData.title!,
@@ -73,8 +103,19 @@ export const NewsForm = ({
         content: newData.content!,
         metaDescription: newData.metaDescription!,
         displayDate: newData.displayDate!,
-        cdtnReferences: newData.cdtnReferences!,
+        links: newData.links!,
+        legiReferences: newData.legiReferences!,
+        imageFile,
+        imageAlt: newData.imageAlt || null,
+        imageAuthor: newData.imageAuthor || null,
+        imageLicense: newData.imageLicense ?? null,
+        imageWidth,
+        imageHeight,
       });
+      setValue("imageFile", imageFile);
+      setValue("imageWidth", imageWidth);
+      setValue("imageHeight", imageHeight);
+      setValue("newImage", []);
       setSnack({
         open: true,
         severity: "success",
@@ -84,10 +125,13 @@ export const NewsForm = ({
       });
     } catch (error) {
       console.error("Echec à la sauvegarde", error);
+      const uploadError = error as { data?: { errorMessage?: string } };
       setSnack({
         open: true,
         severity: "error",
-        message: "Une erreur est survenue lors de la sauvegarde de l'actualité",
+        message:
+          uploadError?.data?.errorMessage ??
+          "Une erreur est survenue lors de la sauvegarde de l'actualité",
       });
     }
   };
@@ -131,9 +175,14 @@ export const NewsForm = ({
             fullWidth
           />
         </FormControl>
-        <FormControl>
-          <FormCdtnReferences name="cdtnReferences" control={control} />
-        </FormControl>
+        <NewsImageField
+          control={control}
+          setValue={setValue}
+          savedFile={news?.imageFile ?? null}
+          canRemove={!requireImage}
+        />
+        <NewsLinks control={control} />
+        <NewsLegiReferences control={control} />
         <Stack direction="row" spacing={2} justifyContent="end">
           <Button variant="contained" color="primary" type="submit">
             {news ? "Sauvegarder" : "Créer"}
@@ -142,6 +191,24 @@ export const NewsForm = ({
             <LoadingButton
               loading={isPublishing}
               onClick={async () => {
+                const valid = await trigger();
+                if (!valid) {
+                  setSnack({
+                    open: true,
+                    severity: "error",
+                    message:
+                      "Corrigez les erreurs du formulaire avant de publier.",
+                  });
+                  return;
+                }
+                if (getValues("newImage")?.length) {
+                  setSnack({
+                    open: true,
+                    severity: "error",
+                    message: "Sauvegardez l'actualité avant de la publier.",
+                  });
+                  return;
+                }
                 setIsPublishing(true);
 
                 try {

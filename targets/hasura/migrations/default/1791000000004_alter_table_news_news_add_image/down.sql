@@ -1,0 +1,1 @@
+ALTER TABLE "news"."news" DROP CONSTRAINT "news_image_license_check", DROP CONSTRAINT "news_image_id_fkey", DROP COLUMN "image_license", DROP COLUMN "image_author", DROP COLUMN "image_alt", DROP COLUMN "image_id";
