@@ -39,6 +39,8 @@ const news: News = {
   imageAlt: "Une salariée à son bureau",
   imageAuthor: null,
   imageLicense: "free",
+  imageWidth: null,
+  imageHeight: null,
 };
 
 describe("mapNewsToDocument", () => {
@@ -60,6 +62,25 @@ describe("mapNewsToDocument", () => {
       alt: "Une salariée à son bureau",
       license: "free",
     });
+  });
+
+  it("exporte la largeur et la hauteur de l'image quand elles sont connues", () => {
+    const { document } = mapNewsToDocument({
+      ...news,
+      imageWidth: 1600,
+      imageHeight: 900,
+    });
+
+    expect(document.image?.width).toBe(1600);
+    expect(document.image?.height).toBe(900);
+  });
+
+  it("n'ajoute ni largeur ni hauteur sans dimensions", () => {
+    const { document } = mapNewsToDocument(news);
+
+    expect(document.image).toBeDefined();
+    expect("width" in document.image!).toBe(false);
+    expect("height" in document.image!).toBe(false);
   });
 
   it("n'ajoute pas d'image quand l'actualité n'en a pas", () => {

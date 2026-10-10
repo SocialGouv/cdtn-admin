@@ -6,7 +6,6 @@ import {
   useWatch,
 } from "react-hook-form";
 import Dropzone from "react-dropzone";
-import Image from "next/image";
 import {
   Box,
   Button,
@@ -16,9 +15,11 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { fr } from "@codegouvfr/react-dsfr";
 import { TitleBox } from "src/components/forms/TitleBox";
 import { FormRadioGroup, FormTextField } from "src/components/forms";
 import { buildFilePathUrl } from "src/components/utils";
+import { Delete } from "src/components/utils/dsfrIcons";
 import {
   checkNewsImage,
   NEWS_IMAGE_ACCEPT,
@@ -27,16 +28,19 @@ import {
 } from "../../image";
 import { NewsImageFile } from "../../type";
 
-const FORMAT_ERROR =
-  "Format non accepté. Formats attendus : WebP, JPEG ou PNG.";
-
 type Props = {
   control: Control<any>;
   setValue: UseFormSetValue<any>;
   savedFile: NewsImageFile | null;
+  canRemove: boolean;
 };
 
-export const NewsImageField = ({ control, setValue, savedFile }: Props) => {
+export const NewsImageField = ({
+  control,
+  setValue,
+  savedFile,
+  canRemove,
+}: Props) => {
   const [rejection, setRejection] = useState<string>();
   const [warning, setWarning] = useState<string>();
   const alt: string | null | undefined = useWatch({
@@ -46,7 +50,16 @@ export const NewsImageField = ({ control, setValue, savedFile }: Props) => {
 
   const onDrop = async ([file]: File[]) => {
     if (!file) return;
-    const { width, height } = await readImageDimensions(file);
+    let dimensions: { width: number; height: number };
+    try {
+      dimensions = await readImageDimensions(file);
+    } catch (e) {
+      setRejection(e instanceof Error ? e.message : String(e));
+      setValue("newImage", []);
+      setWarning(undefined);
+      return;
+    }
+    const { width, height } = dimensions;
     const check = checkNewsImage({
       type: file.type,
       size: file.size,
@@ -80,45 +93,53 @@ export const NewsImageField = ({ control, setValue, savedFile }: Props) => {
                     multiple={false}
                     noClick
                     onDrop={(acceptedFiles) => onDrop(acceptedFiles)}
-                    onDropRejected={() => setRejection(FORMAT_ERROR)}
+                    onDropRejected={(rejections) =>
+                      setRejection(
+                        `Format non accepté (${
+                          rejections[0]?.file.type || "inconnu"
+                        }). Formats attendus : WebP, JPEG ou PNG.`
+                      )
+                    }
                   >
                     {({ getRootProps, getInputProps, open, isDragActive }) => (
-                      <TitleBox
-                        title="Fichier"
-                        focus={isDragActive}
-                        isError={!!error || !!rejection}
+                      <Box
+                        {...getRootProps()}
+                        onClick={open}
+                        p={2}
+                        textAlign="center"
+                        sx={{
+                          cursor: "pointer",
+                          border: `1px dashed ${
+                            error || rejection
+                              ? fr.colors.decisions.border.plain.error.default
+                              : isDragActive
+                                ? fr.colors.decisions.border.active.blueFrance
+                                    .default
+                                : fr.colors.decisions.border.default.grey
+                                    .default
+                          }`,
+                        }}
                       >
-                        <Box
-                          {...getRootProps()}
-                          onClick={open}
-                          textAlign="center"
-                        >
-                          <input
-                            {...getInputProps({ id: "newsImageUpload" })}
+                        <input {...getInputProps({ id: "newsImageUpload" })} />
+                        <Typography>
+                          Sélectionnez un fichier ou glissez-le dans cette zone
+                        </Typography>
+                        {(newImage[0] || savedFile) && (
+                          <Chip
+                            sx={{ margin: "1em" }}
+                            color="success"
+                            variant="outlined"
+                            label={
+                              newImage[0]?.name ??
+                              savedFile?.url.split("/").pop()
+                            }
                           />
-                          <Typography>
-                            Sélectionnez un fichier ou glissez-le dans cette
-                            zone
-                          </Typography>
-                          {newImage[0] || savedFile ? (
-                            <Chip
-                              sx={{ margin: "1em" }}
-                              color="success"
-                              label={newImage[0]?.name ?? savedFile?.url}
-                            />
-                          ) : (
-                            <Chip
-                              sx={{ margin: "1em" }}
-                              color="warning"
-                              label="Aucun fichier sélectionné"
-                            />
-                          )}
-                          <NewsImagePreview
-                            file={newImage[0]}
-                            defaultValue={savedFile?.url}
-                          />
-                        </Box>
-                      </TitleBox>
+                        )}
+                        <NewsImagePreview
+                          file={newImage[0]}
+                          defaultValue={savedFile?.url}
+                        />
+                      </Box>
                     )}
                   </Dropzone>
                   <FormHelperText>
@@ -132,20 +153,35 @@ export const NewsImageField = ({ control, setValue, savedFile }: Props) => {
                     <FormHelperText error>{error.message}</FormHelperText>
                   )}
                   {warning && (
-                    <Typography variant="body2" color="warning.main">
+                    <FormHelperText
+                      sx={{
+                        color: fr.colors.decisions.text.default.warning.default,
+                      }}
+                    >
                       {warning}
-                    </Typography>
+                    </FormHelperText>
                   )}
-                  {newImage.length > 0 && (
+                  {(newImage.length > 0 || savedFile) && (
                     <Box mt={1}>
                       <Button
                         variant="outlined"
+                        startIcon={<Delete />}
+                        disabled={!canRemove && !newImage.length}
+                        title={
+                          !canRemove && !newImage.length
+                            ? "L'image est obligatoire : remplacez-la en déposant un nouveau fichier."
+                            : undefined
+                        }
                         onClick={() => {
+                          const hadNewImage = newImage.length > 0;
                           setValue("newImage", []);
+                          if (!hadNewImage) {
+                            setValue("imageFile", null, { shouldDirty: true });
+                          }
                           setWarning(undefined);
                         }}
                       >
-                        Retirer le fichier sélectionné
+                        Supprimer l&apos;image
                       </Button>
                     </Box>
                   )}
@@ -221,22 +257,34 @@ const NewsImagePreview: React.FC<{ file?: File; defaultValue?: string }> = ({
       return () => {
         URL.revokeObjectURL(url);
       };
+    } else {
+      setSrc(undefined);
     }
   }, [file, defaultValue]);
 
-  if (!src) return null;
-
   return (
-    <Box mt={1} display="flex" justifyContent="center">
-      <Image
-        width={0}
-        height={0}
-        src={src}
-        alt="Aperçu de l'image de l'actualité"
-        sizes="100vw"
-        unoptimized
-        style={{ width: "100%", height: "auto" }}
-      />
+    <Box
+      mt={1}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      sx={{
+        aspectRatio: "16 / 9",
+        width: "100%",
+        overflow: "hidden",
+        backgroundColor: fr.colors.decisions.background.contrast.grey.default,
+      }}
+    >
+      {src ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={src}
+          alt="Aperçu de l'image de l'actualité"
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+      ) : (
+        <Typography color="text.secondary">aperçu 16:9</Typography>
+      )}
     </Box>
   );
 };

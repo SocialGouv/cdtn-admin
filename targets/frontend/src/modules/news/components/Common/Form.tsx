@@ -38,6 +38,8 @@ const defaultValues: FormData = {
   imageAlt: "",
   imageAuthor: "",
   imageLicense: null,
+  imageWidth: null,
+  imageHeight: null,
   newImage: [],
 };
 
@@ -46,16 +48,18 @@ export const NewsForm = ({
   onUpsert,
   onPublish,
 }: Props): React.ReactElement => {
-  const { control, handleSubmit, setValue } = useForm<FormData>({
-    defaultValues: {
-      ...defaultValues,
-      ...news,
-      imageAlt: news?.imageAlt ?? "",
-      imageAuthor: news?.imageAuthor ?? "",
-    },
-    resolver: zodResolver(buildNewsFormSchema(!news || !!news.imageFile)),
-    shouldFocusError: true,
-  });
+  const requireImage = !news || !!news.imageFile;
+  const { control, handleSubmit, setValue, trigger, getValues } =
+    useForm<FormData>({
+      defaultValues: {
+        ...defaultValues,
+        ...news,
+        imageAlt: news?.imageAlt ?? "",
+        imageAuthor: news?.imageAuthor ?? "",
+      },
+      resolver: zodResolver(buildNewsFormSchema(requireImage)),
+      shouldFocusError: true,
+    });
 
   const [snack, setSnack] = useState<{
     open: boolean;
@@ -73,17 +77,24 @@ export const NewsForm = ({
       let imageFile = newData.imageFile
         ? { ...newData.imageFile, id: savedImageId }
         : null;
+      let imageWidth = imageFile ? (newData.imageWidth ?? null) : null;
+      let imageHeight = imageFile ? (newData.imageHeight ?? null) : null;
       const file = newData.newImage?.[0];
       if (file) {
         const fd = new FormData();
         fd.append("file", file);
         fd.append("title", newData.title!);
-        const { key } = await request("/api/storage/news-image", { body: fd });
+        const { key, width, height } = await request(
+          "/api/storage/news-image",
+          { body: fd }
+        );
         imageFile = {
           id: savedImageId,
           url: key,
           size: `${file.size}`,
         };
+        imageWidth = width;
+        imageHeight = height;
       }
       await onUpsert({
         id: newData.id!,
@@ -98,8 +109,12 @@ export const NewsForm = ({
         imageAlt: newData.imageAlt || null,
         imageAuthor: newData.imageAuthor || null,
         imageLicense: newData.imageLicense ?? null,
+        imageWidth,
+        imageHeight,
       });
       setValue("imageFile", imageFile);
+      setValue("imageWidth", imageWidth);
+      setValue("imageHeight", imageHeight);
       setValue("newImage", []);
       setSnack({
         open: true,
@@ -164,6 +179,7 @@ export const NewsForm = ({
           control={control}
           setValue={setValue}
           savedFile={news?.imageFile ?? null}
+          canRemove={!requireImage}
         />
         <NewsLinks control={control} />
         <NewsLegiReferences control={control} />
@@ -175,6 +191,24 @@ export const NewsForm = ({
             <LoadingButton
               loading={isPublishing}
               onClick={async () => {
+                const valid = await trigger();
+                if (!valid) {
+                  setSnack({
+                    open: true,
+                    severity: "error",
+                    message:
+                      "Corrigez les erreurs du formulaire avant de publier.",
+                  });
+                  return;
+                }
+                if (getValues("newImage")?.length) {
+                  setSnack({
+                    open: true,
+                    severity: "error",
+                    message: "Sauvegardez l'actualité avant de la publier.",
+                  });
+                  return;
+                }
                 setIsPublishing(true);
 
                 try {

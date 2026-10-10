@@ -21,6 +21,7 @@ import { mapWhatIsNewItemToDocument } from "../../what-is-new/mapWhatIsNewItemTo
 import { WhatIsNewItemsRepository } from "../../what-is-new/api";
 import { NewsRepository } from "../../news/api";
 import { mapNewsToDocument } from "../../news/mapNewsToDocument";
+import { getNewsPublicationErrors } from "../../news/publication";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -187,6 +188,8 @@ export class DocumentsService {
             cause: null,
           });
         }
+        const errors = getNewsPublicationErrors(news);
+        if (errors.length) throw new Error(errors.join(" "));
         document = mapNewsToDocument(news, document);
         break;
       }

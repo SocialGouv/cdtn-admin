@@ -37,4 +37,6 @@ export type NewsTemplateImage = {
   alt: string;
   author?: string;
   license: NewsImageLicense;
+  width?: number;
+  height?: number;
 };

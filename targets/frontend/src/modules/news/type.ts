@@ -67,6 +67,8 @@ export const newsSchema = z.object({
   imageAlt: z.string().nullable(),
   imageAuthor: z.string().nullable(),
   imageLicense: newsImageLicenseSchema.nullable(),
+  imageWidth: z.number().int().nullable(),
+  imageHeight: z.number().int().nullable(),
 });
 
 export type News = z.infer<typeof newsSchema>;
