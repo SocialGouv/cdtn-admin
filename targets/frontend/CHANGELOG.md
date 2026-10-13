@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.77.14](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.13...v2.77.14) (2026-10-13)
+
+### Performance Improvements
+
+- **ci:** préserve le cache d'install pnpm au travers des releases ([#1715](https://github.com/SocialGouv/cdtn-admin/issues/1715)) ([aa633bc](https://github.com/SocialGouv/cdtn-admin/commit/aa633bcb0ad6a250009a94ed69b760bb245658bd))
+
 ## [2.77.13](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.12...v2.77.13) (2026-09-22)
 
 **Note:** Version bump only for package frontend

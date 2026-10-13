@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.77.14](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.13...v2.77.14) (2026-10-13)
+
+### Features
+
+- **analysis:** migration du calcul du taux de completion sur les contributions ([#1720](https://github.com/SocialGouv/cdtn-admin/issues/1720)) ([4a0d889](https://github.com/SocialGouv/cdtn-admin/commit/4a0d889998d179e4794ad59b0fc007c2455cbbed))
+- **analysis:** taux de personnalisation des simulateurs ([#1716](https://github.com/SocialGouv/cdtn-admin/issues/1716)) ([35afc11](https://github.com/SocialGouv/cdtn-admin/commit/35afc11b2984855c46744854ed7ea1fc103833f5))
+
+### Performance Improvements
+
+- **ci:** préserve le cache d'install pnpm au travers des releases ([#1715](https://github.com/SocialGouv/cdtn-admin/issues/1715)) ([aa633bc](https://github.com/SocialGouv/cdtn-admin/commit/aa633bcb0ad6a250009a94ed69b760bb245658bd))
+
 ## [2.77.13](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.12...v2.77.13) (2026-09-22)
 
 ### Features
