@@ -12,6 +12,7 @@ export const agreementSchema = z.object({
   id: z.string(),
   name: z.string(),
   kaliId: z.string(),
+  shortName: z.string().optional(),
   unextended: z.boolean(),
 });
 export type Agreement = z.infer<typeof agreementSchema>;
@@ -162,6 +163,9 @@ export const questionBaseSchema = z.object({
   order: z.coerce.number(),
   message_id: z.string().uuid().optional(),
   seo_title: z.string().optional(),
+  introduction_nothing: z.string().nullable().optional(),
+  introduction_cdt: z.string().nullable().optional(),
+  template_answer: z.string().nullable().optional(),
 });
 
 export const commentsSchema = z.object({

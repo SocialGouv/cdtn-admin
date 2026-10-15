@@ -8,6 +8,9 @@ export const questionUpdateMutation = gql`
     $content: String
     $message_id: uuid
     $seo_title: String
+    $introduction_nothing: String
+    $introduction_cdt: String
+    $template_answer: String
   ) {
     update_contribution_questions_by_pk(
       pk_columns: { id: $id }
@@ -15,6 +18,9 @@ export const questionUpdateMutation = gql`
         content: $content
         message_id: $message_id
         seo_title: $seo_title
+        introduction_nothing: $introduction_nothing
+        introduction_cdt: $introduction_cdt
+        template_answer: $template_answer
       }
     ) {
       __typename
@@ -27,7 +33,13 @@ export const questionUpdateMutation = gql`
 
 type MutationProps = Pick<
   Question,
-  "id" | "content" | "message_id" | "seo_title"
+  | "id"
+  | "content"
+  | "message_id"
+  | "seo_title"
+  | "introduction_nothing"
+  | "introduction_cdt"
+  | "template_answer"
 >;
 
 type Result = {
