@@ -3,6 +3,7 @@ import { FormHelperText } from "@mui/material";
 import { Controller } from "react-hook-form";
 
 import { CommonFormProps } from "../type";
+import { ContributionVariableValues } from "@shared/utils";
 import { Editor } from "./Editor";
 import { styled } from "@mui/material/styles";
 import { buildFilePathUrl } from "../../utils";
@@ -11,6 +12,9 @@ type FormEditionProps = CommonFormProps & {
   infographicEnabled?: boolean;
   onInfographicChange?: (id: string, state: "added" | "deleted") => void;
   challengerEnabled?: boolean;
+  highlightEnabled?: boolean;
+  variablesEnabled?: boolean;
+  variableValues?: ContributionVariableValues;
 };
 
 export const FormEditionField = ({
@@ -22,6 +26,9 @@ export const FormEditionField = ({
   infographicEnabled = false,
   onInfographicChange,
   challengerEnabled = false,
+  highlightEnabled = false,
+  variablesEnabled = false,
+  variableValues,
 }: FormEditionProps) => {
   return (
     <Controller
@@ -40,6 +47,9 @@ export const FormEditionField = ({
             infographicEnabled={infographicEnabled}
             onInfographicChange={onInfographicChange}
             challengerEnabled={challengerEnabled}
+            highlightEnabled={highlightEnabled}
+            variablesEnabled={variablesEnabled}
+            variableValues={variableValues}
           />
           {error && (
             <StyledFormHelperText>{error.message}</StyledFormHelperText>

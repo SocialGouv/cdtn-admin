@@ -1,5 +1,6 @@
 import { Alert, Button, FormControl, Stack } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { countHighlights } from "@shared/utils";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -133,6 +134,26 @@ export const AnswerForm = ({
   });
 
   const contentType = watch("contentType");
+  const content = watch("content");
+  const highlightCount = countHighlights(content);
+  const isGeneric = isCodeDuTravail(answer);
+  const previousContentType = useRef(contentType);
+
+  // Quand le type passe à « Afficher la réponse » avec un contenu vide,
+  // le template de la question est proposé comme contenu (surlignage et variables compris).
+  useEffect(() => {
+    const templateAnswer = answer?.question?.template_answer;
+    if (
+      previousContentType.current !== contentType &&
+      contentType === "ANSWER" &&
+      !isGeneric &&
+      templateAnswer &&
+      !getValues("content")
+    ) {
+      setValue("content", templateAnswer, { shouldDirty: true });
+    }
+    previousContentType.current = contentType;
+  }, [contentType]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onRouteChangeStart = () => {
     if (
@@ -274,7 +295,20 @@ export const AnswerForm = ({
               }}
               infographicEnabled={true}
               challengerEnabled={true}
+              highlightEnabled={!isGeneric}
+              variablesEnabled={!isGeneric}
+              variableValues={{
+                agreement_name:
+                  answer.agreement.shortName ?? answer.agreement.name,
+              }}
             />
+            {highlightCount > 0 && (
+              <Alert severity="info" sx={{ mt: 1 }}>
+                {highlightCount} passage{highlightCount > 1 ? "s" : ""} surligné
+                {highlightCount > 1 ? "s" : ""} à relire. Retirez le surlignage
+                avant de soumettre la réponse.
+              </Alert>
+            )}
           </FormControl>
         )}
         {answer && (

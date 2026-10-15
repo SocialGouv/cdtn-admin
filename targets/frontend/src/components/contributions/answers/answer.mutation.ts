@@ -10,6 +10,7 @@ import {
   formatOtherReferences,
 } from "./answerReferences";
 import { gql } from "@shared/utils";
+import { getServerErrorMessage } from "./serverError";
 
 export const contributionAnswerUpdateMutation = gql`
   mutation contributionAnswerUpdate(
@@ -136,7 +137,7 @@ export const useContributionAnswerUpdateMutation = (): MutationResult => {
       infographics: formatInfographics(data.id, data.infographics),
     });
     if (result.error) {
-      throw new Error(result.error.message);
+      throw new Error(getServerErrorMessage(result.error));
     }
     return result;
   };

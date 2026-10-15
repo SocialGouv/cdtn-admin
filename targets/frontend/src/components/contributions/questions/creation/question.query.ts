@@ -1,5 +1,6 @@
 import { CombinedError, gql, useQuery } from "urql";
 import { Message } from "../../type";
+import { AgreementRow } from "../common/agreementTypes";
 
 export const contributionQuestionCreationDataQuery = gql`
   query SelectQuestionCreationData {
@@ -12,8 +13,12 @@ export const contributionQuestionCreationDataQuery = gql`
       id
       label
     }
-    agreements: agreement_agreements(where: { isSupported: { _eq: true } }) {
+    agreements: agreement_agreements(
+      where: { isSupported: { _eq: true } }
+      order_by: { name: asc }
+    ) {
       id
+      name
       unextended
     }
     maxOrder: contribution_questions(order_by: { order: desc }, limit: 1) {
@@ -24,13 +29,13 @@ export const contributionQuestionCreationDataQuery = gql`
 
 type QueryOutput = {
   messages: Message[];
-  agreements: { id: string; unextended: boolean }[];
+  agreements: AgreementRow[];
   maxOrder: [{ order: number }];
 };
 
 export type QueryResult = {
   messages: Message[];
-  agreementIds: { id: string; unextended: boolean }[];
+  agreements: AgreementRow[];
   nextOrder: number;
 };
 
@@ -50,9 +55,7 @@ export const useQuestionCreationDataQuery = (): Result => {
   if (data) {
     formattedData = {
       messages: data.messages,
-      agreementIds: data.agreements
-        .flatMap((item) => item)
-        .concat([{ id: "0000", unextended: false }]),
+      agreements: data.agreements,
       nextOrder: data.maxOrder[0].order + 1,
     };
   }

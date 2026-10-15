@@ -59,6 +59,8 @@ type ExportContributionInfo = {
   breadcrumbs: Breadcrumb[];
   highlight?: ContributionHighlight;
   messageBlock?: string;
+  /** Introduction affichée avant le message associé et la réponse (types NOTHING et CDT) */
+  introduction?: string;
 };
 
 export type ContributionElasticDocumentBase = Omit<

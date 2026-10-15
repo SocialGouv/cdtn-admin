@@ -24,10 +24,12 @@ query contribution_answer($id: uuid) {
       content
       order
       seo_title
+      template_answer
     }
     agreement {
       id
       name
+      shortName
       kaliId: kali_id
       unextended
     }

@@ -10,6 +10,9 @@ export const contributionQuestionQuery = gql`
       id
       seo_title
       message_id
+      introduction_nothing
+      introduction_cdt
+      template_answer
     }
 
     messages: contribution_question_messages {

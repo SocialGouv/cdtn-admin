@@ -26,6 +26,16 @@ import { generateMessageBlock } from "./generateMessageBlock";
 import { generateLinkedContent } from "./generateLinkedContent";
 import pMap from "p-map";
 import { generateReferences } from "./generateReferences";
+import {
+  fetchQuestionIntroductions,
+  QuestionIntroductions,
+} from "./fetchQuestionIntroductions";
+import {
+  resolveContentVariables,
+  resolveHtml,
+  selectIntroduction,
+} from "./generateIntroduction";
+import { ContributionVariableValues } from "@shared/utils";
 
 export type ContributionElasticDocumentLightRelatedContent = Omit<
   ContributionElasticDocument,
@@ -54,6 +64,21 @@ export async function generateContributions(
   const generatedContributions: ContributionElasticDocumentLightRelatedContent[] =
     [];
 
+  // Les introductions sont portées par la question : une seule requête par question
+  const introductionsByQuestion = new Map<
+    string,
+    Promise<QuestionIntroductions | undefined>
+  >();
+  const getIntroductions = (questionId: string) => {
+    if (!introductionsByQuestion.has(questionId)) {
+      introductionsByQuestion.set(
+        questionId,
+        fetchQuestionIntroductions(questionId)
+      );
+    }
+    return introductionsByQuestion.get(questionId);
+  };
+
   const reference = context.get<ReferenceValues | undefined>("reference");
   const smicHourlyValue = reference?.smicHourly;
 
@@ -64,12 +89,34 @@ export async function generateContributions(
     );
     const highlight = ccnListWithHighlight[parseInt(contrib.idcc)];
 
-    const content = await generateContent(
-      contribGeneric,
-      contrib,
-      infographicDocuments,
-      smicHourlyValue
+    const label = `Contribution ${contrib.questionIndex} - ${contrib.idcc}`;
+    const ccInfos = isGenericContribution(contrib)
+      ? undefined
+      : getCcInfos(ccnData, contrib);
+    // Valeurs des variables insérables dans les contenus (cf. @shared/utils).
+    // Pas de nom de CC pour la générique : aucune variable n'y est autorisée.
+    const variableValues: ContributionVariableValues = ccInfos
+      ? { agreement_name: ccInfos.ccnShortTitle }
+      : {};
+
+    const content = resolveContentVariables(
+      await generateContent(
+        contribGeneric,
+        contrib,
+        infographicDocuments,
+        smicHourlyValue
+      ),
+      variableValues,
+      label
     );
+
+    const rawIntroduction = selectIntroduction(
+      contrib.contentType,
+      await getIntroductions(contrib.questionId)
+    );
+    const introduction = rawIntroduction
+      ? resolveHtml(rawIntroduction, variableValues, label, "introduction")
+      : undefined;
 
     const messageBlock = await generateMessageBlock(contribGeneric, contrib);
 
@@ -91,8 +138,8 @@ export async function generateContributions(
       };
     } else {
       doc = {
-        ...getCcInfos(ccnData, contrib),
-      };
+        ...ccInfos,
+      } as ContributionConventionnelInfos;
     }
 
     const breadcrumbs =
@@ -112,6 +159,7 @@ export async function generateContributions(
       breadcrumbs,
       highlight,
       messageBlock,
+      ...(introduction ? { introduction } : {}),
       references,
       text,
     };
