@@ -20,6 +20,7 @@ export const mock: QuestionListQueryResult = {
   rows: [
     {
       content: "question1",
+      seo_title: "question1",
       id: "questionId1",
       order: 1,
       answers_aggregate: {
@@ -30,6 +31,7 @@ export const mock: QuestionListQueryResult = {
     },
     {
       content: "question2",
+      seo_title: "question2",
       id: "questionId2",
       order: 2,
       answers_aggregate: {
