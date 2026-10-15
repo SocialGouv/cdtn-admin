@@ -1,6 +1,6 @@
 import { gql, useMutation } from "urql";
 
-import { Answer, Question } from "../../type";
+import { Answer, Question, Status } from "../../type";
 
 const questionCreationMutation = gql`
   mutation CreateQuestion($question: contribution_questions_insert_input!) {
@@ -11,12 +11,25 @@ const questionCreationMutation = gql`
 `;
 
 type MutationProps = {
-  question: Pick<Question, "content" | "message_id" | "seo_title" | "order"> & {
+  question: Pick<
+    Question,
+    | "content"
+    | "message_id"
+    | "seo_title"
+    | "order"
+    | "introduction_nothing"
+    | "introduction_cdt"
+    | "template_answer"
+  > & {
     answers: {
       data: {
         display_date: Answer["displayDate"];
         agreement_id: Answer["agreementId"];
         content_type?: Answer["contentType"];
+        content?: string;
+        statuses?: {
+          data: { status: Status; user_id: string }[];
+        };
       }[];
     };
   };

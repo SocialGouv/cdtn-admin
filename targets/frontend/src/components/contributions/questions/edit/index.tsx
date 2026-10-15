@@ -20,6 +20,9 @@ export const EditQuestion = ({
       seo_title: formData.seo_title ?? undefined,
       content: formData.content,
       message_id: formData.message_id ? formData.message_id : undefined, // use to transform empty string sent by the form to undefined
+      introduction_nothing: formData.introduction_nothing || null,
+      introduction_cdt: formData.introduction_cdt || null,
+      template_answer: formData.template_answer || null,
     });
   };
 

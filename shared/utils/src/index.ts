@@ -5,3 +5,4 @@ export * from "./config";
 export * from "./logger";
 export * from "./dilaResolver";
 export * from "./mattermost";
+export * from "./contributionVariables";

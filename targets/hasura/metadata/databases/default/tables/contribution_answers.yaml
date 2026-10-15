@@ -88,6 +88,7 @@ insert_permissions:
       check: {}
       columns:
         - agreement_id
+        - content
         - content_type
         - display_date
         - question_id
