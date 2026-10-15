@@ -22,6 +22,7 @@ from datetime import UTC, datetime, timedelta
 from datetime import date as Date
 
 from analysis.commands import (
+    ingest_completion_modeles_courrier,
     ingest_nps_scores,
     ingest_simulateurs,
     ingest_taux_contributions,
@@ -36,6 +37,7 @@ INGESTERS: list[Ingester] = [
     ingest_nps_scores.INGESTER,
     ingest_taux_contributions.INGESTER,
     ingest_taux_personnalisation.INGESTER,
+    ingest_completion_modeles_courrier.INGESTER,
 ]
 
 # Décalage par défaut : J-2 (avant-veille).
