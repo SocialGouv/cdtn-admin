@@ -20,15 +20,20 @@ export type NewsLinkedContent = {
   cdtnId: string;
 };
 
-export type NewsTemplateLink =
-  | { type: "cdtn"; cdtnId: string }
-  | { type: "external"; title: string; url: string };
-
-export type NewsTemplateReference = {
-  type: "legi";
+export type NewsTemplateExternalLink = {
+  type: "external";
   title: string;
   url: string;
+  intro?: string;
 };
+
+export type NewsTemplateLink =
+  | { type: "cdtn"; cdtnId: string; intro?: string }
+  | NewsTemplateExternalLink;
+
+export type NewsTemplateReference =
+  | { type: "legi"; title: string; url: string; intro?: string }
+  | NewsTemplateExternalLink;
 
 export type NewsImageLicense = "free" | "source";
 

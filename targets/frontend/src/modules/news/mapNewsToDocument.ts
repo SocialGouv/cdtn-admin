@@ -2,8 +2,23 @@ import { format, parseISO } from "date-fns";
 import { generateCdtnId } from "@shared/utils";
 import slugify from "@socialgouv/cdtn-slugify";
 import { HasuraDocument } from "@socialgouv/cdtn-types";
-import { News } from "./type";
-import { NewsTemplateDoc } from "@socialgouv/cdtn-types/";
+import { News, NewsExternalLink } from "./type";
+import {
+  NewsTemplateDoc,
+  NewsTemplateExternalLink,
+  NewsTemplateLink,
+  NewsTemplateReference,
+} from "@socialgouv/cdtn-types/";
+
+const intro = ({ intro }: { intro?: string | null }) =>
+  intro?.trim() ? { intro: intro.trim() } : {};
+
+const externalLink = (link: NewsExternalLink): NewsTemplateExternalLink => ({
+  type: "external",
+  title: link.label,
+  url: link.url,
+  ...intro(link),
+});
 
 export const mapNewsToDocument = (
   data: News,
@@ -27,19 +42,26 @@ export const mapNewsToDocument = (
       author: "Ministère du Travail",
       content: data.content,
       meta_description: data.metaDescription,
-      cdtnReferences: data.links.flatMap((link) =>
-        link.type === "cdtn" ? [{ cdtnId: link.document.cdtnId }] : []
-      ),
-      links: data.links.map((link) =>
-        link.type === "cdtn"
-          ? { type: "cdtn", cdtnId: link.document.cdtnId }
-          : { type: "external", title: link.label, url: link.url }
-      ),
-      references: data.legiReferences.map(({ legiArticle }) => ({
-        type: "legi",
-        title: `Article ${legiArticle.label} du code du travail`,
-        url: `https://www.legifrance.gouv.fr/codes/article_lc/${legiArticle.cid}`,
+      cdtnReferences: data.cdtnReferences.map(({ document }) => ({
+        cdtnId: document.cdtnId,
       })),
+      links: data.links.map(
+        (link): NewsTemplateLink =>
+          link.type === "cdtn"
+            ? { type: "cdtn", cdtnId: link.document.cdtnId, ...intro(link) }
+            : externalLink(link)
+      ),
+      references: data.references.map(
+        (reference): NewsTemplateReference =>
+          reference.type === "legi"
+            ? {
+                type: "legi",
+                title: `Article ${reference.legiArticle.label} du code du travail`,
+                url: `https://www.legifrance.gouv.fr/codes/article_lc/${reference.legiArticle.cid}`,
+                ...intro(reference),
+              }
+            : externalLink(reference)
+      ),
       ...(data.imageFile
         ? {
             image: {

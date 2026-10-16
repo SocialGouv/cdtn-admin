@@ -30,30 +30,36 @@ export type FilesObjRelInsertInput = {
 
 export type NewsCdtnReferencesInsertInput = {
   cdtnId: string;
-  order: number;
 };
 
 export type NewsCdtnReferencesArrRelInsertInput = {
   data: NewsCdtnReferencesInsertInput[];
 };
 
-export type NewsLegiReferencesInsertInput = {
-  articleId: string;
+export type NewsLinksInsertInput = {
   order: number;
+  kind: "cdtn" | "external";
+  cdtnId: string | null;
+  label: string | null;
+  url: string | null;
+  intro: string | null;
 };
 
-export type NewsLegiReferencesArrRelInsertInput = {
-  data: NewsLegiReferencesInsertInput[];
+export type NewsLinksArrRelInsertInput = {
+  data: NewsLinksInsertInput[];
 };
 
-export type NewsOtherReferencesInsertInput = {
-  label: string;
-  url: string;
+export type NewsReferencesInsertInput = {
   order: number;
+  kind: "legi" | "external";
+  articleId: string | null;
+  label: string | null;
+  url: string | null;
+  intro: string | null;
 };
 
-export type NewsOtherReferencesArrRelInsertInput = {
-  data: NewsOtherReferencesInsertInput[];
+export type NewsReferencesArrRelInsertInput = {
+  data: NewsReferencesInsertInput[];
 };
 
 export type NewsInsertInput = {
@@ -73,35 +79,43 @@ export type NewsInsertInput = {
   imageHeight?: number | null;
   imageFile?: FilesObjRelInsertInput;
   news_cdtn_references?: NewsCdtnReferencesArrRelInsertInput;
-  news_legi_references?: NewsLegiReferencesArrRelInsertInput;
-  news_other_references?: NewsOtherReferencesArrRelInsertInput;
+  news_links?: NewsLinksArrRelInsertInput;
+  news_references?: NewsReferencesArrRelInsertInput;
 };
 
+const formatIntro = (intro?: string | null) => intro?.trim() || null;
+
 export const formatNewsRelations = ({
+  cdtnReferences,
   links,
-  legiReferences,
-}: Pick<FormDataResult, "links" | "legiReferences">): Required<
+  references,
+}: Pick<FormDataResult, "cdtnReferences" | "links" | "references">): Required<
   Pick<
     NewsInsertInput,
-    "news_cdtn_references" | "news_other_references" | "news_legi_references"
+    "news_cdtn_references" | "news_links" | "news_references"
   >
 > => ({
   news_cdtn_references: {
-    data: links.flatMap((link, order) =>
-      link.type === "cdtn" ? [{ cdtnId: link.document.cdtnId, order }] : []
-    ),
+    data: cdtnReferences.map(({ document }) => ({ cdtnId: document.cdtnId })),
   },
-  news_other_references: {
-    data: links.flatMap((link, order) =>
-      link.type === "external"
-        ? [{ label: link.label, url: link.url, order }]
-        : []
-    ),
-  },
-  news_legi_references: {
-    data: legiReferences.map(({ legiArticle }, order) => ({
-      articleId: legiArticle.id,
+  news_links: {
+    data: links.map((link, order) => ({
       order,
+      kind: link.type,
+      cdtnId: link.type === "cdtn" ? link.document.cdtnId : null,
+      label: link.type === "external" ? link.label : null,
+      url: link.type === "external" ? link.url : null,
+      intro: formatIntro(link.intro),
+    })),
+  },
+  news_references: {
+    data: references.map((reference, order) => ({
+      order,
+      kind: reference.type,
+      articleId: reference.type === "legi" ? reference.legiArticle.id : null,
+      label: reference.type === "external" ? reference.label : null,
+      url: reference.type === "external" ? reference.url : null,
+      intro: formatIntro(reference.intro),
     })),
   },
 });

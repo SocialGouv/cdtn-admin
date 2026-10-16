@@ -12,10 +12,10 @@ const updateNewsQuery = gql`
     delete_news_news_cdtn_references(where: { newsId: { _eq: $id } }) {
       affected_rows
     }
-    delete_news_news_legi_references(where: { newsId: { _eq: $id } }) {
+    delete_news_news_links(where: { newsId: { _eq: $id } }) {
       affected_rows
     }
-    delete_news_news_other_references(where: { newsId: { _eq: $id } }) {
+    delete_news_news_references(where: { newsId: { _eq: $id } }) {
       affected_rows
     }
     insert_news_news_one(

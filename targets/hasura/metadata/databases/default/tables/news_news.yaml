@@ -50,19 +50,19 @@ array_relationships:
         table:
           name: news_cdtn_references
           schema: news
-  - name: news_legi_references
+  - name: news_links
     using:
       foreign_key_constraint_on:
         column: news_id
         table:
-          name: news_legi_references
+          name: news_links
           schema: news
-  - name: news_other_references
+  - name: news_references
     using:
       foreign_key_constraint_on:
         column: news_id
         table:
-          name: news_other_references
+          name: news_references
           schema: news
 insert_permissions:
   - role: super

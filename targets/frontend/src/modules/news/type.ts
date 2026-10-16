@@ -1,12 +1,16 @@
 import { z } from "zod";
 import {
+  cdtnReferenceSchema,
   documentSchema,
-  legiReferenceSchema,
+  legiArticleSchema,
 } from "../../components/contributions";
+
+const introSchema = z.string().nullish();
 
 export const newsCdtnLinkSchema = z.object({
   type: z.literal("cdtn"),
   document: documentSchema,
+  intro: introSchema,
 });
 
 export const newsExternalLinkSchema = z.object({
@@ -18,13 +22,27 @@ export const newsExternalLinkSchema = z.object({
     .string()
     .url("Le format du lien est invalide")
     .regex(/^https?:\/\//, "Le lien doit commencer par http:// ou https://"),
+  intro: introSchema,
 });
+export type NewsExternalLink = z.infer<typeof newsExternalLinkSchema>;
 
 export const newsLinkSchema = z.discriminatedUnion("type", [
   newsCdtnLinkSchema,
   newsExternalLinkSchema,
 ]);
 export type NewsLink = z.infer<typeof newsLinkSchema>;
+
+export const newsLegiReferenceSchema = z.object({
+  type: z.literal("legi"),
+  legiArticle: legiArticleSchema,
+  intro: introSchema,
+});
+
+export const newsReferenceSchema = z.discriminatedUnion("type", [
+  newsLegiReferenceSchema,
+  newsExternalLinkSchema,
+]);
+export type NewsReference = z.infer<typeof newsReferenceSchema>;
 
 export const newsImageFileSchema = z.object({
   id: z.string().uuid().nullable().optional(),
@@ -61,8 +79,9 @@ export const newsSchema = z.object({
     .min(1, "Une date de mise à jour doit être renseignée"),
   updatedAt: z.string(),
   createdAt: z.string(),
+  cdtnReferences: z.array(cdtnReferenceSchema),
   links: z.array(newsLinkSchema),
-  legiReferences: z.array(legiReferenceSchema),
+  references: z.array(newsReferenceSchema),
   imageFile: newsImageFileSchema.nullable(),
   imageAlt: z.string().nullable(),
   imageAuthor: z.string().nullable(),

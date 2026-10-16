@@ -6,11 +6,16 @@ const documentA = {
   source: "fiches_service_public",
   slug: "contenu-a",
 };
-const documentC = {
-  cdtnId: "c",
-  title: "Contenu C",
+const documentLie = {
+  cdtnId: "lie",
+  title: "Contenu lié",
   source: "information",
-  slug: "contenu-c",
+  slug: "contenu-lie",
+};
+const legiArticle = {
+  cid: "LEGIARTI000006901112",
+  id: "LEGIARTI000006901112",
+  label: "L1234-9",
 };
 
 const row: NewsRow = {
@@ -28,30 +33,70 @@ const row: NewsRow = {
   imageLicense: null,
   imageWidth: null,
   imageHeight: null,
-  legiReferences: [],
-  cdtnReferences: [
-    { order: 2, document: documentC },
-    { order: 0, document: documentA },
+  cdtnReferences: [{ document: documentLie }],
+  newsLinks: [
+    {
+      kind: "cdtn",
+      document: documentA,
+      label: null,
+      url: null,
+      intro: "Voir aussi",
+    },
+    {
+      kind: "external",
+      document: null,
+      label: "Lien B",
+      url: "https://b.fr",
+      intro: null,
+    },
   ],
-  otherReferences: [{ order: 1, label: "Lien B", url: "https://b.fr" }],
+  newsReferences: [
+    {
+      kind: "external",
+      legiArticle: null,
+      label: "Décret",
+      url: "https://d.fr",
+      intro: "Texte",
+    },
+    {
+      kind: "legi",
+      legiArticle,
+      label: null,
+      url: null,
+      intro: null,
+    },
+  ],
 };
 
 describe("mapNewsRow", () => {
-  it("fusionne les contenus CDTN et les liens externes dans l'ordre", () => {
-    const news = mapNewsRow(row);
+  it("garde les contenus liés tels quels", () => {
+    expect(mapNewsRow(row).cdtnReferences).toEqual([{ document: documentLie }]);
+  });
 
-    expect(news.links).toEqual([
-      { type: "cdtn", document: documentA },
-      { type: "external", label: "Lien B", url: "https://b.fr" },
-      { type: "cdtn", document: documentC },
+  it("transforme les liens « Pour aller plus loin » dans l'ordre", () => {
+    expect(mapNewsRow(row).links).toEqual([
+      { type: "cdtn", document: documentA, intro: "Voir aussi" },
+      { type: "external", label: "Lien B", url: "https://b.fr", intro: null },
+    ]);
+  });
+
+  it("transforme les références dans l'ordre", () => {
+    expect(mapNewsRow(row).references).toEqual([
+      {
+        type: "external",
+        label: "Décret",
+        url: "https://d.fr",
+        intro: "Texte",
+      },
+      { type: "legi", legiArticle, intro: null },
     ]);
   });
 
   it("retire les relations brutes du résultat", () => {
     const news = mapNewsRow(row);
 
-    expect("cdtnReferences" in news).toBe(false);
-    expect("otherReferences" in news).toBe(false);
+    expect("newsLinks" in news).toBe(false);
+    expect("newsReferences" in news).toBe(false);
     expect(news.title).toBe("Titre");
   });
 });

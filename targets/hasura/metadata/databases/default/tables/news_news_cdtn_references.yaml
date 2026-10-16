@@ -25,7 +25,6 @@ insert_permissions:
       columns:
         - cdtn_id
         - news_id
-        - order
     comment: ""
 select_permissions:
   - role: super
@@ -33,7 +32,6 @@ select_permissions:
       columns:
         - cdtn_id
         - news_id
-        - order
       filter: {}
     comment: ""
 update_permissions:
@@ -42,7 +40,6 @@ update_permissions:
       columns:
         - cdtn_id
         - news_id
-        - order
       filter: {}
       check: {}
     comment: ""

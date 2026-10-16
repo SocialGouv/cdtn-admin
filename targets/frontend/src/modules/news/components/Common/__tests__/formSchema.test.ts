@@ -6,8 +6,9 @@ const base = {
   content: "Contenu",
   metaDescription: "Description meta",
   displayDate: "2026-10-09",
+  cdtnReferences: [],
   links: [],
-  legiReferences: [],
+  references: [],
   imageFile: null,
   imageAlt: null,
   imageAuthor: null,
@@ -25,6 +26,7 @@ const withImage = {
 };
 
 const legiReference = {
+  type: "legi" as const,
   legiArticle: {
     cid: "LEGIARTI000006901112",
     id: "LEGIARTI000006901112",
@@ -75,10 +77,39 @@ describe("buildNewsFormSchema", () => {
   it("refuse un article du code du travail en double", () => {
     const result = buildNewsFormSchema(false).safeParse({
       ...base,
-      legiReferences: [legiReference, legiReference],
+      references: [legiReference, { ...legiReference, intro: "Voir" }],
     });
 
-    expect(errorPaths(result)).toContain("legiReferences");
+    expect(errorPaths(result)).toContain("references");
+  });
+
+  it("accepte un article et un lien externe avec texte d'introduction", () => {
+    const result = buildNewsFormSchema(false).safeParse({
+      ...base,
+      references: [
+        { ...legiReference, intro: "Indemnité de licenciement" },
+        {
+          type: "external",
+          label: "Décret",
+          url: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000000001",
+          intro: null,
+        },
+      ],
+      links: [
+        { type: "external", label: "Lien", url: "https://b.fr", intro: "Voir" },
+      ],
+    });
+
+    expect(result.success).toBe(true);
+  });
+
+  it("refuse une référence externe qui n'est pas en http ou https", () => {
+    const result = buildNewsFormSchema(false).safeParse({
+      ...base,
+      references: [{ type: "external", label: "Lien", url: "ftp://x" }],
+    });
+
+    expect(errorPaths(result)).toContain("references.0.url");
   });
 
   it("refuse un lien externe qui n'est pas en http ou https", () => {

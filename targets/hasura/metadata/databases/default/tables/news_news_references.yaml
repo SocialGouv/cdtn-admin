@@ -1,14 +1,20 @@
 table:
-  name: news_other_references
+  name: news_references
   schema: news
 configuration:
   column_config:
+    article_id:
+      custom_name: articleId
     news_id:
       custom_name: newsId
   custom_column_names:
+    article_id: articleId
     news_id: newsId
   custom_root_fields: {}
 object_relationships:
+  - name: legiArticle
+    using:
+      foreign_key_constraint_on: article_id
   - name: news
     using:
       foreign_key_constraint_on: news_id
@@ -19,9 +25,12 @@ insert_permissions:
       columns:
         - id
         - news_id
+        - order
+        - kind
+        - article_id
         - label
         - url
-        - order
+        - intro
     comment: ""
 select_permissions:
   - role: super
@@ -29,9 +38,12 @@ select_permissions:
       columns:
         - id
         - news_id
+        - order
+        - kind
+        - article_id
         - label
         - url
-        - order
+        - intro
       filter: {}
     comment: ""
 update_permissions:
@@ -39,9 +51,12 @@ update_permissions:
     permission:
       columns:
         - news_id
+        - order
+        - kind
+        - article_id
         - label
         - url
-        - order
+        - intro
       filter: {}
       check: {}
     comment: ""

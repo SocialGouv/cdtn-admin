@@ -1,6 +1,6 @@
 import { gql } from "urql";
-import { Document } from "src/components/contributions";
-import { News, NewsLink } from "../type";
+import { Document, LegiArticle } from "src/components/contributions";
+import { News, NewsExternalLink, NewsLink, NewsReference } from "../type";
 
 export const selectNewsQuery = gql`
   query SelectNews($id: uuid!) {
@@ -23,8 +23,7 @@ export const selectNewsQuery = gql`
         url
         size
       }
-      cdtnReferences: news_cdtn_references(order_by: { order: asc }) {
-        order
+      cdtnReferences: news_cdtn_references {
         document {
           cdtnId: cdtn_id
           title
@@ -32,12 +31,23 @@ export const selectNewsQuery = gql`
           slug
         }
       }
-      otherReferences: news_other_references(order_by: { order: asc }) {
-        order
+      newsLinks: news_links(order_by: { order: asc }) {
+        kind
+        intro
         label
         url
+        document {
+          cdtnId: cdtn_id
+          title
+          source
+          slug
+        }
       }
-      legiReferences: news_legi_references(order_by: { order: asc }) {
+      newsReferences: news_references(order_by: { order: asc }) {
+        kind
+        intro
+        label
+        url
         legiArticle {
           cid
           id
@@ -52,32 +62,62 @@ export type NewsRequest = {
   id: string;
 };
 
-export type NewsRow = Omit<News, "links"> & {
-  cdtnReferences: { order: number; document: Document }[];
-  otherReferences: { order: number; label: string; url: string }[];
+type NewsRelationRow = {
+  intro: string | null;
+  label: string | null;
+  url: string | null;
+};
+
+export type NewsLinkRow = NewsRelationRow & {
+  kind: "cdtn" | "external";
+  document: Document | null;
+};
+
+export type NewsReferenceRow = NewsRelationRow & {
+  kind: "legi" | "external";
+  legiArticle: LegiArticle | null;
+};
+
+export type NewsRow = Omit<News, "links" | "references"> & {
+  newsLinks: NewsLinkRow[];
+  newsReferences: NewsReferenceRow[];
 };
 
 export type NewsResponse = {
   news: NewsRow | null;
 };
 
+const toExternalLink = ({
+  label,
+  url,
+  intro,
+}: NewsRelationRow): NewsExternalLink => ({
+  type: "external",
+  label: label ?? "",
+  url: url ?? "",
+  intro,
+});
+
 export const mapNewsRow = ({
-  cdtnReferences,
-  otherReferences,
+  newsLinks,
+  newsReferences,
   ...news
-}: NewsRow): News => {
-  const links: { order: number; link: NewsLink }[] = [
-    ...cdtnReferences.map(({ order, document }) => ({
-      order,
-      link: { type: "cdtn" as const, document },
-    })),
-    ...otherReferences.map(({ order, label, url }) => ({
-      order,
-      link: { type: "external" as const, label, url },
-    })),
-  ];
-  return {
-    ...news,
-    links: links.sort((a, b) => a.order - b.order).map(({ link }) => link),
-  };
-};
+}: NewsRow): News => ({
+  ...news,
+  links: newsLinks.map(
+    (link): NewsLink =>
+      link.kind === "cdtn" && link.document
+        ? { type: "cdtn", document: link.document, intro: link.intro }
+        : toExternalLink(link)
+  ),
+  references: newsReferences.map(
+    (reference): NewsReference =>
+      reference.kind === "legi" && reference.legiArticle
+        ? {
+            type: "legi",
+            legiArticle: reference.legiArticle,
+            intro: reference.intro,
+          }
+        : toExternalLink(reference)
+  ),
+});
