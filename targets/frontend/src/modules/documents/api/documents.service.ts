@@ -1,5 +1,9 @@
 import { DocumentsRepository } from "./documents.repository";
-import { ConflictError, NotFoundError } from "src/lib/api/ApiErrors";
+import {
+  ConflictError,
+  InvalidQueryError,
+  NotFoundError,
+} from "src/lib/api/ApiErrors";
 import { InformationsRepository } from "src/modules/informations";
 import {
   ContributionRepository,
@@ -20,6 +24,7 @@ import { mapWhatIsNewItemToDocument } from "../../what-is-new/mapWhatIsNewItemTo
 import { WhatIsNewItemsRepository } from "../../what-is-new/api";
 import { NewsRepository } from "../../news/api";
 import { mapNewsToDocument } from "../../news/mapNewsToDocument";
+import { getNewsPublicationErrors } from "../../news/publication";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -177,6 +182,10 @@ export class DocumentsService {
             name: "NOT_FOUND",
             cause: null,
           });
+        }
+        const errors = getNewsPublicationErrors(news);
+        if (errors.length) {
+          throw new InvalidQueryError(errors.join(" "), null);
         }
         document = mapNewsToDocument(news, document);
         break;
