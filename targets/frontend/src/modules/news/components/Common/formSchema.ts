@@ -39,13 +39,13 @@ export const buildNewsFormSchema = (requireImage: boolean) =>
           message: "L'auteur ou la source doit être renseigné",
         });
       }
-      const articleIds = data.legiReferences.map(
-        ({ legiArticle }) => legiArticle.id
+      const articleIds = data.references.flatMap((reference) =>
+        reference.type === "legi" ? [reference.legiArticle.id] : []
       );
       if (new Set(articleIds).size !== articleIds.length) {
         ctx.addIssue({
           code: "custom",
-          path: ["legiReferences"],
+          path: ["references"],
           message: "Cet article est déjà ajouté",
         });
       }

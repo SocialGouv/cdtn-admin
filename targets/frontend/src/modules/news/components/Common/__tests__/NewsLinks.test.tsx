@@ -66,4 +66,25 @@ describe("NewsLinks", () => {
       screen.getByRole("button", { name: "Modifier Doc" })
     ).toBeInTheDocument();
   });
+
+  test("keeps the intro text when the external link is edited", () => {
+    render(<TestForm />);
+    fillAndValidate("Doc", "https://ex.fr");
+    fireEvent.change(
+      screen.getByLabelText("Texte d'introduction (facultatif)"),
+      {
+        target: { value: "Pour en savoir plus" },
+      }
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Modifier Doc" }));
+    fireEvent.change(screen.getByLabelText("Libellé"), {
+      target: { value: "Doc 2" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Valider" }));
+
+    expect(screen.getByText("Doc 2")).toBeInTheDocument();
+    expect(
+      screen.getByLabelText("Texte d'introduction (facultatif)")
+    ).toHaveValue("Pour en savoir plus");
+  });
 });

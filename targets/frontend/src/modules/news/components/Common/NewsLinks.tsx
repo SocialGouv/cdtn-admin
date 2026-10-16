@@ -1,88 +1,26 @@
 import React, { useState } from "react";
 import { getRouteBySource, SourceKeys } from "@socialgouv/cdtn-utils";
-import { Control, useFieldArray } from "react-hook-form";
+import { Control, useFieldArray, useWatch } from "react-hook-form";
 import {
   Autocomplete,
   Box,
   Button,
   Chip,
-  IconButton,
   Stack,
   TextField,
-  Typography,
 } from "@mui/material";
 import { TitleBox } from "src/components/forms/TitleBox";
 import { useSearchCdtnReferencesQuery } from "src/components/forms/CdtnReferences/cdtnReferencesSearch.query";
 import { CdtnReference } from "src/components/forms/CdtnReferences/type";
-import { Add, Edit } from "src/components/utils/dsfrIcons";
-import { NewsLink, newsExternalLinkSchema } from "../../type";
+import { Add } from "src/components/utils/dsfrIcons";
+import { NewsLink } from "../../type";
 import { NewsSortableList } from "./NewsSortableList";
-
-type ExternalLink = Extract<NewsLink, { type: "external" }>;
+import { ExternalLinkEditor } from "./ExternalLinkEditor";
+import { ExternalLinkRow } from "./ExternalLinkRow";
+import { NewsIntroField } from "./NewsIntroField";
 
 const getDocumentLabel = ({ document }: CdtnReference) =>
   `${getRouteBySource(document.source as SourceKeys)} > ${document.title}`;
-
-const ExternalLinkEditor = ({
-  initial,
-  onCancel,
-  onSave,
-}: {
-  initial?: ExternalLink;
-  onCancel: () => void;
-  onSave: (value: ExternalLink) => void;
-}) => {
-  const [label, setLabel] = useState(initial?.label ?? "");
-  const [url, setUrl] = useState(initial?.url ?? "");
-  const [errors, setErrors] = useState<{ label?: string; url?: string }>({});
-
-  const handleSave = () => {
-    const result = newsExternalLinkSchema.safeParse({
-      type: "external",
-      label,
-      url,
-    });
-    if (!result.success) {
-      const fieldErrors = result.error.flatten().fieldErrors;
-      setErrors({
-        label: fieldErrors.label?.join(" "),
-        url: fieldErrors.url?.join(" "),
-      });
-      return;
-    }
-    setErrors({});
-    onSave(result.data);
-  };
-
-  return (
-    <Stack spacing={2}>
-      <TextField
-        label="Libellé"
-        value={label}
-        onChange={(event) => setLabel(event.target.value)}
-        error={Boolean(errors.label)}
-        helperText={errors.label}
-        fullWidth
-      />
-      <TextField
-        label="URL"
-        value={url}
-        onChange={(event) => setUrl(event.target.value)}
-        error={Boolean(errors.url)}
-        helperText={errors.url}
-        fullWidth
-      />
-      <Stack direction="row" spacing={2}>
-        <Button variant="outlined" onClick={onCancel}>
-          Annuler
-        </Button>
-        <Button variant="contained" onClick={handleSave}>
-          Valider
-        </Button>
-      </Stack>
-    </Stack>
-  );
-};
 
 export const NewsLinks = ({ control }: { control: Control<any> }) => {
   const { fields, append, remove, move, update } = useFieldArray({
@@ -90,6 +28,9 @@ export const NewsLinks = ({ control }: { control: Control<any> }) => {
     name: "links",
   });
   const links = fields as unknown as (NewsLink & { id: string })[];
+  // `fields` ne suit pas la saisie de l'introduction : on lit les valeurs à jour
+  // pour ne pas l'écraser en modifiant un lien externe.
+  const values: NewsLink[] = useWatch({ control, name: "links" }) ?? [];
   const [query, setQuery] = useState("");
   const [searchKey, setSearchKey] = useState(0);
   const [editing, setEditing] = useState<number | "new" | null>(null);
@@ -105,51 +46,34 @@ export const NewsLinks = ({ control }: { control: Control<any> }) => {
           itemLabel={(link) =>
             link.type === "cdtn" ? link.document.title : link.label
           }
-          renderItem={(link, index) => {
-            if (link.type === "cdtn") {
-              return (
+          renderItem={(link, index) => (
+            <Stack spacing={1}>
+              {link.type === "cdtn" ? (
                 <Stack direction="row" alignItems="center" spacing={2}>
                   <Chip label="CDTN" color="info" variant="outlined" />
                   <Box>{getDocumentLabel(link)}</Box>
                 </Stack>
-              );
-            }
-            if (editing === index) {
-              return (
+              ) : editing === index ? (
                 <ExternalLinkEditor
                   initial={link}
                   onCancel={() => setEditing(null)}
                   onSave={(value) => {
-                    update(index, value);
+                    update(index, { ...values[index], ...value });
                     setEditing(null);
                   }}
                 />
-              );
-            }
-            return (
-              <Stack direction="row" alignItems="center" spacing={2}>
-                <Chip label="Externe" variant="outlined" />
-                <Stack flex={1}>
-                  <Typography>{link.label}</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {link.url}
-                  </Typography>
-                </Stack>
-                <IconButton
-                  aria-label={`Modifier ${link.label}`}
-                  onClick={() => setEditing(index)}
-                >
-                  <Edit />
-                </IconButton>
-              </Stack>
-            );
-          }}
+              ) : (
+                <ExternalLinkRow link={link} onEdit={() => setEditing(index)} />
+              )}
+              <NewsIntroField control={control} name={`links.${index}.intro`} />
+            </Stack>
+          )}
         />
         {editing === "new" && (
           <ExternalLinkEditor
             onCancel={() => setEditing(null)}
             onSave={(value) => {
-              append(value);
+              append({ type: "external", ...value, intro: "" });
               setEditing(null);
             }}
           />
@@ -176,7 +100,7 @@ export const NewsLinks = ({ control }: { control: Control<any> }) => {
                 link.document.cdtnId === value.document.cdtnId
             );
             if (!alreadyLinked) {
-              append({ type: "cdtn", document: value.document });
+              append({ type: "cdtn", document: value.document, intro: "" });
             }
             setQuery("");
             setSearchKey((key) => key + 1);

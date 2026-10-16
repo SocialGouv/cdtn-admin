@@ -1,5 +1,6 @@
 import { AlertColor, Button, FormControl, Stack } from "@mui/material";
 import {
+  FormCdtnReferences,
   FormDatePicker,
   FormEditionField,
   FormTextField,
@@ -15,7 +16,7 @@ import { LoadingButton } from "../../../../components/button/LoadingButton";
 import { buildNewsFormSchema, NewsFormData } from "./formSchema";
 import { NewsImageField } from "./NewsImageField";
 import { NewsLinks } from "./NewsLinks";
-import { NewsLegiReferences } from "./NewsLegiReferences";
+import { NewsReferences } from "./NewsReferences";
 
 type FormData = Partial<NewsFormData>;
 
@@ -32,8 +33,9 @@ const defaultValues: FormData = {
   metaTitle: "",
   content: "",
   metaDescription: "",
+  cdtnReferences: [],
   links: [],
-  legiReferences: [],
+  references: [],
   imageFile: null,
   imageAlt: "",
   imageAuthor: "",
@@ -103,8 +105,9 @@ export const NewsForm = ({
         content: newData.content!,
         metaDescription: newData.metaDescription!,
         displayDate: newData.displayDate!,
+        cdtnReferences: newData.cdtnReferences!,
         links: newData.links!,
-        legiReferences: newData.legiReferences!,
+        references: newData.references!,
         imageFile,
         imageAlt: newData.imageAlt || null,
         imageAuthor: newData.imageAuthor || null,
@@ -181,8 +184,11 @@ export const NewsForm = ({
           savedFile={news?.imageFile ?? null}
           canRemove={!requireImage}
         />
+        <FormControl>
+          <FormCdtnReferences name="cdtnReferences" control={control} />
+        </FormControl>
         <NewsLinks control={control} />
-        <NewsLegiReferences control={control} />
+        <NewsReferences control={control} />
         <Stack direction="row" spacing={2} justifyContent="end">
           <Button variant="contained" color="primary" type="submit">
             {news ? "Sauvegarder" : "Créer"}

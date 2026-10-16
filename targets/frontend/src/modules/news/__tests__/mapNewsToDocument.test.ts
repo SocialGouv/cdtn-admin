@@ -14,6 +14,16 @@ const news: News = {
   displayDate: "2026-10-09",
   createdAt: "2026-10-09",
   updatedAt: "2026-10-09",
+  cdtnReferences: [
+    {
+      document: {
+        cdtnId: "lie",
+        title: "Contenu lié",
+        source: "information",
+        slug: "contenu-lie",
+      },
+    },
+  ],
   links: [
     {
       type: "cdtn",
@@ -23,16 +33,25 @@ const news: News = {
         source: "information",
         slug: "contenu-a",
       },
+      intro: "Pour en savoir plus",
     },
-    { type: "external", label: "Lien B", url: "https://b.fr" },
+    { type: "external", label: "Lien B", url: "https://b.fr", intro: " " },
   ],
-  legiReferences: [
+  references: [
     {
+      type: "legi",
       legiArticle: {
         cid: "LEGIARTI000006901112",
         id: "LEGIARTI000006901112",
         label: "L1234-9",
       },
+      intro: " Indemnité de licenciement ",
+    },
+    {
+      type: "external",
+      label: "Décret",
+      url: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000000001",
+      intro: null,
     },
   ],
   imageFile: { id: null, url: "nouveau-bareme.webp", size: "1200" },
@@ -44,18 +63,27 @@ const news: News = {
 };
 
 describe("mapNewsToDocument", () => {
-  it("publie les liens dans l'ordre, les références et l'image", () => {
+  it("publie les contenus liés, les liens, les références et l'image", () => {
     const { document } = mapNewsToDocument(news);
 
+    expect(document.cdtnReferences).toEqual([{ cdtnId: "lie" }]);
     expect(document.links).toEqual([
-      { type: "cdtn", cdtnId: "a" },
+      { type: "cdtn", cdtnId: "a", intro: "Pour en savoir plus" },
       { type: "external", title: "Lien B", url: "https://b.fr" },
     ]);
-    expect(document.cdtnReferences).toEqual([{ cdtnId: "a" }]);
-    expect(document.references?.[0].title).toBe(
-      "Article L1234-9 du code du travail"
-    );
-    expect(document.references?.[0].url).toMatch(/LEGIARTI000006901112$/);
+    expect(document.references).toEqual([
+      {
+        type: "legi",
+        title: "Article L1234-9 du code du travail",
+        url: "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006901112",
+        intro: "Indemnité de licenciement",
+      },
+      {
+        type: "external",
+        title: "Décret",
+        url: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000000000001",
+      },
+    ]);
     expect(document.image).toEqual({
       filename: "nouveau-bareme.webp",
       sizeOctet: 1200,

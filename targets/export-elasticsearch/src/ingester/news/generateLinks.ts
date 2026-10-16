@@ -3,19 +3,12 @@ import {
   DocumentElasticWithSource,
   NewsElasticLink,
   NewsTemplateDoc,
-  NewsTemplateLink,
 } from "@socialgouv/cdtn-types";
 
 export const generateLinks = async (
   news: DocumentElasticWithSource<NewsTemplateDoc>
 ): Promise<NewsElasticLink[]> => {
-  const links: NewsTemplateLink[] =
-    news.links ??
-    news.cdtnReferences.map((ref) => ({
-      type: "cdtn" as const,
-      cdtnId: ref.cdtnId,
-    }));
-  const linkPromises = links.map(
+  const linkPromises = (news.links ?? []).map(
     async (link): Promise<NewsElasticLink | undefined> => {
       if (link.type === "external") return link;
       const linkedDocument = await fetchLinkedContent(
@@ -29,6 +22,7 @@ export const generateLinks = async (
         source: linkedDocument.source,
         slug: linkedDocument.slug,
         title: linkedDocument.title,
+        ...(link.intro ? { intro: link.intro } : {}),
       };
     }
   );

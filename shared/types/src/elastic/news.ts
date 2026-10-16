@@ -1,5 +1,9 @@
 import { DocumentElasticWithSource } from "./common";
-import { NewsTemplateDoc, NewsTemplateReference } from "../hasura";
+import {
+  NewsTemplateDoc,
+  NewsTemplateExternalLink,
+  NewsTemplateReference,
+} from "../hasura";
 import { SOURCES } from "@socialgouv/cdtn-utils";
 import { LinkedContent } from "./related-items";
 
@@ -9,8 +13,8 @@ export type NewsElasticDocument = DocumentElasticWithSource<
 >;
 
 export type NewsElasticLink =
-  | ({ type: "cdtn" } & LinkedContent)
-  | { type: "external"; title: string; url: string };
+  | ({ type: "cdtn"; intro?: string } & LinkedContent)
+  | NewsTemplateExternalLink;
 
 export type NewsHasuraDoc = Omit<
   NewsTemplateDoc,
