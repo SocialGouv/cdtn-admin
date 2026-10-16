@@ -22,8 +22,8 @@ const normalize = (value: unknown): unknown => {
   if (value === undefined || value === null) return null;
   if (Array.isArray(value)) return value.map(normalize);
   if (typeof value === "object") {
-    return Object.keys(value as object)
-      .sort()
+    return Object.keys(value)
+      .sort((a, b) => a.localeCompare(b))
       .reduce<Record<string, unknown>>((acc, key) => {
         acc[key] = normalize((value as Record<string, unknown>)[key]);
         return acc;
