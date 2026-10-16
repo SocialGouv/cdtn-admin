@@ -71,7 +71,6 @@ export const ContributionsAnswer = ({
         cdtnReferences: data.cdtnReferences,
         otherReferences: data.otherReferences,
         infographics: data.infographics,
-        displayDate: data.displayDate,
       });
       if (newStatus === "TO_PUBLISH") {
         await onPublish(answer.id);
@@ -96,7 +95,6 @@ export const ContributionsAnswer = ({
           cdtnReferences: data.cdtnReferences,
           otherReferences: data.otherReferences,
           infographics: data.infographics,
-          displayDate: data.displayDate,
         });
       }
       setSnack({ open: true, severity: "error", message: e.message });

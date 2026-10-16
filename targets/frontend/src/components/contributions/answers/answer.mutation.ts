@@ -14,7 +14,6 @@ import { gql } from "@shared/utils";
 export const contributionAnswerUpdateMutation = gql`
   mutation contributionAnswerUpdate(
     $id: uuid!
-    $displayDate: date
     $content: String
     $description: String
     $contentType: String
@@ -32,7 +31,6 @@ export const contributionAnswerUpdateMutation = gql`
     update_contribution_answers_by_pk(
       pk_columns: { id: $id }
       _set: {
-        display_date: $displayDate
         content: $content
         description: $description
         content_type: $contentType
@@ -117,7 +115,6 @@ export type MutationProps = Pick<
   | "otherReferences"
   | "cdtnReferences"
   | "infographics"
-  | "displayDate"
 > & {
   status: string;
   userId: string;
