@@ -7,13 +7,21 @@ import {
 } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { generateContributionSlug } from "src/modules/contribution/generateSlug";
+import {
+  getTodayInParis,
+  hasContributionContentChanged,
+} from "src/modules/contribution/hasContributionContentChanged";
+import { format, parseISO } from "date-fns";
 import { AgreementRepository } from "../../agreements/api";
 import { SourceKeys } from "@socialgouv/cdtn-utils";
 import pMap from "p-map";
 import { mapAgreementToDocument } from "src/modules/agreements/mapAgreementToDocument";
 import { mapInformationToDocument } from "src/modules/informations/mapInformationToDocument";
 import { mapModelToDocument } from "src/modules/models/mapModelToDocument";
-import { HasuraDocument } from "@socialgouv/cdtn-types";
+import {
+  ContributionDocumentJson,
+  HasuraDocument,
+} from "@socialgouv/cdtn-types";
 import { mapInfographicToDocument } from "../../infographics/mapInfographicToDocument";
 import { InfographicRepository } from "../../infographics/api";
 import { mapWhatIsNewItemToDocument } from "../../what-is-new/mapWhatIsNewItemToDocument";
@@ -102,6 +110,8 @@ export class DocumentsService {
             });
           }
         }
+        const previousContributionDoc: ContributionDocumentJson | undefined =
+          document?.document;
         document = await mapContributionToDocument(
           contribution,
           document,
@@ -113,12 +123,36 @@ export class DocumentsService {
         );
         if (!document) {
           await this.contributionRepository.updateCdtnId(contribution.id, null);
-        } else if (!contribution.cdtnId) {
+          break;
+        }
+        const shouldSaveCdtnId = !contribution.cdtnId;
+        // La date de mise à jour suit la publication uniquement si le contenu visible a changé
+        const newDisplayDate = hasContributionContentChanged(
+          previousContributionDoc,
+          document.document
+        )
+          ? getTodayInParis()
+          : undefined;
+        if (newDisplayDate) {
+          document.document.date = format(
+            parseISO(newDisplayDate),
+            "dd/MM/yyyy"
+          );
+        }
+        if (shouldSaveCdtnId || newDisplayDate) {
           postTreatment = async (document) => {
-            await this.contributionRepository.updateCdtnId(
-              contribution.id,
-              document.cdtn_id
-            );
+            if (shouldSaveCdtnId) {
+              await this.contributionRepository.updateCdtnId(
+                contribution.id,
+                document.cdtn_id
+              );
+            }
+            if (newDisplayDate) {
+              await this.contributionRepository.updateDisplayDate(
+                contribution.id,
+                newDisplayDate
+              );
+            }
           };
         }
         break;

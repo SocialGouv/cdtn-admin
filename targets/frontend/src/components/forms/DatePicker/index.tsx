@@ -6,7 +6,9 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import fr from "date-fns/locale/fr";
 import { format, parseISO } from "date-fns";
 
-type FormDatePickerProps = CommonFormProps;
+type FormDatePickerProps = CommonFormProps & {
+  hintText?: string;
+};
 
 export const FormDatePicker = ({
   name,
@@ -14,6 +16,7 @@ export const FormDatePicker = ({
   label,
   rules,
   disabled,
+  hintText,
 }: FormDatePickerProps) => {
   const formatDate = (date?: string | null) => {
     try {
@@ -57,7 +60,7 @@ export const FormDatePicker = ({
             slotProps={{
               textField: {
                 error: !!error,
-                helperText: error?.message,
+                helperText: error?.message ?? hintText,
               },
             }}
           />
