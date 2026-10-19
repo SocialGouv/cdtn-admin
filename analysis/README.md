@@ -131,6 +131,16 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
 
   Remplace `completion_contributions` et `contrib_monthly_views` (API Matomo). Table `taux_contributions`.
 
+- **`completion_modeles_courrier`** — complétion des modèles de courrier, par
+  modèle (`slug`) et par device. Source : réplica SQL Matomo. Le download n'est
+  pas rattaché à la page du modèle : on reconstruit chaque visite ayant vu un
+  modèle (`modeles-de-courriers/{slug}`), on l'ordonne (`actions`) et on cherche,
+  **après** la vue du modèle, un download (`nb_download`) ou un copier-coller
+  (`type_CTRL_C`, `nb_copier_coller`). Un seul modèle par visite (le premier vu) ;
+  si la visite a les deux, le download prime. Le taux n'est pas stocké :
+  complétion = `(nb_download + nb_copier_coller) / nb_visites`.
+  Table `completion_modeles_courrier`.
+
 ## La base Metabase (destination)
 
 Les commandes d'ingestion n'écrivent **pas** dans Matomo : elles **agrègent** la
@@ -171,7 +181,8 @@ Quatre console scripts (déclarés dans `pyproject.toml`) agrègent la donnée e
 l'**upsert** dans la base PostgreSQL de Metabase :
 
 - **`ingest-all`** — lance **tous** les ingesters (actuellement `simulateurs`,
-  `nps_scores`, `taux-contributions` et `taux-personnalisation`). C'est le job planifié. **Sans argument, il cible J-2**
+  `nps_scores`, `taux-contributions`, `taux-personnalisation` et
+  `completion-modeles-courrier`). C'est le job planifié. **Sans argument, il cible J-2**
   (l'avant-veille, UTC — Matomo a alors archivé et stabilisé cette journée).
   C'est le point d'extension : pour ajouter un report, exposer un `Ingester`
   dans son module de commande et l'enregistrer dans `ingest_all.INGESTERS`.
@@ -186,6 +197,8 @@ l'**upsert** dans la base PostgreSQL de Metabase :
 - **`ingest-taux-personnalisation`** — lance uniquement l'ingester du taux de
   personnalisation des simulateurs, pour un jour ou une période explicite (c'est
   la commande du backfill manuel, ex. sur 1 an).
+- **`ingest-completion-modeles-courrier`** — lance uniquement l'ingester de
+  complétion des modèles de courrier, pour un jour ou une période explicite.
 
 ```bash
 # forme planifiée : agrège J-2 avec tous les ingesters (ce que lance le cronjob)
@@ -322,6 +335,7 @@ analysis/
 │       ├── ingest_simulateurs.py       # ingester simulateurs (modèle)
 │       ├── ingest_taux_contributions.py # ingester taux de complétion/personnalisation des contributions
 │       ├── ingest_nps_scores.py        # ingester scores NPS par device et par page
-│       └── ingest_taux_personnalisation.py # ingester taux de personnalisation
+│       ├── ingest_taux_personnalisation.py # ingester taux de personnalisation
+│       └── ingest_completion_modeles_courrier.py # ingester complétion des modèles de courrier
 └── notebooks/                    # analyses exploratoires
 ```
