@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.77.15](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.14...v2.77.15) (2026-10-20)
+
+### Features
+
+- **analysis:** clean des scripts d'aggrégation ([7eebf52](https://github.com/SocialGouv/cdtn-admin/commit/7eebf52bd3bf9460a3912df2ea539ffd9e734953))
+- **analysis:** taux de completion des pages modèles ([#1724](https://github.com/SocialGouv/cdtn-admin/issues/1724)) ([d10aeb5](https://github.com/SocialGouv/cdtn-admin/commit/d10aeb512a5f66c14ee296f7e65882d04f38e3ca))
+
 ## [2.77.14](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.13...v2.77.14) (2026-10-13)
 
 ### Features

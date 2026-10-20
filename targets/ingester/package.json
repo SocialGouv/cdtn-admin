@@ -1,6 +1,6 @@
 {
   "name": "ingester",
-  "version": "2.77.14",
+  "version": "2.77.15",
   "dependencies": {
     "@shared/utils": "workspace:^",
     "@socialgouv/cdtn-slugify": "4.52.1",
