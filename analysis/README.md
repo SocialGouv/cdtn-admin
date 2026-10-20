@@ -95,17 +95,15 @@ deux morceaux :
 
 La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
 `ingest_all.INGESTERS` pour qu'il soit exécuté par le cronjob. Voir
-`commands/ingest_simulateurs.py` comme modèle complet.
+`commands/ingest_nps_scores.py` comme modèle complet.
 
 ### Reports disponibles
 
-- **`completion_simulateurs`** — taux de complétion des simulateurs (start /
-  result) par device, via l'API de reporting Matomo. Table `completion_simulateurs`.
 - **`nps_scores`** — scores NPS du site (events Matomo `score_0` … `score_10`)
   par device et par page notée : visiteurs uniques par (device, score, url). Le
   NPS lui-même (promoteurs 9-10, détracteurs 0-6) n'est pas stocké, Metabase le
   recalcule. Table `nps_scores`.
-- **`taux_personnalisation_simulateurs`** — pour 6 simulateurs (rupture
+- **`completion_personnalisation_simulateurs`** — pour 6 simulateurs (rupture
   conventionnelle, licenciement, préavis de démission, précarité, préavis de
   licenciement, préavis de départ/mise à la retraite), classe chaque visite allée
   au résultat en réponse **personnalisée** (`cc_select_traitée`), **non
@@ -115,10 +113,10 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   non personnalisée > cdt). Les visites sans réponse classée (résultat non
   atteint ou atteint sans signal CC) vont dans `nb_non_complete`. Les taux ne
   sont pas stockés : personnalisation = `nb_personnalisee / nb_visites_total_complete`,
-  non complétion = `nb_non_complete / (nb_visites_total_complete + nb_non_complete)`.
-  Table `taux_personnalisation_simulateurs`.
+  complétion = `nb_visites_total_complete / (nb_visites_total_complete + nb_non_complete)`.
+  Table `completion_personnalisation_simulateurs`.
 
-- **`taux_contributions`** — taux de complétion et de personnalisation des
+- **`completion_personnalisation_contributions`** — taux de complétion et de personnalisation des
   contributions de `BASE_SLUGS`, par device. Source : réplica SQL Matomo.
   Seules les visites ayant vu la page **générique** à un moment de la visite sont
   comptées (`nb_visites_total`). Chaque visite ayant cliqué « Afficher les
@@ -128,8 +126,6 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   sont pas stockés, Metabase les calcule :
   - complétion = somme des trois cas / `nb_visites_total` ;
   - personnalisation = `nb_visites_cc` / `nb_visites_total`.
-
-  Remplace `completion_contributions` et `contrib_monthly_views` (API Matomo). Table `taux_contributions`.
 
 - **`completion_modeles_courrier`** — complétion des modèles de courrier, par
   modèle (`slug`) et par device. Source : réplica SQL Matomo. Le download n'est
@@ -180,15 +176,12 @@ au premier ingest, aucune étape de schéma manuelle n'est requise.
 Quatre console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
 l'**upsert** dans la base PostgreSQL de Metabase :
 
-- **`ingest-all`** — lance **tous** les ingesters (actuellement `simulateurs`,
+- **`ingest-all`** — lance **tous** les ingesters (actuellement
   `nps_scores`, `taux-contributions`, `taux-personnalisation` et
   `completion-modeles-courrier`). C'est le job planifié. **Sans argument, il cible J-2**
   (l'avant-veille, UTC — Matomo a alors archivé et stabilisé cette journée).
   C'est le point d'extension : pour ajouter un report, exposer un `Ingester`
   dans son module de commande et l'enregistrer dans `ingest_all.INGESTERS`.
-- **`ingest-simulateurs`** — lance uniquement l'ingester de complétion des
-  simulateurs pour un jour ou une période explicite. Pratique pour un run manuel
-  ou un backfill.
 - **`ingest-taux-contributions`** — lance uniquement l'ingester des taux de
   complétion et de personnalisation des contributions, pour un jour ou une
   période explicite.
@@ -207,10 +200,6 @@ uv run ingest-all
 # un jour / une période précise, tous les ingesters
 uv run ingest-all 2026-06-01
 uv run ingest-all 2026-06-01 --end 2026-06-30
-
-# uniquement les simulateurs, jour / période explicite
-uv run ingest-simulateurs 2026-06-01
-uv run ingest-simulateurs 2026-06-01 --end 2026-06-30
 
 # uniquement les taux des contributions, jour / période explicite
 uv run ingest-taux-contributions 2026-06-01
@@ -232,8 +221,7 @@ Toutes ces commandes lisent deux jeux de réglages dans `.env` :
 | `METABASE_DB_HOST` / `_PORT` / `_USER` / `_PASSWORD` / `_NAME` | destination — Postgres Metabase (défaut : la BDD `docker-compose` locale) |
 
 La table cible de chaque report est créée à son premier run (ex.
-`completion_simulateurs`, clé primaire `date, device, titre` ; ou
-`taux_contributions`, clé primaire `date, device, slug`), donc réingérer un
+`completion_personnalisation_contributions`, clé primaire `date, device, slug`), donc réingérer un
 jour écrase ses lignes de façon idempotente — sûr à planifier quotidiennement.
 
 ### Tester le job nocturne en local (Docker Compose)
@@ -259,7 +247,6 @@ docker compose run --rm analysis ingest-all 2026-06-01
 docker compose run --rm analysis ingest-all 2026-06-01 --end 2026-06-30
 
 # un seul ingester (itération rapide)
-docker compose run --rm analysis ingest-simulateurs 2026-06-01
 docker compose run --rm analysis ingest-taux-contributions 2026-06-01
 
 # inspecter le résultat (UI Metabase optionnelle)
@@ -332,7 +319,6 @@ analysis/
 │   ├── reports/                  # calcul des agrégats journaliers (DataFrame)
 │   └── commands/                 # commandes d'ingestion (report + couche BDD)
 │       ├── ingest_all.py               # lance tous les ingesters — job planifié
-│       ├── ingest_simulateurs.py       # ingester simulateurs (modèle)
 │       ├── ingest_taux_contributions.py # ingester taux de complétion/personnalisation des contributions
 │       ├── ingest_nps_scores.py        # ingester scores NPS par device et par page
 │       ├── ingest_taux_personnalisation.py # ingester taux de personnalisation

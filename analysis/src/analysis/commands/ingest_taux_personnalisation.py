@@ -26,7 +26,7 @@ from analysis.reports.taux_personnalisation_simulateurs import (
 # commande d'ingestion gère la structure et l'insert de ses propres données ; le
 # connecteur Metabase, lui, reste générique.
 _CREATE_TABLE = """
-CREATE TABLE IF NOT EXISTS taux_personnalisation_simulateurs (
+CREATE TABLE IF NOT EXISTS completion_personnalisation_simulateurs (
     date                  DATE    NOT NULL,
     device                TEXT    NOT NULL,
     titre                 TEXT    NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS taux_personnalisation_simulateurs (
 """
 
 _UPSERT = """
-INSERT INTO taux_personnalisation_simulateurs
+INSERT INTO completion_personnalisation_simulateurs
     (date, device, titre, nb_personnalisee, nb_non_personnalisee, nb_cdt,
      nb_visites_total_complete, nb_non_complete)
 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)

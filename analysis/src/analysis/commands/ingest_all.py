@@ -24,7 +24,6 @@ from datetime import date as Date
 from analysis.commands import (
     ingest_completion_modeles_courrier,
     ingest_nps_scores,
-    ingest_simulateurs,
     ingest_taux_contributions,
     ingest_taux_personnalisation,
 )
@@ -33,7 +32,6 @@ from analysis.commands._runner import Ingester, iter_days, parse_date, run_inges
 # Registre des reports à ingérer. Ajouter ici le ``INGESTER`` de chaque nouveau
 # report (un import + une entrée suffisent).
 INGESTERS: list[Ingester] = [
-    ingest_simulateurs.INGESTER,
     ingest_nps_scores.INGESTER,
     ingest_taux_contributions.INGESTER,
     ingest_taux_personnalisation.INGESTER,

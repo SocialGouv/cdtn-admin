@@ -22,7 +22,7 @@ class MetabaseDBConnector:
 
     Générique : le schéma de la table cible et la requête d'insertion sont
     fournis par l'appelant (voir p. ex.
-    ``analysis.commands.ingest_simulateurs``).
+    ``analysis.commands.ingest_nps_scores``).
     """
 
     def __init__(self, settings: MetabaseDBSettings | None = None) -> None:

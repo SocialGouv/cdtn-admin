@@ -1,6 +1,6 @@
 """Briques communes aux commandes d'ingestion vers Metabase.
 
-Une commande d'ingestion (``ingest-simulateurs``, ``ingest-all``, …) se ramène à :
+Une commande d'ingestion (``ingest-nps-scores``, ``ingest-all``, …) se ramène à :
 un ensemble de jours × un ensemble d'``Ingester``. Chaque ``Ingester`` sait
 persister **une** journée d'un report donné ; ``run_ingest`` orchestre la boucle
 et mutualise les connecteurs (un seul client Matomo HTTP, un seul connecteur

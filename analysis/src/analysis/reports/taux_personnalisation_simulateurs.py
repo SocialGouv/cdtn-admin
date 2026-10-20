@@ -18,8 +18,8 @@ la visite est comptée dans ``nb_non_complete``, hors de ``nb_visites_total_comp
 Un résultat « inéligible » (``results_ineligible``) compte comme un résultat.
 
 Les taux ne sont pas stockés : taux de personnalisation =
-``nb_personnalisee / nb_visites_total_complete`` ; taux de non complétion =
-``nb_non_complete / (nb_visites_total_complete + nb_non_complete)``.
+``nb_personnalisee / nb_visites_total_complete`` ; taux de complétion =
+``nb_visites_total_complete / (nb_visites_total_complete + nb_non_complete)``.
 """
 
 from __future__ import annotations

@@ -27,7 +27,7 @@ from analysis.reports.taux_contributions import get_taux_contributions
 # cc / total. Les trois colonnes de cas sont exclusives (priorité cc > cdt car
 # CC non traitée > cdt) : une visite n'est comptée que dans l'une d'elles.
 _CREATE_TABLE = """
-CREATE TABLE IF NOT EXISTS taux_contributions (
+CREATE TABLE IF NOT EXISTS completion_personnalisation_contributions (
     date                           DATE    NOT NULL,
     device                         TEXT    NOT NULL,
     slug                           TEXT    NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS taux_contributions (
 """
 
 _UPSERT = """
-INSERT INTO taux_contributions
+INSERT INTO completion_personnalisation_contributions
     (date, device, slug, nb_visites_total, nb_visites_cc,
      nb_visites_cdt_cc_non_traitee, nb_visites_cdt)
 VALUES (%s, %s, %s, %s, %s, %s, %s)

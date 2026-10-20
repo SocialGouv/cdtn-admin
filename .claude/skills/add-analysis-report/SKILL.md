@@ -32,17 +32,21 @@ casse l'idempotence de l'upsert et les dashboards.
 Ne pars pas de zéro et ne devine pas les conventions — le repo contient un report
 complet qui est la **référence** à imiter. Lis ces fichiers en premier :
 
-- `analysis/src/analysis/reports/completion_simulateurs.py` — un report : une
-  fonction `get_...(date, matomo=None) -> pd.DataFrame` qui délègue les appels au
-  connecteur.
-- `analysis/src/analysis/commands/ingest_simulateurs.py` — sa commande : `_CREATE_TABLE`,
+- `analysis/src/analysis/reports/completion_modeles_courrier.py` — un report
+  **sur la réplique SQL Matomo** : une fonction `get_...(date, matomo=None) ->
+  pd.DataFrame` qui ouvre elle-même `MatomoSQLConnectorSync` et exécute la
+  requête. Voir aussi `taux_contributions.py` et
+  `taux_personnalisation_simulateurs.py` (séquences d'events reconstruites par
+  visite).
+- `analysis/src/analysis/commands/ingest_completion_modeles_courrier.py` — sa commande : `_CREATE_TABLE`,
   `_UPSERT`, `_rows_from_df`, `ingest_day`, `INGESTER`, `main`.
 - `analysis/src/analysis/commands/_runner.py` — les briques partagées : `Ingester`,
   `parse_date`, `iter_days`, `run_ingest`.
 - `analysis/src/analysis/commands/ingest_all.py` — le registre `INGESTERS`.
-- `analysis/src/analysis/connectors/` — `matomo_reporting.py` (API HTTP),
-  `matomo.py` (`MatomoSQLConnectorSync` synchrone / `MatomoSQLConnector` async
-  historique, réplique SQL), `metabase_db.py` (connecteur **générique** :
+- `analysis/src/analysis/connectors/` — `matomo.py` (réplique SQL :
+  `MatomoSQLConnectorSync` synchrone, **à utiliser**, / `MatomoSQLConnector` async
+  historique), `matomo_reporting.py` (API HTTP, **legacy** : seul `nps_scores`
+  l'utilise encore), `metabase_db.py` (connecteur **générique** :
   `upsert(*, table_ddl, insert_sql, rows)`).
 - `analysis/src/analysis/matomo_segments.py` — segments Matomo partagés
   (`DEVICE_SEGMENTS` : desktop / mobile = smartphone + tablette). Réutilise cette
@@ -57,10 +61,11 @@ noms, `from __future__ import annotations`, ruff `line-length = 88`.
 Le calcul fourni ne suffit souvent pas à fixer le schéma. **Pose les questions
 manquantes** (regroupe-les, ne noie pas l'utilisateur) avant de générer :
 
-1. **Source des données** : API Matomo Reporting (pages vues / events par URL →
-   `MatomoReportingConnector`, déjà passé à l'ingester), réplique Postgres Matomo
-   (events bruts → `MatomoSQLConnectorSync`, **synchrone**), ou un calcul
-   autonome ?
+1. **Source des données** : par défaut la **réplique Postgres Matomo** (events
+   bruts, table `matomo_partitioned` → `MatomoSQLConnectorSync`, **synchrone**).
+   L'API Matomo Reporting (`MatomoReportingConnector`) n'est plus utilisée pour
+   les nouveaux reports : ne la propose que si l'utilisateur la demande
+   explicitement. Ou un calcul autonome ?
 2. **Granularité** : une ligne par jour + quelles **dimensions** (device, titre,
    slug, idcc…) ? Le report tourne-t-il par jour (défaut, comme les autres) ?
 3. **Colonnes de sortie** : pour chaque colonne, est-ce une **dimension** (fait
@@ -120,7 +125,7 @@ Règles :
 - **Clé primaire** = `(date, <dimensions>)`. Les colonnes de la clé sont `NOT NULL`.
 - **Ne stocke pas une valeur dérivable** d'autres colonnes (ex. un taux = a/b) :
   laisse Metabase la calculer. C'est une décision explicite prise sur ce projet.
-- Nom de table en `snake_case`, préfixé par le domaine (ex. `completion_simulateurs`).
+- Nom de table en `snake_case`, préfixé par le domaine (ex. `completion_modeles_courrier`).
 
 Exemple de DDL attendu (à adapter aux colonnes réelles) :
 
@@ -173,22 +178,23 @@ tuple**. C'est l'erreur la plus fréquente.
 ## Étape 4 — Écrire le report et la commande
 
 **Report** `analysis/src/analysis/reports/<name>.py` : une fonction
-`get_<name>(date: str, matomo: MatomoReportingConnector | None = None) -> pd.DataFrame`.
-Reproduis le patron de `completion_simulateurs.py` (ouverture paresseuse du
-connecteur si `matomo is None`, appels délégués au connecteur, DataFrame final
-avec les colonnes du contrat).
+`get_<name>(date: str, matomo: object | None = None) -> pd.DataFrame`.
+Reproduis le patron de `completion_modeles_courrier.py` : le report ouvre
+lui-même `MatomoSQLConnectorSync` (`with MatomoSQLConnectorSync() as m:
+m.run_query_df(...)`) et renvoie un DataFrame avec les colonnes du contrat.
 
-- Source = **Reporting API** → utilise le `matomo` reçu (ne rouvre pas de client).
-- Source = **réplique SQL** → utilise `MatomoSQLConnectorSync` (**synchrone**),
-  que le report ouvre lui-même (`with MatomoSQLConnectorSync() as m:
-m.run_query_df(...)`). Le report reste **synchrone** comme les autres — pas
-  d'`async`/`await`, pas d'`asyncio.run` (qui casse dans Jupyter). Le
-  paramètre `matomo` (client Reporting HTTP) n'est alors pas utilisé : garde-le
-  dans la signature pour l'uniformité, ou ignore-le si le report est purement SQL.
-  N'utilise **jamais** le `MatomoSQLConnector` async pour un nouveau report.
+- Le report reste **synchrone** — pas d'`async`/`await`, pas d'`asyncio.run`
+  (qui casse dans Jupyter). N'utilise **jamais** le `MatomoSQLConnector` async
+  pour un nouveau report.
+- Le paramètre `matomo` (client Reporting HTTP passé par l'ingester) n'est pas
+  utilisé : garde-le dans la signature pour l'uniformité avec `Ingester.run`.
+- Requête paramétrée sur la journée ; ventilation par device via
+  `matomo_segments.device_from_os` (cf. `completion_modeles_courrier.py`).
+- Source = API Reporting (exceptionnel, sur demande explicite) → reprends
+  `nps_scores.py` : utilise le `matomo` reçu (ne rouvre pas de client).
 
 **Commande** `analysis/src/analysis/commands/ingest_<name>.py` : copie la structure
-de `ingest_simulateurs.py` — `_CREATE_TABLE`, `_UPSERT`, `_rows_from_df`,
+de `ingest_completion_modeles_courrier.py` — `_CREATE_TABLE`, `_UPSERT`, `_rows_from_df`,
 `ingest_day(matomo, metabase, day) -> int` (qui appelle `get_<name>` puis
 `metabase.upsert(table_ddl=_CREATE_TABLE, insert_sql=_UPSERT, rows=rows)`),
 `INGESTER = Ingester(name="<name>", run=ingest_day)`, et un `main()` autonome
@@ -219,7 +225,7 @@ uv run ingest-all --help            # le registre charge sans erreur
 
 Ne t'arrête pas au smoke test en mémoire : le point le plus fragile d'un report
 est le **chemin d'écriture en base** (DDL + upsert + ordre des colonnes), et il se
-teste **sans credentials Matomo**. La base Metabase locale est fournie par Docker :
+teste **sans accès à la réplique Matomo**. La base Metabase locale est fournie par Docker :
 
 ```bash
 docker compose up -d metabase-db    # depuis la racine du repo (port hôte 5433)
@@ -227,22 +233,22 @@ docker compose up -d metabase-db    # depuis la racine du repo (port hôte 5433)
 
 Teste alors le chemin BDD de bout en bout **en stubant le report** (nourris
 `ingest_day`/l'upsert avec un petit DataFrame factice représentatif des colonnes
-de sortie, sans appeler Matomo), puis vérifie l'**idempotence** : exécute l'upsert
+de sortie, sans interroger la réplique), puis vérifie l'**idempotence** : exécute l'upsert
 **deux fois** sur la même date et confirme via un `SELECT count(*)` que le nombre
 de lignes ne double pas (c'est tout l'intérêt du `ON CONFLICT`). Nettoie derrière
 toi (`DROP TABLE`).
 
-Si en plus des identifiants Matomo sont disponibles, fais un vrai run complet sur
+Si en plus l'accès à la réplique SQL Matomo (`PG_MATOMO_*`) est disponible, fais un vrai run complet sur
 une journée connue. Le plus proche de la prod : le service Compose `analysis`
 (image du CronJob nocturne), qui démarre `metabase-db` et écrit dedans —
 
 ```bash
-# depuis la racine du repo (requiert analysis/.env : credentials Matomo)
+# depuis la racine du repo (requiert analysis/.env : accès à la réplique SQL Matomo)
 docker compose run --rm analysis ingest-<name> 2026-06-01   # un ingester, une date
 docker compose run --rm analysis                            # ingest-all, J-2 (le cron)
 ```
 
-Sinon, indique clairement à l'utilisateur que seul le run Matomo réel reste à
+Sinon, indique clairement à l'utilisateur que seul le run réel contre la réplique Matomo reste à
 faire — mais le schéma et l'idempotence, eux, doivent être vérifiés contre la
 vraie base locale, pas seulement en mémoire.
 
@@ -256,4 +262,4 @@ vraie base locale, pas seulement en mémoire.
 - [ ] `ingest_all.INGESTERS` + `pyproject [project.scripts]` + README à jour
 - [ ] ruff clean ; `ingest-<name> --help` et `ingest-all --help` OK
 - [ ] Chemin BDD testé contre le `metabase-db` local (schéma créé + upsert rejoué
-      deux fois sans doublon), même sans credentials Matomo
+      deux fois sans doublon), même sans accès à la réplique Matomo

@@ -21,7 +21,6 @@ dependencies = [
 
 [project.scripts]
 ingest-all = "analysis.commands.ingest_all:main"
-ingest-simulateurs = "analysis.commands.ingest_simulateurs:main"
 ingest-nps-scores = "analysis.commands.ingest_nps_scores:main"
 ingest-taux-contributions = "analysis.commands.ingest_taux_contributions:main"
 ingest-taux-personnalisation = "analysis.commands.ingest_taux_personnalisation:main"
