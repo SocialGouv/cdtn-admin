@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.77.16](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.15...v2.77.16) (2026-10-20)
+
+### Features
+
+- **analysis:** ajout des données sur les actualités ([#1728](https://github.com/SocialGouv/cdtn-admin/issues/1728)) ([dfa7c18](https://github.com/SocialGouv/cdtn-admin/commit/dfa7c1826ee58745e280f172e6644f35fb3e01b2))
+
 ## [2.77.15](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.14...v2.77.15) (2026-10-20)
 
 ### Features
