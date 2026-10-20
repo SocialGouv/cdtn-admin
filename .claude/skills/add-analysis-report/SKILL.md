@@ -34,7 +34,7 @@ complet qui est la **référence** à imiter. Lis ces fichiers en premier :
 
 - `analysis/src/analysis/reports/completion_modeles_courrier.py` — un report
   **sur la réplique SQL Matomo** : une fonction `get_...(date, matomo=None) ->
-  pd.DataFrame` qui ouvre elle-même `MatomoSQLConnectorSync` et exécute la
+pd.DataFrame` qui ouvre elle-même `MatomoSQLConnectorSync` et exécute la
   requête. Voir aussi `taux_contributions.py` et
   `taux_personnalisation_simulateurs.py` (séquences d'events reconstruites par
   visite).

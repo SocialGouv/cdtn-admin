@@ -137,6 +137,46 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   complétion = `(nb_download + nb_copier_coller) / nb_visites`.
   Table `completion_modeles_courrier`.
 
+- **`parcours_actualites`** — poursuite de navigation après une page d'actualité,
+  par actualité (`slug`, extrait de `…/actualite/{slug}`), par device et par type
+  de référent (`referrer_type` : `referrertype` Matomo — direct, search, website…,
+  `inconnu` si vide). Source : réplica SQL Matomo. Compteurs de **visites** :
+  - `nb_visites_total` : visites ayant vu l'actualité, quelle que soit leur page
+    d'entrée ;
+  - `nb_visites_actualite` : parmi elles, celles qui **démarrent** sur l'actualité
+    (première page vue du jour) ;
+  - `nb_visites_suite` : parmi ces dernières, celles qui voient ensuite une page
+    d'URL différente de l'entrée (autre actualité, liste des actualités ou autre
+    contenu ; un rechargement ne compte pas).
+
+  Les taux ne sont pas stockés, Metabase les calcule à partir des sommes sur la
+  période et les dimensions voulues (somme des compteurs **puis** division, jamais
+  une moyenne de taux journaliers) :
+  - part d'entrée = `SUM(nb_visites_actualite) / SUM(nb_visites_total)` : part des
+    visites de l'actualité qui y démarrent ;
+  - poursuite de navigation = `SUM(nb_visites_suite) / SUM(nb_visites_actualite)` :
+    part des visites entrant par l'actualité qui consultent ensuite une autre page ;
+  - taux de rebond (complément) = `1 - poursuite`.
+    Table `parcours_actualites`.
+
+- **`visites_par_type_contenu`** — visites par type de contenu et par device
+  (desktop / mobile). Source : réplica SQL Matomo. Le type est le premier segment
+  de l'URL, d'après `routeBySource` de `@socialgouv/cdtn-utils` (reprise dans
+  `ROUTES`) : `contribution`, `outils`, `actualite`, `code-du-travail`… Cas
+  particuliers : `/` → `home`, `/{route}` seul (page qui recense les contenus,
+  ex. `/contribution`) → `home-{route}`, `/politique-confidentialite` →
+  `politique-confidentialite`, le reste → `autre`. `nb_visites` compte les visites
+  ayant vu au moins une page du type : une visite qui consulte plusieurs types
+  compte dans chacun, **ne pas sommer les types** pour obtenir le total de visites.
+  Table `visites_par_type_contenu`.
+
+- **`visites_totales`** — visites et pages vues totales du site par device
+  (desktop / mobile). Source : réplica SQL Matomo. `nb_visites` compte les visites
+  ayant vu au moins une page (cohérent avec `visites_par_type_contenu`),
+  `nb_pages_vues` les pages vues (hors events et téléchargements). Sert de
+  dénominateur, ex. part d'un type = `nb_visites` du type / `nb_visites` total.
+  Table `visites_totales`.
+
 ## La base Metabase (destination)
 
 Les commandes d'ingestion n'écrivent **pas** dans Matomo : elles **agrègent** la
@@ -173,12 +213,13 @@ au premier ingest, aucune étape de schéma manuelle n'est requise.
 
 ## Ingérer des données dans Metabase
 
-Quatre console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
+Sept console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
 l'**upsert** dans la base PostgreSQL de Metabase :
 
 - **`ingest-all`** — lance **tous** les ingesters (actuellement
-  `nps_scores`, `taux-contributions`, `taux-personnalisation` et
-  `completion-modeles-courrier`). C'est le job planifié. **Sans argument, il cible J-2**
+  `nps_scores`, `taux-contributions`, `taux-personnalisation`,
+  `completion-modeles-courrier`, `parcours-actualites`,
+  `visites-par-type-contenu` et `visites-totales`). C'est le job planifié. **Sans argument, il cible J-2**
   (l'avant-veille, UTC — Matomo a alors archivé et stabilisé cette journée).
   C'est le point d'extension : pour ajouter un report, exposer un `Ingester`
   dans son module de commande et l'enregistrer dans `ingest_all.INGESTERS`.
@@ -192,6 +233,12 @@ l'**upsert** dans la base PostgreSQL de Metabase :
   la commande du backfill manuel, ex. sur 1 an).
 - **`ingest-completion-modeles-courrier`** — lance uniquement l'ingester de
   complétion des modèles de courrier, pour un jour ou une période explicite.
+- **`ingest-parcours-actualites`** — lance uniquement l'ingester du parcours
+  après une actualité, pour un jour ou une période explicite.
+- **`ingest-visites-par-type-contenu`** — lance uniquement l'ingester des visites
+  par type de contenu, pour un jour ou une période explicite.
+- **`ingest-visites-totales`** — lance uniquement l'ingester des visites et pages
+  vues totales, pour un jour ou une période explicite.
 
 ```bash
 # forme planifiée : agrège J-2 avec tous les ingesters (ce que lance le cronjob)
@@ -322,6 +369,9 @@ analysis/
 │       ├── ingest_taux_contributions.py # ingester taux de complétion/personnalisation des contributions
 │       ├── ingest_nps_scores.py        # ingester scores NPS par device et par page
 │       ├── ingest_taux_personnalisation.py # ingester taux de personnalisation
-│       └── ingest_completion_modeles_courrier.py # ingester complétion des modèles de courrier
+│       ├── ingest_completion_modeles_courrier.py # ingester complétion des modèles de courrier
+│       ├── ingest_parcours_actualites.py # ingester parcours après une actualité
+│       ├── ingest_visites_par_type_contenu.py # ingester visites par type de contenu
+│       └── ingest_visites_totales.py # ingester visites et pages vues totales
 └── notebooks/                    # analyses exploratoires
 ```
