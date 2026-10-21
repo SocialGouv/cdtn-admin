@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cron-alert
+  annotations:
+    oblik.socialgouv.io/min-request-cpu: "1500m"
+    oblik.socialgouv.io/min-request-memory: "2.5Gi"
+    oblik.socialgouv.io/min-limit-memory: "4.5Gi"
+spec:
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  schedule: 30 2 * * *
+  jobTemplate:
+    {{- include "job.alert" . | nindent 4 }}

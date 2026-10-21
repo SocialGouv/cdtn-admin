@@ -1,0 +1,21 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: export-elasticsearch
+data:
+  HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
+  NODE_ENV: "production"
+  LOG_LEVEL: "info"
+  BUCKET_DEFAULT_FOLDER: "default"
+  BUCKET_DRAFT_FOLDER: "draft"
+  BUCKET_PREVIEW_FOLDER: "preview"
+  BUCKET_PUBLISHED_FOLDER: "published"
+  SITEMAP_DESTINATION_FOLDER: "sitemap"
+  SITEMAP_NAME: "sitemap.xml"
+  SITEMAP_ENDPOINT: "http://www/api/sitemap"
+  AGREEMENTS_DESTINATION_FOLDER: "agreements"
+  AGREEMENTS_DESTINATION_NAME: "index.json"
+  ELASTICSEARCH_INDEX_PREPROD: "cdtn-dev-v2"
+  ELASTICSEARCH_INDEX_PROD: "cdtn-dev-v2"
+  MATTERMOST_CHANNEL_EXPORT: "s-cdtn-administration-veille-dev"
+  DISABLE_LIMIT_EXPORT: "true"
