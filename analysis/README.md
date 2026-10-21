@@ -95,17 +95,15 @@ deux morceaux :
 
 La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
 `ingest_all.INGESTERS` pour qu'il soit exécuté par le cronjob. Voir
-`commands/ingest_simulateurs.py` comme modèle complet.
+`commands/ingest_nps_scores.py` comme modèle complet.
 
 ### Reports disponibles
 
-- **`completion_simulateurs`** — taux de complétion des simulateurs (start /
-  result) par device, via l'API de reporting Matomo. Table `completion_simulateurs`.
 - **`nps_scores`** — scores NPS du site (events Matomo `score_0` … `score_10`)
   par device et par page notée : visiteurs uniques par (device, score, url). Le
   NPS lui-même (promoteurs 9-10, détracteurs 0-6) n'est pas stocké, Metabase le
   recalcule. Table `nps_scores`.
-- **`taux_personnalisation_simulateurs`** — pour 6 simulateurs (rupture
+- **`completion_personnalisation_simulateurs`** — pour 6 simulateurs (rupture
   conventionnelle, licenciement, préavis de démission, précarité, préavis de
   licenciement, préavis de départ/mise à la retraite), classe chaque visite allée
   au résultat en réponse **personnalisée** (`cc_select_traitée`), **non
@@ -115,10 +113,10 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   non personnalisée > cdt). Les visites sans réponse classée (résultat non
   atteint ou atteint sans signal CC) vont dans `nb_non_complete`. Les taux ne
   sont pas stockés : personnalisation = `nb_personnalisee / nb_visites_total_complete`,
-  non complétion = `nb_non_complete / (nb_visites_total_complete + nb_non_complete)`.
-  Table `taux_personnalisation_simulateurs`.
+  complétion = `nb_visites_total_complete / (nb_visites_total_complete + nb_non_complete)`.
+  Table `completion_personnalisation_simulateurs`.
 
-- **`taux_contributions`** — taux de complétion et de personnalisation des
+- **`completion_personnalisation_contributions`** — taux de complétion et de personnalisation des
   contributions de `BASE_SLUGS`, par device. Source : réplica SQL Matomo.
   Seules les visites ayant vu la page **générique** à un moment de la visite sont
   comptées (`nb_visites_total`). Chaque visite ayant cliqué « Afficher les
@@ -129,7 +127,55 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   - complétion = somme des trois cas / `nb_visites_total` ;
   - personnalisation = `nb_visites_cc` / `nb_visites_total`.
 
-  Remplace `completion_contributions` et `contrib_monthly_views` (API Matomo). Table `taux_contributions`.
+- **`completion_modeles_courrier`** — complétion des modèles de courrier, par
+  modèle (`slug`) et par device. Source : réplica SQL Matomo. Le download n'est
+  pas rattaché à la page du modèle : on reconstruit chaque visite ayant vu un
+  modèle (`modeles-de-courriers/{slug}`), on l'ordonne (`actions`) et on cherche,
+  **après** la vue du modèle, un download (`nb_download`) ou un copier-coller
+  (`type_CTRL_C`, `nb_copier_coller`). Un seul modèle par visite (le premier vu) ;
+  si la visite a les deux, le download prime. Le taux n'est pas stocké :
+  complétion = `(nb_download + nb_copier_coller) / nb_visites`.
+  Table `completion_modeles_courrier`.
+
+- **`parcours_actualites`** — poursuite de navigation après une page d'actualité,
+  par actualité (`slug`, extrait de `…/actualite/{slug}`), par device et par type
+  de référent (`referrer_type` : `referrertype` Matomo — direct, search, website…,
+  `inconnu` si vide). Source : réplica SQL Matomo. Compteurs de **visites** :
+  - `nb_visites_total` : visites ayant vu l'actualité, quelle que soit leur page
+    d'entrée ;
+  - `nb_visites_actualite` : parmi elles, celles qui **démarrent** sur l'actualité
+    (première page vue du jour) ;
+  - `nb_visites_suite` : parmi ces dernières, celles qui voient ensuite une page
+    d'URL différente de l'entrée (autre actualité, liste des actualités ou autre
+    contenu ; un rechargement ne compte pas).
+
+  Les taux ne sont pas stockés, Metabase les calcule à partir des sommes sur la
+  période et les dimensions voulues (somme des compteurs **puis** division, jamais
+  une moyenne de taux journaliers) :
+  - part d'entrée = `SUM(nb_visites_actualite) / SUM(nb_visites_total)` : part des
+    visites de l'actualité qui y démarrent ;
+  - poursuite de navigation = `SUM(nb_visites_suite) / SUM(nb_visites_actualite)` :
+    part des visites entrant par l'actualité qui consultent ensuite une autre page ;
+  - taux de rebond (complément) = `1 - poursuite`.
+    Table `parcours_actualites`.
+
+- **`visites_par_type_contenu`** — visites par type de contenu et par device
+  (desktop / mobile). Source : réplica SQL Matomo. Le type est le premier segment
+  de l'URL, d'après `routeBySource` de `@socialgouv/cdtn-utils` (reprise dans
+  `ROUTES`) : `contribution`, `outils`, `actualite`, `code-du-travail`… Cas
+  particuliers : `/` → `home`, `/{route}` seul (page qui recense les contenus,
+  ex. `/contribution`) → `home-{route}`, `/politique-confidentialite` →
+  `politique-confidentialite`, le reste → `autre`. `nb_visites` compte les visites
+  ayant vu au moins une page du type : une visite qui consulte plusieurs types
+  compte dans chacun, **ne pas sommer les types** pour obtenir le total de visites.
+  Table `visites_par_type_contenu`.
+
+- **`visites_totales`** — visites et pages vues totales du site par device
+  (desktop / mobile). Source : réplica SQL Matomo. `nb_visites` compte les visites
+  ayant vu au moins une page (cohérent avec `visites_par_type_contenu`),
+  `nb_pages_vues` les pages vues (hors events et téléchargements). Sert de
+  dénominateur, ex. part d'un type = `nb_visites` du type / `nb_visites` total.
+  Table `visites_totales`.
 
 ## La base Metabase (destination)
 
@@ -167,17 +213,16 @@ au premier ingest, aucune étape de schéma manuelle n'est requise.
 
 ## Ingérer des données dans Metabase
 
-Quatre console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
+Sept console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
 l'**upsert** dans la base PostgreSQL de Metabase :
 
-- **`ingest-all`** — lance **tous** les ingesters (actuellement `simulateurs`,
-  `nps_scores`, `taux-contributions` et `taux-personnalisation`). C'est le job planifié. **Sans argument, il cible J-2**
+- **`ingest-all`** — lance **tous** les ingesters (actuellement
+  `nps_scores`, `taux-contributions`, `taux-personnalisation`,
+  `completion-modeles-courrier`, `parcours-actualites`,
+  `visites-par-type-contenu` et `visites-totales`). C'est le job planifié. **Sans argument, il cible J-2**
   (l'avant-veille, UTC — Matomo a alors archivé et stabilisé cette journée).
   C'est le point d'extension : pour ajouter un report, exposer un `Ingester`
   dans son module de commande et l'enregistrer dans `ingest_all.INGESTERS`.
-- **`ingest-simulateurs`** — lance uniquement l'ingester de complétion des
-  simulateurs pour un jour ou une période explicite. Pratique pour un run manuel
-  ou un backfill.
 - **`ingest-taux-contributions`** — lance uniquement l'ingester des taux de
   complétion et de personnalisation des contributions, pour un jour ou une
   période explicite.
@@ -186,6 +231,14 @@ l'**upsert** dans la base PostgreSQL de Metabase :
 - **`ingest-taux-personnalisation`** — lance uniquement l'ingester du taux de
   personnalisation des simulateurs, pour un jour ou une période explicite (c'est
   la commande du backfill manuel, ex. sur 1 an).
+- **`ingest-completion-modeles-courrier`** — lance uniquement l'ingester de
+  complétion des modèles de courrier, pour un jour ou une période explicite.
+- **`ingest-parcours-actualites`** — lance uniquement l'ingester du parcours
+  après une actualité, pour un jour ou une période explicite.
+- **`ingest-visites-par-type-contenu`** — lance uniquement l'ingester des visites
+  par type de contenu, pour un jour ou une période explicite.
+- **`ingest-visites-totales`** — lance uniquement l'ingester des visites et pages
+  vues totales, pour un jour ou une période explicite.
 
 ```bash
 # forme planifiée : agrège J-2 avec tous les ingesters (ce que lance le cronjob)
@@ -194,10 +247,6 @@ uv run ingest-all
 # un jour / une période précise, tous les ingesters
 uv run ingest-all 2026-06-01
 uv run ingest-all 2026-06-01 --end 2026-06-30
-
-# uniquement les simulateurs, jour / période explicite
-uv run ingest-simulateurs 2026-06-01
-uv run ingest-simulateurs 2026-06-01 --end 2026-06-30
 
 # uniquement les taux des contributions, jour / période explicite
 uv run ingest-taux-contributions 2026-06-01
@@ -219,8 +268,7 @@ Toutes ces commandes lisent deux jeux de réglages dans `.env` :
 | `METABASE_DB_HOST` / `_PORT` / `_USER` / `_PASSWORD` / `_NAME` | destination — Postgres Metabase (défaut : la BDD `docker-compose` locale) |
 
 La table cible de chaque report est créée à son premier run (ex.
-`completion_simulateurs`, clé primaire `date, device, titre` ; ou
-`taux_contributions`, clé primaire `date, device, slug`), donc réingérer un
+`completion_personnalisation_contributions`, clé primaire `date, device, slug`), donc réingérer un
 jour écrase ses lignes de façon idempotente — sûr à planifier quotidiennement.
 
 ### Tester le job nocturne en local (Docker Compose)
@@ -246,7 +294,6 @@ docker compose run --rm analysis ingest-all 2026-06-01
 docker compose run --rm analysis ingest-all 2026-06-01 --end 2026-06-30
 
 # un seul ingester (itération rapide)
-docker compose run --rm analysis ingest-simulateurs 2026-06-01
 docker compose run --rm analysis ingest-taux-contributions 2026-06-01
 
 # inspecter le résultat (UI Metabase optionnelle)
@@ -319,9 +366,12 @@ analysis/
 │   ├── reports/                  # calcul des agrégats journaliers (DataFrame)
 │   └── commands/                 # commandes d'ingestion (report + couche BDD)
 │       ├── ingest_all.py               # lance tous les ingesters — job planifié
-│       ├── ingest_simulateurs.py       # ingester simulateurs (modèle)
 │       ├── ingest_taux_contributions.py # ingester taux de complétion/personnalisation des contributions
 │       ├── ingest_nps_scores.py        # ingester scores NPS par device et par page
-│       └── ingest_taux_personnalisation.py # ingester taux de personnalisation
+│       ├── ingest_taux_personnalisation.py # ingester taux de personnalisation
+│       ├── ingest_completion_modeles_courrier.py # ingester complétion des modèles de courrier
+│       ├── ingest_parcours_actualites.py # ingester parcours après une actualité
+│       ├── ingest_visites_par_type_contenu.py # ingester visites par type de contenu
+│       └── ingest_visites_totales.py # ingester visites et pages vues totales
 └── notebooks/                    # analyses exploratoires
 ```
