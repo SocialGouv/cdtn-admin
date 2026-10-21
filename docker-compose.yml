@@ -164,7 +164,7 @@ services:
   # demande —
   #   docker compose run --rm analysis                        # ingest-all (J-2)
   #   docker compose run --rm analysis ingest-all 2026-06-01  # une date précise
-  #   docker compose run --rm analysis ingest-simulateurs 2026-06-01
+  #   docker compose run --rm analysis ingest-nps-scores 2026-06-01
   # Requiert les credentials Matomo dans analysis/.env (cp analysis/.env.example).
   analysis:
     build:

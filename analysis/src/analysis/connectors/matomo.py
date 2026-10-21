@@ -7,7 +7,7 @@ Two flavours read the same database (``PG_MATOMO_*`` settings):
 * :class:`MatomoSQLConnectorSync` — **synchronous** (``psycopg``). Prefer it for
   reports and for new notebook cells: a report built on it stays a plain
   ``get_x(date) -> DataFrame`` function, callable without ``await`` — exactly like
-  the Reporting-API reports (``completion_simulateurs`` etc.). This keeps the
+  the Reporting-API reports (``nps_scores`` etc.). This keeps the
   notebook experience uniform and sidesteps ``asyncio.run`` (which fails inside
   Jupyter's already-running event loop).
 """
