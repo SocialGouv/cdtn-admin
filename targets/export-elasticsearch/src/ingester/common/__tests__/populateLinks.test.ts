@@ -47,9 +47,7 @@ describe("populateLinks", () => {
       ])
     );
 
-    const result = populateLinks([
-      { cdtnId: "doc1", title: "Doc one" } as any,
-    ]);
+    const result = populateLinks([{ cdtnId: "doc1", title: "Doc one" } as any]);
 
     expect(result).toEqual([
       {

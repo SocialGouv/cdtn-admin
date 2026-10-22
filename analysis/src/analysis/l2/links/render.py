@@ -1,4 +1,5 @@
-"""JSON export of the links table (the single output format of ``l2 links recommend``)."""
+"""JSON export of the links table (the single output format of
+``l2 links recommend``)."""
 
 from __future__ import annotations
 
@@ -74,8 +75,8 @@ def to_links_json(table: pd.DataFrame) -> list[dict]:
     """:func:`build_links_table`'s output as one object per source
     document, each with a ``links`` array -- meant for a consumer that
     applies these as real links on the live documents; carries the full
-    detail (both candidate types, every scoring ingredient), just reshaped from one flat table into one object per
-    source document.
+    detail (both candidate types, every scoring ingredient), just reshaped
+    from one flat table into one object per source document.
 
     Both candidate types are included, distinguished by ``candidate_type``
     (``"document"`` or ``"l2"``), sorted together by ``combined_rank`` --

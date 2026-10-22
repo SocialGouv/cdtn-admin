@@ -9,7 +9,7 @@ const DEFAULT_LINKS_FILE = "./dataset/fiches_service_public_links.json";
 
 // One entry per candidate in a source document's `links` array -- a subset
 // of the analysis pipeline's full export (see
-// analysis/src/analysis/l2/recommend_links.py:to_links_json), renamed to
+// analysis/src/analysis/l2/links/render.py:to_links_json), renamed to
 // this codebase's document-field conventions (cdtnId/slug/source/title
 // rather than candidate_id/candidate_slug/...). The facet-overlap/
 // similarity detail behind `confidence`/`score` stays in the source JSON

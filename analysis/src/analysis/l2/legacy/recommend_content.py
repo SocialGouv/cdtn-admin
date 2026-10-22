@@ -113,7 +113,8 @@ def add_recommendations(
     metadata = relevant.set_index(doc_id_col)[["title", "slug", source_col]]
 
     relevant_facets = facets_df[facets_df["doc_id"].isin(doc_ids)]
-    doc_facet_index = build_doc_facet_index(relevant_facets)
+    # Only read by the commented-out "bridge" below.
+    doc_facet_index = build_doc_facet_index(relevant_facets)  # noqa: F841
 
     source_docs = relevant[relevant[source_col] == recommend_for]
     recommendations = []

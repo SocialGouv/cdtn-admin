@@ -1,7 +1,8 @@
 """L2 pipeline, weight-fitting: derive training preferences from co-click
 behavior instead of hand-labeling, then validate the fit against the small
-hand-labeled set (the tagging UI's ``link_tags.csv``, see :mod:`analysis.l2.links.fit_weights`)
-kept as a held-out check rather than folded into training.
+hand-labeled set (the tagging UI's ``link_tags.csv``, see
+:mod:`analysis.l2.links.fit_weights`) kept as a held-out check rather than
+folded into training.
 
 Why: ``l2 links fit-weights`` only had 9 hand-labeled preferences to fit from,
 which forces heavy regularization to avoid overfitting (see that module's
