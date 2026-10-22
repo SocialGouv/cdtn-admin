@@ -10,6 +10,7 @@ import {
 export type Document = {
   updated_at: string;
   slug: string;
+  title?: string;
   source: SourceKeys;
   document: any;
 };
@@ -53,11 +54,42 @@ const LISTING_SOURCES: Record<string, SourceKeys> = {
 const latest = (a: Date | undefined, b: Date) =>
   a && a.getTime() >= b.getTime() ? a : b;
 
+// Nom de la publication tel qu'il apparaît sur les articles (Google Actualités).
+const NEWS_PUBLICATION_NAME = "Code du travail numérique";
+const NEWS_MAX_AGE_DAYS = 2;
+
+// Balises Google Actualités d'une actualité publiée depuis moins de deux jours
+// (Google ignore les plus anciennes). La date de publication est la date
+// affichée, sans heure : c'est la seule connue.
+const newsTags = (doc: Document, published: Date, now: Date) => {
+  if (doc.source !== SOURCES.NEWS || !doc.title || isNaN(published.getTime())) {
+    return "";
+  }
+  const since = Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate() - NEWS_MAX_AGE_DAYS
+  );
+  if (published.getTime() < since || published.getTime() > now.getTime()) {
+    return "";
+  }
+  return `<news:news><news:publication><news:name>${NEWS_PUBLICATION_NAME}</news:name><news:language>fr</news:language></news:publication><news:publication_date>${published
+    .toISOString()
+    .slice(0, 10)}</news:publication_date><news:title>${escapeXml(
+    doc.title
+  )}</news:title></news:news>`;
+};
+
+const imageTag = (imageUrl?: string) =>
+  imageUrl
+    ? `<image:image><image:loc>${escapeXml(imageUrl)}</image:loc></image:image>`
+    : "";
+
 export async function toUrlEntries(
   documents: Document[],
   glossaryTerms: Document[],
   baseUrl: string,
-  imageBaseUrl?: string
+  { imageBaseUrl, now = new Date() }: { imageBaseUrl?: string; now?: Date } = {}
 ) {
   let latestPostDate = new Date("2020-01-01");
   const latestBySource: Partial<Record<SourceKeys, Date>> = {};
@@ -97,7 +129,7 @@ export async function toUrlEntries(
       projectURL,
       date,
       priority,
-      newsImageUrl(doc, imageBaseUrl)
+      imageTag(newsImageUrl(doc, imageBaseUrl)) + newsTags(doc, displayed, now)
     );
   });
 
@@ -149,16 +181,13 @@ export default async function Sitemap(
   const glossaryTerms = await getGlossary();
 
   const { latestPostDate, pages, staticPages, glossaryPages } =
-    await toUrlEntries(
-      documents,
-      glossaryTerms,
-      baseUrl,
-      getImageBaseUrl(req.query.bucketfolder)
-    );
+    await toUrlEntries(documents, glossaryTerms, baseUrl, {
+      imageBaseUrl: getImageBaseUrl(req.query.bucketfolder),
+    });
 
   res.setHeader("Content-Type", "text/xml");
   res.write(
-    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"><url><loc>${baseUrl}/</loc><lastmod>${formatDateToCustomISO(
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"><url><loc>${baseUrl}/</loc><lastmod>${formatDateToCustomISO(
       latestPostDate
     )}</lastmod><priority>0.8</priority></url>${pages
       .concat(staticPages, glossaryPages)
@@ -187,19 +216,11 @@ const escapeXml = (value: string) =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
 
-function toUrlEntry(
-  url: string,
-  date?: Date,
-  priority = 0.5,
-  imageUrl?: string
-) {
+// `extensions` : balises image et news déjà échappées.
+function toUrlEntry(url: string, date?: Date, priority = 0.5, extensions = "") {
   return `<url><loc>${escapeXml(url)}</loc>${
     date ? `<lastmod>${formatDateToCustomISO(date)}</lastmod>` : ""
-  }<priority>${priority}</priority>${
-    imageUrl
-      ? `<image:image><image:loc>${escapeXml(imageUrl)}</image:loc></image:image>`
-      : ""
-  }</url>`;
+  }<priority>${priority}</priority>${extensions}</url>`;
 }
 
 /**
@@ -256,6 +277,7 @@ async function getDocuments() {
         }
       ) {
         slug
+        title
         source
         updated_at
         document

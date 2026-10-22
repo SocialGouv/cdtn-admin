@@ -177,7 +177,7 @@ describe("Sitemap", () => {
       [news, { ...news, slug: "sans-image", document: { date: "02/10/2026" } }],
       [],
       "base.url",
-      "https://bucket/published/default"
+      { imageBaseUrl: "https://bucket/published/default" }
     );
 
     expect(pages[0]).toBe(
@@ -230,5 +230,54 @@ describe("Sitemap", () => {
     expect(pages[0]).toContain(
       "<loc>base.url/fiche-service-public/a&amp;b</loc>"
     );
+  });
+
+  describe("balises Google Actualités", () => {
+    const now = new Date("2026-10-22T14:00:00.000Z");
+    const news = (date: string, title = "Nouveau barème & taux"): Document => ({
+      updated_at: "2026-10-22T08:00:00.000000+00:00",
+      slug: `actu-${date.replace(/\//g, "-")}`,
+      title,
+      source: "actualites",
+      document: { date },
+    });
+
+    it("ajoute news:news aux actualités des deux derniers jours", async () => {
+      const { pages } = await toUrlEntries(
+        [news("22/10/2026"), news("20/10/2026")],
+        [],
+        "base.url",
+        { now }
+      );
+
+      expect(pages[0]).toContain(
+        "<news:news><news:publication><news:name>Code du travail numérique</news:name><news:language>fr</news:language></news:publication><news:publication_date>2026-10-22</news:publication_date><news:title>Nouveau barème &amp; taux</news:title></news:news>"
+      );
+      expect(pages[1]).toContain(
+        "<news:publication_date>2026-10-20</news:publication_date>"
+      );
+    });
+
+    it("n'ajoute rien aux actualités plus anciennes, futures ou sans titre", async () => {
+      const { pages } = await toUrlEntries(
+        [news("19/10/2026"), news("25/10/2026"), news("22/10/2026", "")],
+        [],
+        "base.url",
+        { now }
+      );
+
+      pages.forEach((page) => expect(page).not.toContain("<news:news>"));
+    });
+
+    it("n'ajoute rien aux autres contenus", async () => {
+      const { pages } = await toUrlEntries(
+        [{ ...news("22/10/2026"), source: "information" }],
+        [],
+        "base.url",
+        { now }
+      );
+
+      expect(pages[0]).not.toContain("<news:news>");
+    });
   });
 });
