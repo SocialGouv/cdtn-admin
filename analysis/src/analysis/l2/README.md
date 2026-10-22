@@ -28,23 +28,23 @@ Artefacts sous `analysis/output/l2/` (ignoré par git), constantes de chemin
 dans `paths.py`. `docs`/`facets` en CSV, `sessions`/`questions` en Parquet
 (`io.py`).
 
-| # | Commande | Entrées | Sorties | Accès externes |
-|---|---|---|---|---|
-| 1 | `l2 docs build` | Elasticsearch | `docs.csv`, `l2_l1.json` | ES, OpenAI (embeddings) |
-| 1b | `l2 docs sync` | `docs.csv`, `facets.csv` + ES | mise à jour en place (seuls les documents changés sont ré-embarqués / ré-extraits) | ES, OpenAI, Claude |
-| 2 | `l2 facets extract` | `docs.csv`, `l2_l1.json` | `facets_raw.csv` (+ checkpoint) | Claude (plusieurs heures) |
-| 3 | `l2 facets embed` | `facets_raw.csv` | `facets.csv` | OpenAI ou Albert (`--provider`) |
-| 4 | `l2 facets canonicalize` | `facets.csv` | `facets.csv` + colonne `canonical_facet` | — |
-| 5 | `l2 sessions build` | `docs.csv` + Matomo | `visits.parquet`, `sessions.parquet` | Postgres Matomo (`PG_MATOMO_*`) |
-| 6 | `l2 questions anonymize` | CSV de questions brutes | CSV anonymisé (emails, tél., IBAN, NIR, noms) | spaCy `fr_core_news_md` |
-| 7 | `l2 questions embed` | CSV de questions | `questions.parquet` | OpenAI ou Albert |
-| 8 | `l2 questions theme` | docs, facets, `l2_l1.json`, `questions.parquet` | `questions_themes.json` (`--sample N`) | — |
-| 9 | `l2 describe` | docs, facets, `l2_l1.json` | `l2_descriptions.xlsx` | Claude |
-| 10 | `l2 links recommend` | docs, facets (avec `canonical_facet`), `l2_l1.json` | `<source>_links.json` | — |
-| 10b | `l2 links payload` | `<source>_links.json`, `l2_l1.json`, docs | `tagging_payload.json` (clair, ne pas publier) | — |
-| 11 | `l2 links explain` | idem | diagnostic d'un document (pourquoi tel lien est / n'est pas proposé) | — |
-| 12 | `l2 links fit-weights` | idem + `link_tags.csv` | rapport d'ajustement des poids (n'écrit rien) | — |
-| 13 | `l2 audit` | docs, facets, `l2_l1.json` (+ `--sessions`) | `labelled_docs.xlsx` | — |
+| #   | Commande                 | Entrées                                             | Sorties                                                                            | Accès externes                  |
+| --- | ------------------------ | --------------------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------- |
+| 1   | `l2 docs build`          | Elasticsearch                                       | `docs.csv`, `l2_l1.json`                                                           | ES, OpenAI (embeddings)         |
+| 1b  | `l2 docs sync`           | `docs.csv`, `facets.csv` + ES                       | mise à jour en place (seuls les documents changés sont ré-embarqués / ré-extraits) | ES, OpenAI, Claude              |
+| 2   | `l2 facets extract`      | `docs.csv`, `l2_l1.json`                            | `facets_raw.csv` (+ checkpoint)                                                    | Claude (plusieurs heures)       |
+| 3   | `l2 facets embed`        | `facets_raw.csv`                                    | `facets.csv`                                                                       | OpenAI ou Albert (`--provider`) |
+| 4   | `l2 facets canonicalize` | `facets.csv`                                        | `facets.csv` + colonne `canonical_facet`                                           | —                               |
+| 5   | `l2 sessions build`      | `docs.csv` + Matomo                                 | `visits.parquet`, `sessions.parquet`                                               | Postgres Matomo (`PG_MATOMO_*`) |
+| 6   | `l2 questions anonymize` | CSV de questions brutes                             | CSV anonymisé (emails, tél., IBAN, NIR, noms)                                      | spaCy `fr_core_news_md`         |
+| 7   | `l2 questions embed`     | CSV de questions                                    | `questions.parquet`                                                                | OpenAI ou Albert                |
+| 8   | `l2 questions theme`     | docs, facets, `l2_l1.json`, `questions.parquet`     | `questions_themes.json` (`--sample N`)                                             | —                               |
+| 9   | `l2 describe`            | docs, facets, `l2_l1.json`                          | `l2_descriptions.xlsx`                                                             | Claude                          |
+| 10  | `l2 links recommend`     | docs, facets (avec `canonical_facet`), `l2_l1.json` | `<source>_links.json`                                                              | —                               |
+| 10b | `l2 links payload`       | `<source>_links.json`, `l2_l1.json`, docs           | `tagging_payload.json` (clair, ne pas publier)                                     | —                               |
+| 11  | `l2 links explain`       | idem                                                | diagnostic d'un document (pourquoi tel lien est / n'est pas proposé)               | —                               |
+| 12  | `l2 links fit-weights`   | idem + `link_tags.csv`                              | rapport d'ajustement des poids (n'écrit rien)                                      | —                               |
+| 13  | `l2 audit`               | docs, facets, `l2_l1.json` (+ `--sessions`)         | `labelled_docs.xlsx`                                                               | —                               |
 
 `l2 audit --embeddings-only docs.csv l2_l1.json` fait la même chose sans
 facettes ni sessions (similarité d'embeddings de documents uniquement).
@@ -133,14 +133,14 @@ classement : `UPDATE_GOLDEN=1 uv run pytest src/analysis/l2/tests`.
 Valeurs par défaut depuis le 2026-10-08, réglées sur les votes 👍/👎 de
 l'outil de tagging (`tools/votes/link_tags.csv`, voir `tools/README.md`) :
 
-| Paramètre | Valeur | Remarque |
-|---|---|---|
-| `--min-similarity` | **0.60** (avant : 0.75) | Seul changement mesuré : 0.75 écartait la moitié des liens votés « good » et laissait ~87 % des fiches sans lien document. Vaut aussi pour les candidats L2 (non évalués). |
-| `--doc-top-k` | **3** (avant : 4) | Seuls 3 liens sont affichés. |
-| `--similarity-metric` | `doc` | `facet` renvoie beaucoup plus de liens mais affiche des liens votés « bad » (1 à 4). |
-| `--doc-pool` / `--l2-pool` / `--l2-top-k` | 12 / 8 / 2 | `--doc-pool` sans effet tant que le seuil coupe avant. `--l2-*` non évalués. |
-| `--facet-basis` | `canonical` | Non évalué. |
-| poids `combined_score` | recouvrement 0.15 · is_document 0.5 · affinité de source 0.2 · similarité 0.5 | Inchangés (voir ci-dessous). |
+| Paramètre                                 | Valeur                                                                        | Remarque                                                                                                                                                                   |
+| ----------------------------------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--min-similarity`                        | **0.60** (avant : 0.75)                                                       | Seul changement mesuré : 0.75 écartait la moitié des liens votés « good » et laissait ~87 % des fiches sans lien document. Vaut aussi pour les candidats L2 (non évalués). |
+| `--doc-top-k`                             | **3** (avant : 4)                                                             | Seuls 3 liens sont affichés.                                                                                                                                               |
+| `--similarity-metric`                     | `doc`                                                                         | `facet` renvoie beaucoup plus de liens mais affiche des liens votés « bad » (1 à 4).                                                                                       |
+| `--doc-pool` / `--l2-pool` / `--l2-top-k` | 12 / 8 / 2                                                                    | `--doc-pool` sans effet tant que le seuil coupe avant. `--l2-*` non évalués.                                                                                               |
+| `--facet-basis`                           | `canonical`                                                                   | Non évalué.                                                                                                                                                                |
+| poids `combined_score`                    | recouvrement 0.15 · is_document 0.5 · affinité de source 0.2 · similarité 0.5 | Inchangés (voir ci-dessous).                                                                                                                                               |
 
 Résultat sur les 20 votes « good » / 9 votes « bad » (documents seuls,
 top 3) : 15 « good » affichés sur 20, aucun « bad » affiché, ~1,5 lien
@@ -183,5 +183,5 @@ uv run l2 links recommend output/l2/docs.csv output/l2/facets.csv output/l2/l2_l
 `l2 links fit-weights` n'évalue pas le seuil de similarité ni la taille du pool
 (il score tous les candidats, sans seuil) : pour les comparer, régénérer les
 liens avec chaque valeur et recompter les votes « good » / « bad » présents
-dans le top 3. ``python -m analysis.l2.legacy.coclick_preferences`` accepte aussi `link_tags.csv`
+dans le top 3. `python -m analysis.l2.legacy.coclick_preferences` accepte aussi `link_tags.csv`
 (jeu de validation « hand-labeled », jamais entraîné dessus).
