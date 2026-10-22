@@ -89,4 +89,23 @@ describe("populateLinks", () => {
       { cdtnId: "unknown-doc", title: "Doc", links: [] },
     ]);
   });
+
+  it.each([
+    [
+      "missing",
+      () => {
+        throw new Error("ENOENT");
+      },
+    ],
+    ["invalid", () => "{not json"],
+  ])(
+    "exports the documents with empty links when the file is %s",
+    (_, readFileSync) => {
+      (fs.readFileSync as jest.Mock).mockImplementation(readFileSync);
+
+      const result = populateLinks([{ cdtnId: "doc1", title: "Doc" } as any]);
+
+      expect(result).toEqual([{ cdtnId: "doc1", title: "Doc", links: [] }]);
+    }
+  );
 });

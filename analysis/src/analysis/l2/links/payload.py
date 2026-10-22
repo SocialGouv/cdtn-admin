@@ -34,9 +34,15 @@ def build_payload(
     links: list[dict], l2_to_l1: dict[str, str], docs_df: pd.DataFrame
 ) -> dict:
     docs = [
-        {"s": r.source, "g": r.slug, "i": r.id, "t": r.title}
+        # A NaN is truthy and would be dumped as a bare `NaN`, which is not JSON.
+        {
+            "s": r.source,
+            "g": r.slug,
+            "i": r.id,
+            "t": r.title if pd.notna(r.title) else "",
+        }
         for r in docs_df.itertuples()
-        if r.slug and r.id
+        if pd.notna(r.slug) and pd.notna(r.id) and r.slug and r.id
     ]
     # Any suggested document must be findable, even if absent from docs_df.
     known = {(d["s"], d["g"]) for d in docs}

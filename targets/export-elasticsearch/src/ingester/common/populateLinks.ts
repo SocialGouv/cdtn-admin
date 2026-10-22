@@ -1,6 +1,7 @@
 import fs from "fs";
 import { join } from "path";
 
+import { logger } from "@shared/utils";
 import { DocumentElasticWithSource } from "@socialgouv/cdtn-types";
 
 import { context } from "../context";
@@ -61,10 +62,19 @@ interface RawLinksFileEntry {
   links: RawLinksFileCandidate[];
 }
 
+// The links are an enrichment: a missing or unreadable file must not abort
+// the whole export -- the fiches are indexed with `links: []` instead.
 function loadRawLinksFile(): RawLinksFileEntry[] {
   const linksFile = context.get("linksFile") || DEFAULT_LINKS_FILE;
-  const raw = fs.readFileSync(join(process.cwd(), linksFile), "utf-8");
-  return JSON.parse(raw);
+  try {
+    const raw = fs.readFileSync(join(process.cwd(), linksFile), "utf-8");
+    return JSON.parse(raw);
+  } catch (error) {
+    logger.error(
+      `Recommended links file ${linksFile} could not be loaded, fiches are exported without links: ${String(error)}`
+    );
+    return [];
+  }
 }
 
 function toRecommendedLinks(
