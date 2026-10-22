@@ -23,7 +23,6 @@ describe("buildMutationVariables", () => {
     otherReferences: [],
     cdtnReferences: [],
     infographics: [],
-    displayDate: "2026-10-22",
     status: "REDACTING",
     userId: "user-1",
   };

@@ -7,7 +7,7 @@ object_relationships:
       manual_configuration:
         column_mapping:
           message_id: id
-        insertion_order: null
+        insertion_order: before_parent
         remote_table:
           name: question_messages
           schema: contribution

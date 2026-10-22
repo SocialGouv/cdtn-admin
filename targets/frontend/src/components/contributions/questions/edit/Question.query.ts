@@ -1,6 +1,7 @@
 import { CombinedError, gql, useQuery } from "urql";
 
-import { Message, QuestionBase } from "../../type";
+import { QuestionBase } from "../../type";
+import { QuestionMessage } from "../common/messageBlock";
 
 export const contributionQuestionQuery = gql`
   query SelectQuestion($questionId: uuid!) {
@@ -13,16 +14,20 @@ export const contributionQuestionQuery = gql`
       introduction_nothing
       introduction_cdt
       template_answer
-    }
-
-    messages: contribution_question_messages {
-      contentAgreement
-      contentLegal
-      contentNotHandled
-      contentNotHandledWithoutLegal
-      contentAgreementWithoutLegal
-      id
-      label
+      message {
+        id
+        label
+        contentAgreement
+        contentAgreementWithoutLegal
+        contentLegal
+        contentNotHandled
+        contentNotHandledWithoutLegal
+        questions_aggregate {
+          aggregate {
+            count
+          }
+        }
+      }
     }
   }
 `;
@@ -31,14 +36,14 @@ type QueryProps = {
   questionId: string;
 };
 
+type QuestionWithMessage = QuestionBase & { message?: QuestionMessage | null };
+
 type QueryOutput = {
-  question: QuestionBase | null;
-  messages: Message[];
+  question: QuestionWithMessage | null;
 };
 
 export type QueryResult = {
-  question: QuestionBase | null;
-  messages: Message[];
+  question: QuestionWithMessage | null;
 };
 
 type Result = {

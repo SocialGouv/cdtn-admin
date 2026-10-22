@@ -23,6 +23,13 @@ import {
   initAgreementTypes,
 } from "../common/agreementTypes";
 import { buildAnswers, todayIso } from "./buildAnswers";
+import {
+  buildMessageLabel,
+  hasMessageContent,
+  pickMessageValues,
+  shortId,
+  toMessageContent,
+} from "../common/messageBlock";
 
 export const NewQuestion = (): JSX.Element => {
   const router = useRouter();
@@ -65,11 +72,22 @@ export const NewQuestion = (): JSX.Element => {
       );
     }
 
+    const messageValues = pickMessageValues(formData);
     const result = await create({
       order: formData.order,
       seo_title: formData.seo_title ? formData.seo_title : undefined,
       content: formData.content,
-      message_id: formData.message_id ? formData.message_id : undefined, // use to transform empty string sent by the form to undefined
+      // Chaque contribution a sa propre ligne de message (aucune si aucun message n'est renseigné)
+      ...(hasMessageContent(messageValues)
+        ? {
+            message: {
+              data: {
+                label: buildMessageLabel(formData.order, shortId()),
+                ...toMessageContent(messageValues),
+              },
+            },
+          }
+        : {}),
       introduction_nothing: formData.introduction_nothing || null,
       introduction_cdt: formData.introduction_cdt || null,
       template_answer: formData.template_answer || null,
@@ -122,7 +140,6 @@ export const NewQuestion = (): JSX.Element => {
   return (
     <Form
       creation
-      messages={data.messages}
       onSubmit={onCreate}
       defaultOrder={data.nextOrder}
       submitDisabled={remaining.length > 0}

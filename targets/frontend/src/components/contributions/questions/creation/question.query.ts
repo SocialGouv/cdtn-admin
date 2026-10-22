@@ -1,18 +1,8 @@
 import { CombinedError, gql, useQuery } from "urql";
-import { Message } from "../../type";
 import { AgreementRow } from "../common/agreementTypes";
 
 export const contributionQuestionCreationDataQuery = gql`
   query SelectQuestionCreationData {
-    messages: contribution_question_messages {
-      contentAgreement
-      contentLegal
-      contentNotHandled
-      contentNotHandledWithoutLegal
-      contentAgreementWithoutLegal
-      id
-      label
-    }
     agreements: agreement_agreements(
       where: { isSupported: { _eq: true } }
       order_by: { id: asc }
@@ -28,13 +18,11 @@ export const contributionQuestionCreationDataQuery = gql`
 `;
 
 type QueryOutput = {
-  messages: Message[];
   agreements: AgreementRow[];
   maxOrder: [{ order: number }];
 };
 
 export type QueryResult = {
-  messages: Message[];
   agreements: AgreementRow[];
   nextOrder: number;
 };
@@ -54,7 +42,6 @@ export const useQuestionCreationDataQuery = (): Result => {
   let formattedData: Result["data"] = undefined;
   if (data) {
     formattedData = {
-      messages: data.messages,
       agreements: data.agreements,
       nextOrder: data.maxOrder[0].order + 1,
     };

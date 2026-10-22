@@ -1,6 +1,7 @@
 import { gql, useMutation } from "urql";
 
 import { Answer, Question, Status } from "../../type";
+import { MessageContentInput } from "../common/messageBlock";
 
 const questionCreationMutation = gql`
   mutation CreateQuestion($question: contribution_questions_insert_input!) {
@@ -14,13 +15,14 @@ type MutationProps = {
   question: Pick<
     Question,
     | "content"
-    | "message_id"
     | "seo_title"
     | "order"
     | "introduction_nothing"
     | "introduction_cdt"
     | "template_answer"
   > & {
+    /** Ligne de message propre à la contribution, insérée avec la question */
+    message?: { data: { label: string } & MessageContentInput };
     answers: {
       data: {
         display_date: Answer["displayDate"];
