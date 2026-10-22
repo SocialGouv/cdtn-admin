@@ -7,21 +7,14 @@ import {
 } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { generateContributionSlug } from "src/modules/contribution/generateSlug";
-import {
-  getTodayInParis,
-  hasContributionContentChanged,
-} from "src/modules/contribution/hasContributionContentChanged";
-import { format, parseISO } from "date-fns";
+import { getTodayInParis } from "src/modules/contribution/getTodayInParis";
 import { AgreementRepository } from "../../agreements/api";
 import { SourceKeys } from "@socialgouv/cdtn-utils";
 import pMap from "p-map";
 import { mapAgreementToDocument } from "src/modules/agreements/mapAgreementToDocument";
 import { mapInformationToDocument } from "src/modules/informations/mapInformationToDocument";
 import { mapModelToDocument } from "src/modules/models/mapModelToDocument";
-import {
-  ContributionDocumentJson,
-  HasuraDocument,
-} from "@socialgouv/cdtn-types";
+import { HasuraDocument } from "@socialgouv/cdtn-types";
 import { mapInfographicToDocument } from "../../infographics/mapInfographicToDocument";
 import { InfographicRepository } from "../../infographics/api";
 import { mapWhatIsNewItemToDocument } from "../../what-is-new/mapWhatIsNewItemToDocument";
@@ -110,10 +103,10 @@ export class DocumentsService {
             });
           }
         }
-        const previousContributionDoc: ContributionDocumentJson | undefined =
-          document?.document;
+        // Chaque publication met à jour la date de la contribution
+        const displayDate = getTodayInParis();
         document = await mapContributionToDocument(
-          contribution,
+          { ...contribution, display_date: displayDate },
           document,
           async (questionId: string) => {
             return await this.contributionRepository.fetchGenericAnswer(
@@ -125,36 +118,18 @@ export class DocumentsService {
           await this.contributionRepository.updateCdtnId(contribution.id, null);
           break;
         }
-        const shouldSaveCdtnId = !contribution.cdtnId;
-        // La date de mise à jour suit la publication uniquement si le contenu visible a changé
-        const newDisplayDate = hasContributionContentChanged(
-          previousContributionDoc,
-          document.document
-        )
-          ? getTodayInParis()
-          : undefined;
-        if (newDisplayDate) {
-          document.document.date = format(
-            parseISO(newDisplayDate),
-            "dd/MM/yyyy"
+        postTreatment = async (document) => {
+          if (!contribution.cdtnId) {
+            await this.contributionRepository.updateCdtnId(
+              contribution.id,
+              document.cdtn_id
+            );
+          }
+          await this.contributionRepository.updateDisplayDate(
+            contribution.id,
+            displayDate
           );
-        }
-        if (shouldSaveCdtnId || newDisplayDate) {
-          postTreatment = async (document) => {
-            if (shouldSaveCdtnId) {
-              await this.contributionRepository.updateCdtnId(
-                contribution.id,
-                document.cdtn_id
-              );
-            }
-            if (newDisplayDate) {
-              await this.contributionRepository.updateDisplayDate(
-                contribution.id,
-                newDisplayDate
-              );
-            }
-          };
-        }
+        };
         break;
       case "modeles_de_courriers":
         const model = await this.modelRepository.fetch(id);

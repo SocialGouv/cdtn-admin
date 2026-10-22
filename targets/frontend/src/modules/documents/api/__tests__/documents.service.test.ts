@@ -292,24 +292,15 @@ describe("document service", () => {
       });
     });
 
-    it("conserve la date si le contenu n'a pas changé", async () => {
+    it("met la date du jour à chaque republication, même sans changement", async () => {
       const { publishedDocument, displayDateCall, cdtnIdCall } =
         await publishWith(await buildPreviousDocument(), publishedContribution);
-      expect(publishedDocument.date).toEqual("11/07/2024");
-      expect(displayDateCall).toBeUndefined();
-      expect(cdtnIdCall).toBeUndefined();
-    });
-
-    it("met à jour la date si le contenu a changé", async () => {
-      const { publishedDocument, displayDateCall } = await publishWith(
-        await buildPreviousDocument(),
-        { ...publishedContribution, description: "Nouvelle description" }
-      );
       expect(publishedDocument.date).toEqual("17/10/2026");
       expect(displayDateCall?.variables).toEqual({
         id: publishedContribution.id,
         displayDate: "2026-10-17",
       });
+      expect(cdtnIdCall).toBeUndefined();
     });
   });
 
