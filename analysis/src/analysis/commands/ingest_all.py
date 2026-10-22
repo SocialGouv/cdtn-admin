@@ -22,18 +22,26 @@ from datetime import UTC, datetime, timedelta
 from datetime import date as Date
 
 from analysis.commands import (
-    ingest_completion_contributions,
+    ingest_completion_modeles_courrier,
     ingest_nps_scores,
-    ingest_simulateurs,
+    ingest_parcours_actualites,
+    ingest_taux_contributions,
+    ingest_taux_personnalisation,
+    ingest_visites_par_type_contenu,
+    ingest_visites_totales,
 )
 from analysis.commands._runner import Ingester, iter_days, parse_date, run_ingest
 
 # Registre des reports à ingérer. Ajouter ici le ``INGESTER`` de chaque nouveau
 # report (un import + une entrée suffisent).
 INGESTERS: list[Ingester] = [
-    ingest_simulateurs.INGESTER,
-    ingest_completion_contributions.INGESTER,
     ingest_nps_scores.INGESTER,
+    ingest_taux_contributions.INGESTER,
+    ingest_taux_personnalisation.INGESTER,
+    ingest_completion_modeles_courrier.INGESTER,
+    ingest_parcours_actualites.INGESTER,
+    ingest_visites_par_type_contenu.INGESTER,
+    ingest_visites_totales.INGESTER,
 ]
 
 # Décalage par défaut : J-2 (avant-veille).

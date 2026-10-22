@@ -13,3 +13,13 @@ DEVICE_SEGMENTS: dict[str, str] = {
     "desktop": "deviceType==desktop",
     "mobile": "deviceType==smartphone,deviceType==tablet",
 }
+
+# Le réplica SQL Matomo (table ``matomo_partitioned``) n'expose pas ``deviceType`` :
+# les segments ci-dessus ne s'y appliquent pas. On y déduit le device de l'OS
+# (convention des notebooks : « mobile » = iOS ou Android, tablettes comprises).
+MOBILE_OS: frozenset[str] = frozenset({"iOS", "Android"})
+
+
+def device_from_os(operating_system: str | None) -> str:
+    """Retourne la clé de ``DEVICE_SEGMENTS`` (desktop / mobile) d'après l'OS."""
+    return "mobile" if operating_system in MOBILE_OS else "desktop"
