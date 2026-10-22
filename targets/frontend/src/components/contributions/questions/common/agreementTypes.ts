@@ -60,6 +60,14 @@ export const countByType = (
   return counts;
 };
 
+/** Tri par IDCC croissant (ordre numérique, les IDCC ayant 4 chiffres avec zéros initiaux). */
+export const sortByIdcc = (agreements: AgreementRow[]): AgreementRow[] =>
+  [...agreements].sort(
+    (a, b) =>
+      Number.parseInt(a.id, 10) - Number.parseInt(b.id, 10) ||
+      a.id.localeCompare(b.id)
+  );
+
 const normalize = (text: string): string =>
   text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 

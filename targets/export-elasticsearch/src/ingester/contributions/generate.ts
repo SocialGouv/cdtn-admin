@@ -110,10 +110,14 @@ export async function generateContributions(
       label
     );
 
-    const rawIntroduction = selectIntroduction(
-      contrib.contentType,
-      await getIntroductions(contrib.questionId)
-    );
+    // - NOTHING / CDT : introduction partagée entre CC, portée par la question
+    // - réponse générique : introduction propre à la réponse, publiée dans son document
+    const rawIntroduction = isGenericContribution(contrib)
+      ? contrib.introduction
+      : selectIntroduction(
+          contrib.contentType,
+          await getIntroductions(contrib.questionId)
+        );
     const introduction = rawIntroduction
       ? resolveHtml(rawIntroduction, variableValues, label, "introduction")
       : undefined;
@@ -165,6 +169,9 @@ export async function generateContributions(
     };
 
     delete contribution.contentWithGlossary;
+    // Sélection des références du Code du travail : déjà appliquée (generateReferences), non publiée
+    delete (contribution as { includedCdtReferences?: string[] })
+      .includedCdtReferences;
 
     generatedContributions.push(contribution);
   }

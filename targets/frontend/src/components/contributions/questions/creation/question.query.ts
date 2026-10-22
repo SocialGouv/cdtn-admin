@@ -15,7 +15,7 @@ export const contributionQuestionCreationDataQuery = gql`
     }
     agreements: agreement_agreements(
       where: { isSupported: { _eq: true } }
-      order_by: { name: asc }
+      order_by: { id: asc }
     ) {
       id
       name

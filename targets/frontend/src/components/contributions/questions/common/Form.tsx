@@ -6,11 +6,6 @@ import {
   AlertColor,
   Button,
   Card,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   IconButton,
   Stack,
   styled,
@@ -31,7 +26,16 @@ import {
   FormSelect,
   FormTextField,
 } from "src/components/forms";
-import { Message, QuestionBase, questionRelationSchema } from "../../type";
+import {
+  legiReferenceSchema,
+  Message,
+  otherReferenceSchema,
+  QuestionBase,
+  questionRelationSchema,
+} from "../../type";
+import { FormSection } from "./FormSection";
+import { LegiReferenceInput } from "../../answers/references/LegiReferenceInput";
+import { OtherReferenceInput } from "../../answers/references/OtherReferenceInput";
 import { SnackBar } from "../../../utils/SnackBar";
 import { LoadingButton } from "../../../button/LoadingButton";
 
@@ -46,8 +50,6 @@ type EditQuestionProps = {
   extraFields?: ReactNode;
   /** Désactive « Créer » (ex. : CC sans type de réponse) */
   submitDisabled?: boolean;
-  /** Demande une confirmation si le template est vide */
-  confirmEmptyTemplate?: boolean;
 };
 
 /** Erreur dont la solution est de recharger la page (ex. : nouvelle CC supportée) */
@@ -66,7 +68,10 @@ const formDataSchema = z.object({
   introduction_nothing: z.string().optional(),
   introduction_cdt: z.string().optional(),
   template_answer: z.string().optional(),
+  generic_introduction: z.string().optional(),
   generic_answer_content: z.string().optional(),
+  generic_legi_references: z.array(legiReferenceSchema).optional(),
+  generic_other_references: z.array(otherReferenceSchema).optional(),
 });
 
 export type QuestionFormData = z.infer<typeof formDataSchema>;
@@ -79,7 +84,6 @@ export const Form = ({
   creation = false,
   extraFields,
   submitDisabled = false,
-  confirmEmptyTemplate = false,
 }: EditQuestionProps): JSX.Element => {
   const {
     control,
@@ -98,12 +102,15 @@ export const Form = ({
       introduction_nothing: question?.introduction_nothing ?? "",
       introduction_cdt: question?.introduction_cdt ?? "",
       template_answer: question?.template_answer ?? "",
+      generic_introduction: "",
       generic_answer_content: "",
+      generic_legi_references: [],
+      generic_other_references: [],
     },
   });
   const genericContent = watch("generic_answer_content");
+  const templateContent = watch("template_answer");
   const [submitError, setSubmitError] = useState<Error | undefined>(undefined);
-  const [confirmOpen, setConfirmOpen] = useState(false);
   const pendingData = useRef<QuestionFormData | undefined>(undefined);
   const [message, setMessage] = useState<Message | undefined>(undefined);
   const watchMessageId = watch("message_id", question?.message_id);
@@ -149,17 +156,26 @@ export const Form = ({
   };
 
   const onSubmitForm = async (formData: QuestionFormData) => {
-    if (creation && !formData.generic_answer_content?.trim()) {
-      setError("generic_answer_content", {
-        type: "required",
-        message: "La réponse du Code du travail doit être renseignée",
-      });
-      return;
-    }
-    if (creation && confirmEmptyTemplate && !formData.template_answer?.trim()) {
-      pendingData.current = formData;
-      setConfirmOpen(true);
-      return;
+    if (creation) {
+      // Champs obligatoires à la création : toutes les erreurs sont remontées d'un coup
+      let hasError = false;
+      if (!formData.generic_answer_content?.trim()) {
+        setError("generic_answer_content", {
+          type: "required",
+          message: "La réponse du Code du travail doit être renseignée",
+        });
+        hasError = true;
+      }
+      if (!formData.template_answer?.trim()) {
+        setError("template_answer", {
+          type: "required",
+          message: "Le template doit être renseigné",
+        });
+        hasError = true;
+      }
+      if (hasError) {
+        return;
+      }
     }
     await submitData(formData);
   };
@@ -168,14 +184,20 @@ export const Form = ({
     <Stack mt={4} spacing={2}>
       <form onSubmit={handleSubmit(onSubmitForm)}>
         <Stack spacing={4}>
-          {creation && errors.generic_answer_content && (
-            <Alert severity="error" role="alert">
-              <strong>Le formulaire contient des erreurs :</strong>
-              <ul style={{ margin: 0 }}>
-                <li>{errors.generic_answer_content.message}</li>
-              </ul>
-            </Alert>
-          )}
+          {creation &&
+            (errors.generic_answer_content || errors.template_answer) && (
+              <Alert severity="error" role="alert">
+                <strong>Le formulaire contient des erreurs :</strong>
+                <ul style={{ margin: 0 }}>
+                  {errors.generic_answer_content && (
+                    <li>{errors.generic_answer_content.message}</li>
+                  )}
+                  {errors.template_answer && (
+                    <li>{errors.template_answer.message}</li>
+                  )}
+                </ul>
+              </Alert>
+            )}
           <FormTextField
             name="order"
             type="number"
@@ -343,69 +365,122 @@ export const Form = ({
             )}
           </Stack>
           {creation && (
+            <FormSection
+              title="Réponse au Code du travail"
+              description="Contenu qui sera affiché sur la page générique de la contribution."
+            >
+              <Stack spacing={1}>
+                <FormEditionField
+                  name="generic_introduction"
+                  control={control}
+                  label="Introduction de la réponse du Code du travail"
+                  disabled={submitting}
+                />
+                <HelpText>
+                  Facultatif. Affichée avant la réponse du Code du travail. Elle
+                  se modifie ensuite depuis la page de la réponse du Code du
+                  travail. Le surlignage et les variables n&apos;y sont pas
+                  disponibles.
+                </HelpText>
+              </Stack>
+              <Stack spacing={1}>
+                <FormEditionField
+                  name="generic_answer_content"
+                  control={control}
+                  label="Réponse du Code du travail"
+                  disabled={submitting}
+                />
+                <HelpText>
+                  Obligatoire. Collez ici la réponse du Code du travail : elle
+                  servira de réponse générique et de contenu pour les CC qui ne
+                  prévoient rien ou renvoient au Code du travail. Le surlignage
+                  et les variables n&apos;y sont pas disponibles.
+                </HelpText>
+              </Stack>
+              <Stack spacing={2}>
+                <Typography variant="h6" component="h3">
+                  Références juridiques de la réponse du Code du travail
+                </Typography>
+                <HelpText>
+                  Facultatif. Elles sont enregistrées avec la réponse du Code du
+                  travail et reprises dans les réponses des CC : toutes
+                  automatiquement pour les CC qui ne prévoient rien, renvoient
+                  au Code du travail ou sont moins favorables, au choix du
+                  rédacteur pour les CC qui prévoient des dispositions. Les
+                  contenus liés se renseignent ensuite, CC par CC.
+                </HelpText>
+                <LegiReferenceInput
+                  name="generic_legi_references"
+                  control={control}
+                  disabled={submitting}
+                />
+                <OtherReferenceInput
+                  name="generic_other_references"
+                  control={control}
+                  disabled={submitting}
+                />
+              </Stack>
+            </FormSection>
+          )}
+          <FormSection
+            title="Cas particulier"
+            description="Champ pour la gestion des cas où la convention collective ne prévoit rien ou renvoie au Code du travail. Les références juridiques seront celles renseignées dans la réponse générique. Dans la page d'édition de la contribution, vous pourrez modifier les références si besoin."
+          >
             <Stack spacing={1}>
               <FormEditionField
-                name="generic_answer_content"
+                name="introduction_nothing"
                 control={control}
-                label="Réponse du Code du travail"
+                label="Introduction « La convention collective ne prévoit rien »"
+                variablesEnabled
                 disabled={submitting}
               />
               <HelpText>
-                Obligatoire. Collez ici la réponse du Code du travail : elle
-                servira de réponse générique et de contenu pour les CC qui ne
-                prévoient rien ou renvoient au Code du travail. Le surlignage et
-                les variables n&apos;y sont pas disponibles.
+                Facultatif. Affichée avant la réponse du Code du travail pour
+                les CC de type « ne prévoit rien ». Vous pouvez y insérer le nom
+                de la CC avec « Insérer une variable ».
               </HelpText>
             </Stack>
-          )}
-          <Stack spacing={1}>
-            <FormEditionField
-              name="introduction_nothing"
-              control={control}
-              label="Introduction « La convention collective ne prévoit rien »"
-              variablesEnabled
-              disabled={submitting}
-            />
-            <HelpText>
-              Facultatif. Affichée avant la réponse du Code du travail pour les
-              CC de type « ne prévoit rien ». Vous pouvez y insérer le nom de la
-              CC avec « Insérer une variable ».
-            </HelpText>
-          </Stack>
-          <Stack spacing={1}>
-            <FormEditionField
-              name="introduction_cdt"
-              control={control}
-              label="Introduction « La convention collective renvoie au Code du travail »"
-              variablesEnabled
-              disabled={submitting}
-            />
-            <HelpText>
-              Facultatif. Affichée avant la réponse du Code du travail pour les
-              CC de type « renvoie au Code du travail ».
-            </HelpText>
-          </Stack>
-          <Stack spacing={1}>
-            <FormEditionField
-              name="template_answer"
-              control={control}
-              label="Template « La convention collective prévoit des dispositions »"
-              highlightEnabled
-              variablesEnabled
-              disabled={submitting}
-            />
-            <HelpText>
-              Facultatif. Proposé comme contenu des CC de type « Afficher la
-              réponse ». Surlignez les passages à adapter : une réponse
-              contenant du texte surligné ne peut pas être soumise à validation.
-            </HelpText>
-            {question && (
-              <Alert severity="info">
-                Modifier le template n&apos;est pas répercuté sur les réponses
-                déjà créées.
-              </Alert>
-            )}
-          </Stack>
+            <Stack spacing={1}>
+              <FormEditionField
+                name="introduction_cdt"
+                control={control}
+                label="Introduction « La convention collective renvoie au Code du travail »"
+                variablesEnabled
+                disabled={submitting}
+              />
+              <HelpText>
+                Facultatif. Affichée avant la réponse du Code du travail pour
+                les CC de type « renvoie au Code du travail ».
+              </HelpText>
+            </Stack>
+          </FormSection>
+          <FormSection
+            title="Template de réponse pour les conventions collectives"
+            description="Ce template sera repris dans chaque convention collective qui prévoit des dispositions."
+          >
+            <Stack spacing={1}>
+              <FormEditionField
+                name="template_answer"
+                control={control}
+                label="Template « La convention collective prévoit des dispositions »"
+                highlightEnabled
+                variablesEnabled
+                disabled={submitting}
+              />
+              <HelpText>
+                {creation ? "Obligatoire. " : ""}Proposé comme contenu des CC de
+                type « Afficher la réponse ». Surlignez les passages à adapter :
+                une réponse contenant du texte surligné ne peut pas être soumise
+                à validation.
+              </HelpText>
+              {question && (
+                <Alert severity="info">
+                  Modifier le template n&apos;est pas répercuté sur les réponses
+                  déjà créées.
+                </Alert>
+              )}
+            </Stack>
+          </FormSection>
           {extraFields}
           {submitError && (
             <Alert
@@ -444,7 +519,11 @@ export const Form = ({
               variant="contained"
               color="success"
               loading={submitting}
-              disabled={submitDisabled || (creation && !genericContent?.trim())}
+              disabled={
+                submitDisabled ||
+                (creation &&
+                  (!genericContent?.trim() || !templateContent?.trim()))
+              }
               type="submit"
             >
               {question ? "Sauvegarder" : "Créer"}
@@ -453,36 +532,6 @@ export const Form = ({
         </Stack>
       </form>
       <SnackBar snack={snack} setSnack={setSnack}></SnackBar>
-      <Dialog
-        open={confirmOpen}
-        onClose={() => setConfirmOpen(false)}
-        aria-labelledby="confirm-empty-template-title"
-      >
-        <DialogTitle id="confirm-empty-template-title">
-          Le template est vide
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Des CC sont de type « Afficher la réponse » mais le template est
-            vide : leurs réponses seront créées sans contenu.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setConfirmOpen(false)}>Annuler</Button>
-          <Button
-            variant="contained"
-            color="success"
-            onClick={() => {
-              setConfirmOpen(false);
-              if (pendingData.current) {
-                submitData(pendingData.current);
-              }
-            }}
-          >
-            Créer quand même
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Stack>
   );
 };

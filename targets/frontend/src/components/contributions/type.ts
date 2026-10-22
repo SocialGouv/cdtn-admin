@@ -149,6 +149,10 @@ const answerBaseSchema = z.object({
     .nullable()
     .optional(),
   messageBlockGenericNoCDT: z.string().nullable().optional(),
+  /** Introduction affichée avant la réponse (réponse générique uniquement) */
+  introduction: z.string().nullable().optional(),
+  /** Valeur de formulaire : URL des références du Code du travail cochées (CC « Afficher la réponse ») */
+  selectedCdtReferenceUrls: z.array(z.string()).optional(),
   updatedAt: z.string(),
   displayDate: z.string(),
 });
@@ -191,6 +195,9 @@ export const answerRelationSchema = answerBaseSchema.extend({
   kaliReferences: z.array(kaliReferenceSchema),
   legiReferences: z.array(legiReferenceSchema),
   otherReferences: z.array(otherReferenceSchema),
+  selectedCdtReferences: z
+    .array(z.object({ referenceUrl: z.string() }))
+    .optional(),
   cdtnReferences: z.array(cdtnReferenceSchema),
   infographics: z.array(infographicReferenceSchema),
   contentFichesSpDocument: documentSchema.nullable().optional(),

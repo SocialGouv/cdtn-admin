@@ -30,6 +30,7 @@ import {
   filterAgreements,
   getEffectiveType,
   getRemainingAgreements,
+  sortByIdcc,
 } from "./agreementTypes";
 
 type AgreementTypesTableProps = {
@@ -50,7 +51,7 @@ export const AgreementTypesTable = ({
   const [bulkType, setBulkType] = useState<AgreementAnswerType | "">("");
 
   const visible = useMemo(
-    () => filterAgreements(agreements, search),
+    () => filterAgreements(sortByIdcc(agreements), search),
     [agreements, search]
   );
   const remaining = getRemainingAgreements(agreements, types);
@@ -77,9 +78,6 @@ export const AgreementTypesTable = ({
   return (
     <Stack spacing={2}>
       <Stack spacing={1}>
-        <Typography variant="h6" component="h2">
-          Type de réponse par convention collective
-        </Typography>
         <Box role="status" aria-live="polite">
           <Typography
             fontWeight={600}

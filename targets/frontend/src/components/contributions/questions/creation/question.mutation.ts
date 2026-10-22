@@ -27,6 +27,9 @@ type MutationProps = {
         agreement_id: Answer["agreementId"];
         content_type?: Answer["contentType"];
         content?: string;
+        introduction?: string;
+        legi_references?: { data: { article_id: string }[] };
+        other_references?: { data: { label: string; url?: string }[] };
         statuses?: {
           data: { status: Status; user_id: string }[];
         };

@@ -95,4 +95,30 @@ describe("AgreementTypesTable", () => {
       screen.getByText("Toutes les CC sont renseignées")
     ).toBeInTheDocument();
   });
+
+  it("affiche les lignes triées par IDCC croissant, même filtrées", async () => {
+    const unsorted = [
+      { id: "1486", name: "Bureaux d'études", unextended: false },
+      { id: "0016", name: "Transports routiers", unextended: false },
+      { id: "0029", name: "Hospitalisation privée", unextended: true },
+    ];
+    const Sorted = () => {
+      const [types, setTypes] = useState<AgreementTypes>(
+        initAgreementTypes(unsorted)
+      );
+      return (
+        <AgreementTypesTable
+          agreements={unsorted}
+          types={types}
+          onChange={setTypes}
+        />
+      );
+    };
+    render(<Sorted />);
+    const rowHeaders = () =>
+      screen.getAllByRole("rowheader").map((cell) => cell.textContent);
+    expect(rowHeaders()).toEqual(["0016", "0029", "1486"]);
+    await userEvent.type(screen.getByLabelText("Filtrer par nom ou IDCC"), "e");
+    expect(rowHeaders()).toEqual(["0016", "0029", "1486"]);
+  });
 });

@@ -472,6 +472,88 @@ describe("mapContributionToDocument", () => {
     );
   });
 
+  describe("introduction et références du Code du travail", () => {
+    const generic: ContributionsAnswers = {
+      ...inputContribution,
+      id: "generic-id",
+      agreement: { id: "0000", name: "Code du travail", kali_id: "" },
+      kali_references: [],
+      legi_references: [],
+      other_references: [],
+      cdtn_references: [],
+    };
+
+    it("publie l'introduction de la réponse générique", async () => {
+      const result = await mapContributionToDocument(
+        { ...generic, introduction: "<p>Intro CDT</p>" },
+        undefined,
+        jest.fn()
+      );
+      expect(result?.document.introduction).toBe("<p>Intro CDT</p>");
+      expect(result?.document.includedCdtReferences).toBeUndefined();
+    });
+
+    it("ne publie pas d'introduction vide", async () => {
+      const result = await mapContributionToDocument(
+        { ...generic, introduction: "  " },
+        undefined,
+        jest.fn()
+      );
+      expect(result?.document).not.toHaveProperty("introduction");
+    });
+
+    it("ne publie jamais d'introduction pour une CC", async () => {
+      const result = await mapContributionToDocument(
+        { ...inputContribution, introduction: "<p>Intro</p>" },
+        undefined,
+        jest.fn()
+      );
+      expect(result?.document).not.toHaveProperty("introduction");
+    });
+
+    it("publie la sélection des références du Code du travail d'une CC « Afficher la réponse »", async () => {
+      const result = await mapContributionToDocument(
+        {
+          ...inputContribution,
+          selected_cdt_references: [
+            { reference_url: "https://legi/L3141-1" },
+            { reference_url: "https://autre" },
+          ],
+        },
+        undefined,
+        jest.fn()
+      );
+      expect(result?.document.includedCdtReferences).toEqual([
+        "https://legi/L3141-1",
+        "https://autre",
+      ]);
+    });
+
+    it("n'embarque pas la sélection quand elle est vide", async () => {
+      const result = await mapContributionToDocument(
+        { ...inputContribution, selected_cdt_references: [] },
+        undefined,
+        jest.fn()
+      );
+      expect(result?.document).not.toHaveProperty("includedCdtReferences");
+    });
+
+    it("garde la sélection inactive (non publiée) quand la CC n'est plus « Afficher la réponse »", async () => {
+      const result = await mapContributionToDocument(
+        {
+          ...inputContribution,
+          content_type: "NOTHING",
+          selected_cdt_references: [{ reference_url: "https://legi/L3141-1" }],
+        },
+        undefined,
+        jest
+          .fn()
+          .mockResolvedValue({ id: "generic-id", content_type: "ANSWER" })
+      );
+      expect(result?.document).not.toHaveProperty("includedCdtReferences");
+    });
+  });
+
   describe("flag is_searchable", () => {
     it("devrait être à false pour une réponse personnalisée", async () => {
       const inputContribution: ContributionsAnswers = {

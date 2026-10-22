@@ -104,4 +104,77 @@ describe("buildAnswers", () => {
       buildAnswers({ ...base, types: { "0016": "ANSWER" } })
     ).toThrow("CC 0044");
   });
+
+  describe("introduction et références de la réponse du Code du travail", () => {
+    const types = {
+      "0016": "ANSWER" as const,
+      "0044": "CDT" as const,
+      "1486": "CDT" as const,
+      "2216": "CDT" as const,
+    };
+
+    it("ajoute l'introduction à la réponse générique uniquement", () => {
+      const answers = buildAnswers({
+        ...base,
+        types,
+        genericIntroduction: "<p>Intro CDT</p>",
+      });
+      expect(answers[0].introduction).toBe("<p>Intro CDT</p>");
+      expect(answers.slice(1).every((a) => a.introduction === undefined)).toBe(
+        true
+      );
+    });
+
+    it("n'ajoute pas d'introduction vide", () => {
+      const answers = buildAnswers({
+        ...base,
+        types,
+        genericIntroduction: "  ",
+      });
+      expect(answers[0]).not.toHaveProperty("introduction");
+    });
+
+    it("imbrique les articles et autres références (sans contenu lié) dans la réponse générique", () => {
+      const answers = buildAnswers({
+        ...base,
+        types,
+        genericLegiReferences: [
+          { legiArticle: { id: "LEGIARTI1", label: "L3141-1", cid: "C1" } },
+        ],
+        genericOtherReferences: [
+          { label: "Circulaire", url: "https://exemple.fr" },
+          { label: "Sans lien", url: "" },
+        ],
+      });
+      expect(answers[0].legi_references).toEqual({
+        data: [{ article_id: "LEGIARTI1" }],
+      });
+      expect(answers[0].other_references).toEqual({
+        data: [
+          { label: "Circulaire", url: "https://exemple.fr" },
+          { label: "Sans lien", url: undefined },
+        ],
+      });
+      expect(answers[0]).not.toHaveProperty("cdtn_references");
+    });
+
+    it("n'ajoute pas de références aux réponses des CC", () => {
+      const answers = buildAnswers({
+        ...base,
+        types,
+        genericLegiReferences: [
+          { legiArticle: { id: "LEGIARTI1", label: "L3141-1", cid: "C1" } },
+        ],
+      });
+      expect(
+        answers.slice(1).every((a) => a.legi_references === undefined)
+      ).toBe(true);
+    });
+
+    it("n'ajoute pas de clé quand il n'y a aucune référence", () => {
+      const answers = buildAnswers({ ...base, types });
+      expect(answers[0]).not.toHaveProperty("legi_references");
+      expect(answers[0]).not.toHaveProperty("other_references");
+    });
+  });
 });

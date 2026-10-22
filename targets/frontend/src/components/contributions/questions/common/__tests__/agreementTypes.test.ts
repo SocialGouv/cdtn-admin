@@ -4,6 +4,7 @@ import {
   filterAgreements,
   getRemainingAgreements,
   initAgreementTypes,
+  sortByIdcc,
 } from "../agreementTypes";
 
 const agreements = [
@@ -67,5 +68,21 @@ describe("agreementTypes", () => {
     expect(next).toEqual({ "0016": "UNKNOWN", "0029": "NOTHING" });
     // immutabilité
     expect(types).toEqual({ "0029": "NOTHING" });
+  });
+
+  it("trie par IDCC croissant, sans modifier la liste d'origine", () => {
+    const unsorted = [
+      { id: "1486", name: "Bureaux d'études", unextended: false },
+      { id: "0016", name: "Transports routiers", unextended: false },
+      { id: "0029", name: "Hospitalisation privée", unextended: true },
+      { id: "0003", name: "Zéro trois", unextended: false },
+    ];
+    expect(sortByIdcc(unsorted).map((a) => a.id)).toEqual([
+      "0003",
+      "0016",
+      "0029",
+      "1486",
+    ]);
+    expect(unsorted.map((a) => a.id)).toEqual(["1486", "0016", "0029", "0003"]);
   });
 });

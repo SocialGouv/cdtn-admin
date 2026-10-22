@@ -19,6 +19,10 @@ query contribution_answer($id: uuid) {
     displayDate: display_date
     contentServicePublicCdtnId: content_service_public_cdtn_id
     messageBlockGenericNoCDT: message_block_generic_no_CDT
+    introduction
+    selectedCdtReferences: selected_cdt_references {
+      referenceUrl: reference_url
+    }
     question {
       id
       content

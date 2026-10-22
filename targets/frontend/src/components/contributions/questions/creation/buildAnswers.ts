@@ -3,6 +3,7 @@ import {
   AgreementTypes,
   getEffectiveType,
 } from "../common/agreementTypes";
+import { LegiReference, OtherReference } from "../../type";
 import { MutationResult } from "./question.mutation";
 
 /**
@@ -19,7 +20,10 @@ export const todayIso = (date: Date = new Date()): string => {
 type Props = {
   agreements: AgreementRow[];
   types: AgreementTypes;
+  genericIntroduction?: string;
   genericContent: string;
+  genericLegiReferences?: LegiReference[];
+  genericOtherReferences?: OtherReference[];
   template: string;
   displayDate: string;
   userId: string;
@@ -29,14 +33,18 @@ type Answers = Parameters<MutationResult>[0]["answers"]["data"];
 
 /**
  * Réponses créées avec la question :
- * - générique (0000) : ANSWER avec la réponse du Code du travail, au statut « En rédaction » ;
+ * - générique (0000) : ANSWER avec l'introduction, la réponse et les références du Code du travail
+ *   (articles et autres, pas de contenus liés), au statut « En rédaction » ;
  * - CC « Afficher la réponse » : copie du template ;
  * - autres types : aucun contenu (le contenu vient de la réponse générique), statut « À traiter » implicite.
  */
 export const buildAnswers = ({
   agreements,
   types,
+  genericIntroduction,
   genericContent,
+  genericLegiReferences = [],
+  genericOtherReferences = [],
   template,
   displayDate,
   userId,
@@ -46,6 +54,28 @@ export const buildAnswers = ({
     agreement_id: "0000",
     content_type: "ANSWER",
     content: genericContent,
+    ...(genericIntroduction?.trim()
+      ? { introduction: genericIntroduction }
+      : {}),
+    ...(genericLegiReferences.length > 0
+      ? {
+          legi_references: {
+            data: genericLegiReferences.map((ref) => ({
+              article_id: ref.legiArticle.id,
+            })),
+          },
+        }
+      : {}),
+    ...(genericOtherReferences.length > 0
+      ? {
+          other_references: {
+            data: genericOtherReferences.map((ref) => ({
+              label: ref.label,
+              url: ref.url || undefined,
+            })),
+          },
+        }
+      : {}),
     statuses: { data: [{ status: "REDACTING", user_id: userId }] },
   };
   const others = agreements.map((agreement): Answers[number] => {

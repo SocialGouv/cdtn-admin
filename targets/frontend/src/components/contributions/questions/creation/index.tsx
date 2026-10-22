@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { Form, QuestionFormData, ReloadRequiredError } from "../common";
+import {
+  Form,
+  FormSection,
+  QuestionFormData,
+  ReloadRequiredError,
+} from "../common";
 import { useQuestionCreationMutation } from "./question.mutation";
 import {
   contributionQuestionCreationDataQuery,
@@ -72,7 +77,10 @@ export const NewQuestion = (): JSX.Element => {
         data: buildAnswers({
           agreements: data.agreements,
           types: agreementTypes,
+          genericIntroduction: formData.generic_introduction,
           genericContent: formData.generic_answer_content ?? "",
+          genericLegiReferences: formData.generic_legi_references,
+          genericOtherReferences: formData.generic_other_references,
           template: formData.template_answer ?? "",
           displayDate: todayIso(),
           userId: session.user.id,
@@ -110,9 +118,6 @@ export const NewQuestion = (): JSX.Element => {
   }
 
   const remaining = getRemainingAgreements(data.agreements, agreementTypes);
-  const hasAnswerType = data.agreements.some(
-    (agreement) => agreementTypes[agreement.id] === "ANSWER"
-  );
 
   return (
     <Form
@@ -121,13 +126,14 @@ export const NewQuestion = (): JSX.Element => {
       onSubmit={onCreate}
       defaultOrder={data.nextOrder}
       submitDisabled={remaining.length > 0}
-      confirmEmptyTemplate={hasAnswerType}
       extraFields={
-        <AgreementTypesTable
-          agreements={data.agreements}
-          types={agreementTypes}
-          onChange={setTypes}
-        />
+        <FormSection title="Type de réponse par convention collective">
+          <AgreementTypesTable
+            agreements={data.agreements}
+            types={agreementTypes}
+            onChange={setTypes}
+          />
+        </FormSection>
       }
     />
   );

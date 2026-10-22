@@ -25,6 +25,18 @@ export const generateReferences = (
     const result = [...contrib.references, ...contribGeneric.references];
     return removeDuplicates(result);
   }
+  if (
+    contrib.contentType === "ANSWER" &&
+    contrib.includedCdtReferences?.length
+  ) {
+    // CC « Afficher la réponse » : seules les références du Code du travail cochées sont ajoutées
+    const included = contrib.includedCdtReferences;
+    const genericReferences =
+      contribGeneric && contribGeneric.type !== "generic-no-cdt"
+        ? contribGeneric.references.filter((ref) => included.includes(ref.url))
+        : [];
+    return removeDuplicates([...contrib.references, ...genericReferences]);
+  }
   return contrib.references;
 };
 
