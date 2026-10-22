@@ -9,9 +9,6 @@ import {
 
 const updateNewsQuery = gql`
   mutation UpdateNews($id: uuid = "", $news: news_news_insert_input!) {
-    delete_news_news_cdtn_references(where: { newsId: { _eq: $id } }) {
-      affected_rows
-    }
     delete_news_news_links(where: { newsId: { _eq: $id } }) {
       affected_rows
     }

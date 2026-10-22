@@ -1,6 +1,5 @@
 import { AlertColor, Button, FormControl, Stack } from "@mui/material";
 import {
-  FormCdtnReferences,
   FormDatePicker,
   FormEditionField,
   FormTextField,
@@ -33,7 +32,6 @@ const defaultValues: FormData = {
   metaTitle: "",
   content: "",
   metaDescription: "",
-  cdtnReferences: [],
   links: [],
   references: [],
   imageFile: null,
@@ -105,7 +103,6 @@ export const NewsForm = ({
         content: newData.content!,
         metaDescription: newData.metaDescription!,
         displayDate: newData.displayDate!,
-        cdtnReferences: newData.cdtnReferences!,
         links: newData.links!,
         references: newData.references!,
         imageFile,
@@ -184,9 +181,6 @@ export const NewsForm = ({
           savedFile={news?.imageFile ?? null}
           canRemove={!requireImage}
         />
-        <FormControl>
-          <FormCdtnReferences name="cdtnReferences" control={control} />
-        </FormControl>
         <NewsLinks control={control} />
         <NewsReferences control={control} />
         <Stack direction="row" spacing={2} justifyContent="end">

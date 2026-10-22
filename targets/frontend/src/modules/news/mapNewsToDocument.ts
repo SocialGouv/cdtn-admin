@@ -42,9 +42,6 @@ export const mapNewsToDocument = (
       author: "Ministère du Travail",
       content: data.content,
       meta_description: data.metaDescription,
-      cdtnReferences: data.cdtnReferences.map(({ document }) => ({
-        cdtnId: document.cdtnId,
-      })),
       links: data.links.map(
         (link): NewsTemplateLink =>
           link.type === "cdtn"

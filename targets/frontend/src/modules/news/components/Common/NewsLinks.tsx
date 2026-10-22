@@ -37,7 +37,7 @@ export const NewsLinks = ({ control }: { control: Control<any> }) => {
   const { data: options } = useSearchCdtnReferencesQuery(query);
 
   return (
-    <TitleBox title="Pour aller plus loin">
+    <TitleBox title="Contenus liés">
       <Stack spacing={2} mt={1}>
         <NewsSortableList
           items={links}

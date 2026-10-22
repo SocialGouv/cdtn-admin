@@ -6,12 +6,6 @@ const documentA = {
   source: "fiches_service_public",
   slug: "contenu-a",
 };
-const documentLie = {
-  cdtnId: "lie",
-  title: "Contenu lié",
-  source: "information",
-  slug: "contenu-lie",
-};
 const legiArticle = {
   cid: "LEGIARTI000006901112",
   id: "LEGIARTI000006901112",
@@ -33,7 +27,6 @@ const row: NewsRow = {
   imageLicense: null,
   imageWidth: null,
   imageHeight: null,
-  cdtnReferences: [{ document: documentLie }],
   newsLinks: [
     {
       kind: "cdtn",
@@ -69,11 +62,7 @@ const row: NewsRow = {
 };
 
 describe("mapNewsRow", () => {
-  it("garde les contenus liés tels quels", () => {
-    expect(mapNewsRow(row).cdtnReferences).toEqual([{ document: documentLie }]);
-  });
-
-  it("transforme les liens « Pour aller plus loin » dans l'ordre", () => {
+  it("transforme les contenus liés dans l'ordre", () => {
     expect(mapNewsRow(row).links).toEqual([
       { type: "cdtn", document: documentA, intro: "Voir aussi" },
       { type: "external", label: "Lien B", url: "https://b.fr", intro: null },

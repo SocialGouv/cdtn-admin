@@ -23,14 +23,6 @@ export const selectNewsQuery = gql`
         url
         size
       }
-      cdtnReferences: news_cdtn_references {
-        document {
-          cdtnId: cdtn_id
-          title
-          source
-          slug
-        }
-      }
       newsLinks: news_links(order_by: { order: asc }) {
         kind
         intro

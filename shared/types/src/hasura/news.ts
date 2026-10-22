@@ -10,7 +10,9 @@ export type NewsTemplateDoc = {
   author: string;
   content: string;
   meta_description: string;
-  cdtnReferences: NewsLinkedContent[];
+  // Ancien bloc « Contenus liés », fusionné dans `links` : présent seulement
+  // sur les actualités publiées avant la fusion.
+  cdtnReferences?: NewsLinkedContent[];
   links?: NewsTemplateLink[];
   references?: NewsTemplateReference[];
   image?: NewsTemplateImage;

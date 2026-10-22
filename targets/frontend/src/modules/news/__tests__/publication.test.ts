@@ -10,7 +10,6 @@ const baseNews: News = {
   displayDate: "2026-01-01",
   updatedAt: "2026-01-01T00:00:00Z",
   createdAt: "2026-01-01T00:00:00Z",
-  cdtnReferences: [],
   links: [],
   references: [],
   imageFile: { id: null, url: "https://example.com/image.png", size: null },

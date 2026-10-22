@@ -14,16 +14,6 @@ const news: News = {
   displayDate: "2026-10-09",
   createdAt: "2026-10-09",
   updatedAt: "2026-10-09",
-  cdtnReferences: [
-    {
-      document: {
-        cdtnId: "lie",
-        title: "Contenu lié",
-        source: "information",
-        slug: "contenu-lie",
-      },
-    },
-  ],
   links: [
     {
       type: "cdtn",
@@ -63,10 +53,10 @@ const news: News = {
 };
 
 describe("mapNewsToDocument", () => {
-  it("publie les contenus liés, les liens, les références et l'image", () => {
+  it("publie les contenus liés, les références et l'image", () => {
     const { document } = mapNewsToDocument(news);
 
-    expect(document.cdtnReferences).toEqual([{ cdtnId: "lie" }]);
+    expect("cdtnReferences" in document).toBe(false);
     expect(document.links).toEqual([
       { type: "cdtn", cdtnId: "a", intro: "Pour en savoir plus" },
       { type: "external", title: "Lien B", url: "https://b.fr" },

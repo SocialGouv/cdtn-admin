@@ -28,14 +28,6 @@ export type FilesObjRelInsertInput = {
   on_conflict?: FilesOnConflict;
 };
 
-export type NewsCdtnReferencesInsertInput = {
-  cdtnId: string;
-};
-
-export type NewsCdtnReferencesArrRelInsertInput = {
-  data: NewsCdtnReferencesInsertInput[];
-};
-
 export type NewsLinksInsertInput = {
   order: number;
   kind: "cdtn" | "external";
@@ -78,7 +70,6 @@ export type NewsInsertInput = {
   imageWidth?: number | null;
   imageHeight?: number | null;
   imageFile?: FilesObjRelInsertInput;
-  news_cdtn_references?: NewsCdtnReferencesArrRelInsertInput;
   news_links?: NewsLinksArrRelInsertInput;
   news_references?: NewsReferencesArrRelInsertInput;
 };
@@ -86,18 +77,11 @@ export type NewsInsertInput = {
 const formatIntro = (intro?: string | null) => intro?.trim() || null;
 
 export const formatNewsRelations = ({
-  cdtnReferences,
   links,
   references,
-}: Pick<FormDataResult, "cdtnReferences" | "links" | "references">): Required<
-  Pick<
-    NewsInsertInput,
-    "news_cdtn_references" | "news_links" | "news_references"
-  >
+}: Pick<FormDataResult, "links" | "references">): Required<
+  Pick<NewsInsertInput, "news_links" | "news_references">
 > => ({
-  news_cdtn_references: {
-    data: cdtnReferences.map(({ document }) => ({ cdtnId: document.cdtnId })),
-  },
   news_links: {
     data: links.map((link, order) => ({
       order,

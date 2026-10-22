@@ -6,7 +6,6 @@ const base = {
   content: "Contenu",
   metaDescription: "Description meta",
   displayDate: "2026-10-09",
-  cdtnReferences: [],
   links: [],
   references: [],
   imageFile: null,
