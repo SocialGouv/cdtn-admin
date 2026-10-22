@@ -187,11 +187,11 @@ export default async function Sitemap(
 
   res.setHeader("Content-Type", "text/xml");
   res.write(
-    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"><url><loc>${baseUrl}/</loc><lastmod>${formatDateToCustomISO(
-      latestPostDate
-    )}</lastmod><priority>0.8</priority></url>${pages
-      .concat(staticPages, glossaryPages)
-      .join("")}</urlset>`
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">${toUrlEntry(
+      `${baseUrl}/`,
+      latestPostDate,
+      0.8
+    )}${pages.concat(staticPages, glossaryPages).join("")}</urlset>`
   );
   res.end();
 }
