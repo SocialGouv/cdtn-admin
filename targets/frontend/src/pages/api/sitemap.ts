@@ -29,12 +29,38 @@ const findCCSlug = (
   })?.slug;
 };
 
+// URL publique de l'image d'une actualité, comme sur le site : le nom du
+// fichier, sans dossier, sous `imageBaseUrl`.
+const newsImageUrl = (doc: Document, imageBaseUrl?: string) => {
+  const filename: string | undefined = doc.document?.image?.filename;
+  if (!imageBaseUrl || doc.source !== SOURCES.NEWS || !filename) return;
+  return `${imageBaseUrl}/${filename.substring(filename.lastIndexOf("/") + 1)}`;
+};
+
+// Pages de liste : leur lastmod est la date du contenu le plus récent de leur
+// rubrique. Les autres pages fixes n'ont pas de lastmod, Google ignorant tous
+// les lastmod d'un site quand ils ne sont pas fiables.
+const LISTING_SOURCES: Record<string, SourceKeys> = {
+  "/modeles-de-courriers": SOURCES.LETTERS,
+  "/outils": SOURCES.TOOLS,
+  "/contribution": SOURCES.CONTRIBUTIONS,
+  "/themes": SOURCES.THEMES,
+  "/convention-collective": SOURCES.CCN,
+  "/infographie": SOURCES.INFOGRAPHICS,
+  "/actualite": SOURCES.NEWS,
+};
+
+const latest = (a: Date | undefined, b: Date) =>
+  a && a.getTime() >= b.getTime() ? a : b;
+
 export async function toUrlEntries(
   documents: Document[],
   glossaryTerms: Document[],
-  baseUrl: string
+  baseUrl: string,
+  imageBaseUrl?: string
 ) {
   let latestPostDate = new Date("2020-01-01");
+  const latestBySource: Partial<Record<SourceKeys, Date>> = {};
 
   const pages = documents.flat().map((doc) => {
     const displayed = doc.document?.date
@@ -50,6 +76,7 @@ export async function toUrlEntries(
     if (date.getTime() > latestPostDate.getTime()) {
       latestPostDate = date;
     }
+    latestBySource[doc.source] = latest(latestBySource[doc.source], date);
     const source = getRouteBySource(doc.source);
     const priority =
       source === "information" ||
@@ -66,8 +93,24 @@ export async function toUrlEntries(
       const slugAfterFirstDash = doc.slug.slice(doc.slug.indexOf("-") + 1);
       projectURL = `${baseUrl}/${source}/${slugAfterFirstDash}/${findCCSlug(doc.document.idcc, documents.flat()) ?? doc.document.idcc}`;
     }
-    return toUrlEntry(projectURL, date, priority);
+    return toUrlEntry(
+      projectURL,
+      date,
+      priority,
+      newsImageUrl(doc, imageBaseUrl)
+    );
   });
+
+  const glossaryPages = glossaryTerms.map(({ slug, updated_at }) =>
+    toUrlEntry(
+      `${baseUrl}/${getRouteBySource(SOURCES.GLOSSARY)}/${slug}`,
+      new Date(updated_at)
+    )
+  );
+  const latestGlossaryDate = glossaryTerms.reduce<Date | undefined>(
+    (acc, { updated_at }) => latest(acc, new Date(updated_at)),
+    undefined
+  );
 
   const staticPages = [
     `/a-propos`,
@@ -84,14 +127,15 @@ export async function toUrlEntries(
     `/convention-collective`,
     `/infographie`,
     "/actualite",
-  ].map((path) => toUrlEntry(`${baseUrl}${path}`, latestPostDate));
-
-  const glossaryPages = glossaryTerms.map(({ slug, updated_at }) =>
+  ].map((path) =>
     toUrlEntry(
-      `${baseUrl}/${getRouteBySource(SOURCES.GLOSSARY)}/${slug}`,
-      new Date(updated_at)
+      `${baseUrl}${path}`,
+      path === "/glossaire"
+        ? latestGlossaryDate
+        : LISTING_SOURCES[path] && latestBySource[LISTING_SOURCES[path]]
     )
   );
+
   return { latestPostDate, glossaryPages, pages, staticPages };
 }
 
@@ -105,11 +149,16 @@ export default async function Sitemap(
   const glossaryTerms = await getGlossary();
 
   const { latestPostDate, pages, staticPages, glossaryPages } =
-    await toUrlEntries(documents, glossaryTerms, baseUrl);
+    await toUrlEntries(
+      documents,
+      glossaryTerms,
+      baseUrl,
+      getImageBaseUrl(req.query.bucketfolder)
+    );
 
   res.setHeader("Content-Type", "text/xml");
   res.write(
-    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${baseUrl}/</loc><lastmod>${formatDateToCustomISO(
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"><url><loc>${baseUrl}/</loc><lastmod>${formatDateToCustomISO(
       latestPostDate
     )}</lastmod><priority>0.8</priority></url>${pages
       .concat(staticPages, glossaryPages)
@@ -118,10 +167,39 @@ export default async function Sitemap(
   res.end();
 }
 
-function toUrlEntry(url: string, date: Date, priority = 0.5) {
-  return `<url><loc>${url}</loc><lastmod>${formatDateToCustomISO(
-    date
-  )}</lastmod><priority>${priority}</priority></url>`;
+// Dossier public du bucket (`published` ou `preview`) passé par l'export : les
+// images des actualités y sont servies sous le dossier par défaut, comme sur le
+// site. Sans dossier, le sitemap ne liste pas d'image.
+export function getImageBaseUrl(bucketFolder: unknown): string | undefined {
+  if (typeof bucketFolder !== "string" || !/^[\w-]+$/.test(bucketFolder)) {
+    return;
+  }
+  return `${
+    process.env.NEXT_PUBLIC_BUCKET_PUBLIC_ENDPOINT ?? "http://localhost:9000"
+  }/${bucketFolder}/${process.env.NEXT_PUBLIC_BUCKET_DEFAULT_FOLDER ?? "default"}`;
+}
+
+const escapeXml = (value: string) =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+
+function toUrlEntry(
+  url: string,
+  date?: Date,
+  priority = 0.5,
+  imageUrl?: string
+) {
+  return `<url><loc>${escapeXml(url)}</loc>${
+    date ? `<lastmod>${formatDateToCustomISO(date)}</lastmod>` : ""
+  }<priority>${priority}</priority>${
+    imageUrl
+      ? `<image:image><image:loc>${escapeXml(imageUrl)}</image:loc></image:image>`
+      : ""
+  }</url>`;
 }
 
 /**

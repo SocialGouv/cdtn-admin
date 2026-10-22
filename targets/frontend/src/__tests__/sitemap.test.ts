@@ -1,4 +1,4 @@
-import { toUrlEntries, Document } from "../pages/api/sitemap";
+import { getImageBaseUrl, toUrlEntries, Document } from "../pages/api/sitemap";
 
 jest.mock("p-limit", () => () => ({}));
 
@@ -113,7 +113,23 @@ describe("Sitemap", () => {
       "<url><loc>base.url/contribution/les-conges-pour-evenements-familiaux</loc><lastmod>2022-01-19T11:07:11.314Z</lastmod><priority>0.7</priority></url>",
     ]);
     expect(staticPages.length).toEqual(14);
-    expect(staticPages[0]).toContain("<url><loc>base.url/a-propos</loc>");
+    // Page fixe : pas de lastmod.
+    expect(staticPages[0]).toBe(
+      "<url><loc>base.url/a-propos</loc><priority>0.5</priority></url>"
+    );
+    // Page de liste : date du contenu le plus récent de sa rubrique.
+    expect(
+      staticPages.find((page) =>
+        page.includes("<loc>base.url/modeles-de-courriers</loc>")
+      )
+    ).toContain("<lastmod>2022-01-05T15:59:30.542Z</lastmod>");
+    expect(
+      staticPages.find((page) => page.includes("<loc>base.url/glossaire</loc>"))
+    ).toContain("<lastmod>2020-11-25T14:38:50.085Z</lastmod>");
+    // Rubrique sans contenu : pas de lastmod.
+    expect(
+      staticPages.find((page) => page.includes("<loc>base.url/actualite</loc>"))
+    ).not.toContain("<lastmod>");
     expect(glossaryPages).toEqual([
       "<url><loc>base.url/glossaire/abrogation</loc><lastmod>2020-11-25T14:38:50.085Z</lastmod><priority>0.5</priority></url>",
     ]);
@@ -144,5 +160,75 @@ describe("Sitemap", () => {
 
     expect(pages[0]).toContain("<lastmod>2026-10-10T13:07:55.000Z</lastmod>");
     expect(pages[1]).toContain("<lastmod>2026-10-05T00:00:00.000Z</lastmod>");
+  });
+
+  it("liste l'image d'une actualité avec l'url publique du site", async () => {
+    const news: Document = {
+      updated_at: "2026-10-01T08:00:00.000000+00:00",
+      slug: "nouveau-bareme",
+      source: "actualites",
+      document: {
+        date: "01/10/2026",
+        image: { filename: "draft/default/nouveau-bareme.webp" },
+      },
+    };
+
+    const { pages, staticPages } = await toUrlEntries(
+      [news, { ...news, slug: "sans-image", document: { date: "02/10/2026" } }],
+      [],
+      "base.url",
+      "https://bucket/published/default"
+    );
+
+    expect(pages[0]).toBe(
+      "<url><loc>base.url/actualite/nouveau-bareme</loc><lastmod>2026-10-01T00:00:00.000Z</lastmod><priority>0.5</priority><image:image><image:loc>https://bucket/published/default/nouveau-bareme.webp</image:loc></image:image></url>"
+    );
+    expect(pages[1]).not.toContain("<image:image>");
+    expect(
+      staticPages.find((page) => page.includes("<loc>base.url/actualite</loc>"))
+    ).toContain("<lastmod>2026-10-02T00:00:00.000Z</lastmod>");
+  });
+
+  it("ne liste pas d'image sans base d'url", async () => {
+    const { pages } = await toUrlEntries(
+      [
+        {
+          updated_at: "2026-10-01T08:00:00.000000+00:00",
+          slug: "nouveau-bareme",
+          source: "actualites",
+          document: { date: "01/10/2026", image: { filename: "a.webp" } },
+        },
+      ],
+      [],
+      "base.url"
+    );
+    expect(pages[0]).not.toContain("<image:image>");
+  });
+
+  it("construit la base d'url des images à partir du dossier du bucket", () => {
+    expect(getImageBaseUrl("published")).toBe(
+      "http://localhost:9000/published/default"
+    );
+    expect(getImageBaseUrl(undefined)).toBeUndefined();
+    expect(getImageBaseUrl(["published"])).toBeUndefined();
+    expect(getImageBaseUrl("../secret")).toBeUndefined();
+  });
+
+  it("échappe les caractères spéciaux XML des url", async () => {
+    const { pages } = await toUrlEntries(
+      [
+        {
+          updated_at: "2026-10-01T08:00:00.000000+00:00",
+          slug: "a&b",
+          source: "fiches_service_public",
+          document: {},
+        },
+      ],
+      [],
+      "base.url"
+    );
+    expect(pages[0]).toContain(
+      "<loc>base.url/fiche-service-public/a&amp;b</loc>"
+    );
   });
 });
