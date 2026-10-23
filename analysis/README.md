@@ -130,7 +130,7 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
 - **`completion_modeles_courrier`** — complétion des modèles de courrier, par
   modèle (`slug`) et par device. Source : réplica SQL Matomo. Le download n'est
   pas rattaché à la page du modèle : on reconstruit chaque visite ayant vu un
-  modèle (`modeles-de-courriers/{slug}`), on l'ordonne (`actions`) et on cherche,
+  modèle (`modeles-de-courriers/{slug}`), on l'ordonne (horodatage puis indice de `action_id` ; la colonne `actions` est le total d'actions de la visite, pas un rang) et on cherche,
   **après** la vue du modèle, un download (`nb_download`) ou un copier-coller
   (`type_CTRL_C`, `nb_copier_coller`). Un seul modèle par visite (le premier vu) ;
   si la visite a les deux, le download prime. Le taux n'est pas stocké :
@@ -158,6 +158,22 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
     part des visites entrant par l'actualité qui consultent ensuite une autre page ;
   - taux de rebond (complément) = `1 - poursuite`.
     Table `parcours_actualites`.
+
+- **`parcours_brut_net`** — poursuite de navigation après le simulateur brut/net
+  (`/outils/simulateur-embauche`), par device et par type de référent. Même
+  méthode que `parcours_actualites`, sans dimension `slug`. Source : réplica SQL
+  Matomo. Compteurs de **visites** :
+  - `nb_visites_total` : visites ayant vu le simulateur, quelle que soit leur page
+    d'entrée ;
+  - `nb_visites_entree` : parmi elles, celles qui **démarrent** sur le simulateur
+    (première page vue du jour) ;
+  - `nb_visites_suite` : parmi ces dernières, celles qui voient ensuite une page de
+    chemin différent (requête et ancre ignorées).
+
+  Taux calculés dans Metabase sur les sommes de la période : part d'entrée =
+  `SUM(nb_visites_entree) / SUM(nb_visites_total)`, poursuite =
+  `SUM(nb_visites_suite) / SUM(nb_visites_entree)`.
+  Table `parcours_brut_net`.
 
 - **`visites_par_type_contenu`** — visites par type de contenu et par device
   (desktop / mobile). Source : réplica SQL Matomo. Le type est le premier segment
@@ -222,13 +238,13 @@ au premier ingest, aucune étape de schéma manuelle n'est requise.
 
 ## Ingérer des données dans Metabase
 
-Sept console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
+Huit console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
 l'**upsert** dans la base PostgreSQL de Metabase :
 
 - **`ingest-all`** — lance **tous** les ingesters (actuellement
   `nps_scores`, `taux-contributions`, `taux-personnalisation`,
   `completion-modeles-courrier`, `parcours-actualites`,
-  `visites-par-type-contenu` et `visites-totales`). C'est le job planifié. **Sans argument, il cible J-2**
+  `parcours-brut-net`, `visites-par-type-contenu` et `visites-totales`). C'est le job planifié. **Sans argument, il cible J-2**
   (l'avant-veille, UTC — Matomo a alors archivé et stabilisé cette journée).
   C'est le point d'extension : pour ajouter un report, exposer un `Ingester`
   dans son module de commande et l'enregistrer dans `ingest_all.INGESTERS`.
@@ -244,6 +260,8 @@ l'**upsert** dans la base PostgreSQL de Metabase :
   complétion des modèles de courrier, pour un jour ou une période explicite.
 - **`ingest-parcours-actualites`** — lance uniquement l'ingester du parcours
   après une actualité, pour un jour ou une période explicite.
+- **`ingest-parcours-brut-net`** — lance uniquement l'ingester du parcours après
+  le simulateur brut/net, pour un jour ou une période explicite.
 - **`ingest-visites-par-type-contenu`** — lance uniquement l'ingester des visites
   par type de contenu, pour un jour ou une période explicite.
 - **`ingest-visites-totales`** — lance uniquement l'ingester des visites et pages
@@ -384,7 +402,8 @@ analysis/
 │   │   ├── ingest_taux_personnalisation.py # ingester taux de personnalisation
 │   │   ├── ingest_completion_modeles_courrier.py # ingester complétion des modèles de courrier
 │   │   ├── ingest_parcours_actualites.py # ingester parcours après une actualité
-│   │   ├── ingest_visites_par_type_contenu.py # ingester visites par type de contenu
+│   │   ├── ingest_parcours_brut_net.py # ingester parcours après le simulateur brut/net
+│       ├── ingest_visites_par_type_contenu.py # ingester visites par type de contenu
 │   │   └── ingest_visites_totales.py # ingester visites et pages vues totales
 │   ├── l2/                       # pipeline d'audit de taxonomie (voir src/analysis/l2/README.md)
 └── notebooks/                    # analyses exploratoires

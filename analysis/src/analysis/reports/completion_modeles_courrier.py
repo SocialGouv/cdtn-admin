@@ -12,8 +12,10 @@ des **visites** (jamais des events) :
   ``page_modeles_de_documents``) après avoir vu le modèle.
 
 Le download n'est pas rattaché au modèle (il porte l'URL du fichier, pas celle de
-la page) : on reconstruit donc la visite entière, on ordonne ses actions (colonne
-``actions``) et on cherche un download / copier-coller **après** la vue du modèle.
+la page) : on reconstruit donc la visite entière, on ordonne ses actions (horodatage
+puis indice de ``action_id`` ; la colonne ``actions`` n'est que le total d'actions
+de la visite, pas un rang) et on cherche un download / copier-coller **après** la
+vue du modèle.
 On ne retient qu'**un seul modèle par visite** (le premier vu). Une visite avec à
 la fois un download et un copier-coller est comptée en download.
 
@@ -27,6 +29,7 @@ import pandas as pd
 
 from analysis.connectors.matomo import MatomoSQLConnectorSync
 from analysis.matomo_segments import device_from_os
+from analysis.visit_order import with_position
 
 _COLUMNS = ["device", "slug", "nb_visites", "nb_download", "nb_copier_coller"]
 
@@ -40,8 +43,8 @@ _MODEL_PAGE_RE = r"modeles-de-courriers/([^/?#]+)"
 
 _EVENT_COLUMNS = [
     "idvisit",
-    "actions",
     "action_id",
+    "action_timestamp",
     "operatingsystemname",
     "action_type",
     "action_url",
@@ -73,7 +76,7 @@ WHERE action_timestamp >= %s
         AND action_eventaction = %s
      )
   )
-ORDER BY idvisit, actions, action_id;
+ORDER BY idvisit, action_timestamp, action_id;
 """
 
 
@@ -118,14 +121,14 @@ def classify_events(events: pd.DataFrame) -> pd.DataFrame:
 
     Args:
         events: pages modèle, downloads et copier-coller, avec au moins les
-            colonnes ``idvisit``, ``actions``, ``action_id``,
-            ``operatingsystemname``, ``action_type``, ``action_url``,
-            ``action_eventcategory`` et ``action_eventaction``.
+            colonnes ``idvisit``, ``action_id``,
+            ``action_timestamp``, ``operatingsystemname``, ``action_type``,
+            ``action_url``, ``action_eventcategory`` et ``action_eventaction``.
     """
     if events.empty:
         return pd.DataFrame(columns=_COLUMNS)
 
-    events = events.sort_values(["idvisit", "actions", "action_id"])
+    events = with_position(events)
 
     # Device de la visite (clé de ``DEVICE_SEGMENTS``), déduit de l'OS : le
     # réplica SQL n'expose pas ``deviceType``, donc les segments ne s'y appliquent
@@ -143,20 +146,20 @@ def classify_events(events: pd.DataFrame) -> pd.DataFrame:
     first_view = (
         pages.dropna(subset=["slug"])
         .drop_duplicates("idvisit", keep="first")
-        .set_index("idvisit")[["slug", "actions"]]
+        .set_index("idvisit")[["slug", "position"]]
     )
     if first_view.empty:
         return pd.DataFrame(columns=_COLUMNS)
 
     # Un download / copier-coller ne compte que s'il suit la vue du modèle.
-    first_action = events["idvisit"].map(first_view["actions"])
-    after = events[events["actions"] > first_action]
+    first_position = events["idvisit"].map(first_view["position"])
+    after = events[events["position"] > first_position]
     has_download = after.loc[
         after["action_type"] == "download", "idvisit"
     ].drop_duplicates()
     has_copy = after.loc[after["action_type"] == "event", "idvisit"].drop_duplicates()
 
-    visits = first_view.assign(
+    visits = first_view[["slug"]].assign(
         device=devices.reindex(first_view.index),
         nb_download=first_view.index.isin(has_download).astype(int),
     )
