@@ -1,5 +1,57 @@
 import { z } from "zod";
-import { cdtnReferenceSchema } from "../../components/contributions";
+import {
+  documentSchema,
+  legiArticleSchema,
+} from "../../components/contributions";
+
+const introSchema = z.string().nullish();
+
+export const newsCdtnLinkSchema = z.object({
+  type: z.literal("cdtn"),
+  document: documentSchema,
+  intro: introSchema,
+});
+
+export const newsExternalLinkSchema = z.object({
+  type: z.literal("external"),
+  label: z
+    .string({ required_error: "Un libellé doit être renseigné" })
+    .min(1, "Un libellé doit être renseigné"),
+  url: z
+    .string()
+    .url("Le format du lien est invalide")
+    .regex(/^https?:\/\//, "Le lien doit commencer par http:// ou https://"),
+  intro: introSchema,
+});
+export type NewsExternalLink = z.infer<typeof newsExternalLinkSchema>;
+
+export const newsLinkSchema = z.discriminatedUnion("type", [
+  newsCdtnLinkSchema,
+  newsExternalLinkSchema,
+]);
+export type NewsLink = z.infer<typeof newsLinkSchema>;
+
+export const newsLegiReferenceSchema = z.object({
+  type: z.literal("legi"),
+  legiArticle: legiArticleSchema,
+  intro: introSchema,
+});
+
+export const newsReferenceSchema = z.discriminatedUnion("type", [
+  newsLegiReferenceSchema,
+  newsExternalLinkSchema,
+]);
+export type NewsReference = z.infer<typeof newsReferenceSchema>;
+
+export const newsImageFileSchema = z.object({
+  id: z.string().uuid().nullable().optional(),
+  url: z.string().min(1),
+  size: z.string().nullable().optional(),
+});
+export type NewsImageFile = z.infer<typeof newsImageFileSchema>;
+
+export const newsImageLicenseSchema = z.enum(["free", "source"]);
+export type NewsImageLicense = z.infer<typeof newsImageLicenseSchema>;
 
 export const newsSchema = z.object({
   id: z.string().uuid().optional(),
@@ -26,7 +78,14 @@ export const newsSchema = z.object({
     .min(1, "Une date de mise à jour doit être renseignée"),
   updatedAt: z.string(),
   createdAt: z.string(),
-  cdtnReferences: z.array(cdtnReferenceSchema),
+  links: z.array(newsLinkSchema),
+  references: z.array(newsReferenceSchema),
+  imageFile: newsImageFileSchema.nullable(),
+  imageAlt: z.string().nullable(),
+  imageAuthor: z.string().nullable(),
+  imageLicense: newsImageLicenseSchema.nullable(),
+  imageWidth: z.number().int().nullable(),
+  imageHeight: z.number().int().nullable(),
 });
 
 export type News = z.infer<typeof newsSchema>;

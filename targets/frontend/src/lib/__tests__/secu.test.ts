@@ -1,4 +1,9 @@
-import { isUploadFileSafe, isAllowedFile } from "../secu";
+import {
+  getUploadedFilePath,
+  isUploadFileSafe,
+  isAllowedFile,
+  UPLOAD_DIR,
+} from "../secu";
 import * as formidable from "formidable";
 import fs from "fs";
 
@@ -31,6 +36,22 @@ describe("secu.ts", () => {
     });
   });
 
+  describe("getUploadedFilePath", () => {
+    test("keeps the file inside the upload directory", () => {
+      const file = {
+        filepath: "/somewhere/../else/abc123",
+      } as formidable.File;
+
+      expect(getUploadedFilePath(file)).toBe(`${UPLOAD_DIR}/abc123`);
+    });
+
+    test("rejects a path that does not point to a file", () => {
+      const file = { filepath: "/" } as formidable.File;
+
+      expect(() => getUploadedFilePath(file)).toThrow("Invalid upload path");
+    });
+  });
+
   describe("isUploadFileSafe", () => {
     test("should resolve false for disallowed file extensions", async () => {
       const file: formidable.File = {
@@ -50,12 +71,22 @@ describe("secu.ts", () => {
       await expect(isUploadFileSafe(file)).resolves.toBe(true);
     });
 
+    test("should resolve true for WebP files", async () => {
+      const file: formidable.File = {
+        originalFilename: "image.webp",
+        mimetype: "image/webp",
+      } as formidable.File;
+
+      await expect(isUploadFileSafe(file)).resolves.toBe(true);
+    });
+
     test("should resolve true for SVG files without script tags", async () => {
       (fs.readFileSync as jest.Mock).mockReturnValue("<svg></svg>");
 
       const file: formidable.File = {
         originalFilename: "test.svg",
         mimetype: "image/svg+xml",
+        filepath: "/tmp/upload-svg",
       } as formidable.File;
 
       await expect(isUploadFileSafe(file)).resolves.toBe(true);
@@ -69,6 +100,7 @@ describe("secu.ts", () => {
       const file: formidable.File = {
         originalFilename: "test.svg",
         mimetype: "image/svg+xml",
+        filepath: "/tmp/upload-svg",
       } as formidable.File;
 
       await expect(isUploadFileSafe(file)).resolves.toBe(false);
