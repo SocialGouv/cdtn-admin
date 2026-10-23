@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.78.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.16...v2.78.0) (2026-10-23)
+
+### Features
+
+- **export:** liens recommandés des fiches service-public (pipeline L2) ([#1719](https://github.com/SocialGouv/cdtn-admin/issues/1719)) ([c077d63](https://github.com/SocialGouv/cdtn-admin/commit/c077d6318a2596312e7ad3544f9c5e297997cba5))
+- **news:** image, « Pour aller plus loin » et « Références » avec texte d'introduction ([#1722](https://github.com/SocialGouv/cdtn-admin/issues/1722)) ([180509d](https://github.com/SocialGouv/cdtn-admin/commit/180509d2276c807e48451ca404c750b57e75c69e))
+
 ## [2.77.16](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.15...v2.77.16) (2026-10-20)
 
 **Note:** Version bump only for package export-elasticsearch
