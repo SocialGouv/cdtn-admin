@@ -21,6 +21,7 @@ import {
   getDocumentBySource,
   getDocumentBySourceWithRelation,
   getGlossary,
+  populateLinks,
   populateRelatedDocuments,
 } from "./common";
 import { splitArticle } from "./fichesTravailSplitter";
@@ -212,12 +213,13 @@ export async function cdtnDocumentsGen(
 
   logger.info("=== Fiches SP ===");
   const fichesSp = await getDocumentBySource(SOURCES.SHEET_SP, getBreadcrumbs);
+  const fichesSpWithLinks = populateLinks(fichesSp);
 
   documentsCount = {
     ...documentsCount,
-    [SOURCES.SHEET_SP]: fichesSp.length,
+    [SOURCES.SHEET_SP]: fichesSpWithLinks.length,
   };
-  await updateDocs(SOURCES.SHEET_SP, fichesSp);
+  await updateDocs(SOURCES.SHEET_SP, fichesSpWithLinks);
 
   logger.info("=== page fiches travail ===");
   const fichesMT = await getDocumentBySource<FicheTravailEmploiDoc>(
