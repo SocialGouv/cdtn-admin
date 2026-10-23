@@ -4,6 +4,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import pLimit from "p-limit";
 import {
   formatDateToCustomISO,
+  midnightInParis,
+  parisDate,
   transformStringDate,
 } from "src/modules/sitemap/date";
 
@@ -60,22 +62,23 @@ const NEWS_MAX_AGE_DAYS = 2;
 
 // Balises Google Actualités d'une actualité publiée depuis moins de deux jours
 // (Google ignore les plus anciennes). La date de publication est la date
-// affichée, sans heure : c'est la seule connue.
+// affichée à minuit heure de Paris, comme le `datePublished` du front : c'est
+// la seule connue.
 const newsTags = (doc: Document, published: Date, now: Date) => {
   if (doc.source !== SOURCES.NEWS || !doc.title || isNaN(published.getTime())) {
     return "";
   }
-  const since = Date.UTC(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate() - NEWS_MAX_AGE_DAYS
-  );
+  const today = parisDate(now);
+  const since = midnightInParis({
+    ...today,
+    day: today.day - NEWS_MAX_AGE_DAYS,
+  }).getTime();
   if (published.getTime() < since || published.getTime() > now.getTime()) {
     return "";
   }
-  return `<news:news><news:publication><news:name>${NEWS_PUBLICATION_NAME}</news:name><news:language>fr</news:language></news:publication><news:publication_date>${published
-    .toISOString()
-    .slice(0, 10)}</news:publication_date><news:title>${escapeXml(
+  return `<news:news><news:publication><news:name>${NEWS_PUBLICATION_NAME}</news:name><news:language>fr</news:language></news:publication><news:publication_date>${formatDateToCustomISO(
+    published
+  )}</news:publication_date><news:title>${escapeXml(
     doc.title
   )}</news:title></news:news>`;
 };
@@ -95,9 +98,11 @@ export async function toUrlEntries(
   const latestBySource: Partial<Record<SourceKeys, Date>> = {};
 
   const pages = documents.flat().map((doc) => {
-    const displayed = doc.document?.date
-      ? transformStringDate(doc.document.date)
-      : new Date(doc.updated_at);
+    // Une date saisie invalide retombe sur la date de mise à jour du document.
+    const displayed =
+      (typeof doc.document?.date === "string" &&
+        transformStringDate(doc.document.date)) ||
+      new Date(doc.updated_at);
     const modified = doc.document?.updatedAt
       ? new Date(doc.document.updatedAt)
       : undefined;
