@@ -326,7 +326,10 @@ describe("document service", () => {
       newsReferences: [],
     };
 
-    it("met la date et l'heure de publication à chaque publication", async () => {
+    const publishNews = async (
+      row: Record<string, unknown>,
+      documents: Record<string, unknown>[] = []
+    ) => {
       const calls: { query: any; variables: any }[] = [];
       const localClient = new ApiClient(
         {
@@ -334,11 +337,11 @@ describe("document service", () => {
             .fn()
             // DocumentsRepository.fetch()
             .mockReturnValueOnce({
-              toPromise: () => Promise.resolve({ data: { documents: [] } }),
+              toPromise: () => Promise.resolve({ data: { documents } }),
             })
             // NewsRepository.fetch()
             .mockReturnValueOnce({
-              toPromise: () => Promise.resolve({ data: { news: newsRow } }),
+              toPromise: () => Promise.resolve({ data: { news: row } }),
             }),
           mutation: jest.fn().mockImplementation((query, variables) => {
             calls.push({ query, variables });
@@ -363,21 +366,68 @@ describe("document service", () => {
         new NewsRepository(localClient)
       );
 
-      await service.publish(newsRow.id, SOURCES.NEWS);
+      await service.publish(row.id as string, SOURCES.NEWS);
 
       const [upsert, publication] = calls;
-      // 22 h 30 UTC le 16/10 : déjà le 17/10 à Paris.
-      expect(upsert.variables.upsert.document).toMatchObject({
-        date: "17/10/2026",
-        publishedAt: "2026-10-16T22:30:00.000Z",
-        updatedAt: "2026-10-12T09:00:00+00:00",
-      });
       expect(publication.query).toBe(updateNewsPublicationMutation);
-      expect(publication.variables).toEqual({
+      return {
+        document: upsert.variables.upsert.document,
+        publication: publication.variables,
+      };
+    };
+
+    const publishedDocument = {
+      cdtn_id: "cdtn-id",
+      slug: "nouveau-bareme",
+      is_searchable: true,
+      is_published: true,
+      document: {},
+    };
+
+    it("met à jour la date affichée et la modification, pas la première publication", async () => {
+      const { document, publication } = await publishNews(newsRow, [
+        publishedDocument,
+      ]);
+
+      // 22 h 30 UTC le 16/10 : déjà le 17/10 à Paris.
+      expect(document).toMatchObject({
+        date: "17/10/2026",
+        publishedAt: "2026-10-09T08:00:00+00:00",
+        updatedAt: "2026-10-16T22:30:00.000Z",
+      });
+      expect(publication).toEqual({
         id: newsRow.id,
         displayDate: "2026-10-17",
-        publishedAt: "2026-10-16T22:30:00.000Z",
+        publishedAt: "2026-10-09T08:00:00+00:00",
       });
+    });
+
+    it("date la première publication à l'instant de publication", async () => {
+      const { document, publication } = await publishNews({
+        ...newsRow,
+        publishedAt: null,
+      });
+
+      expect(document).toMatchObject({
+        date: "17/10/2026",
+        publishedAt: "2026-10-16T22:30:00.000Z",
+        updatedAt: "2026-10-16T22:30:00.000Z",
+      });
+      expect(publication.publishedAt).toBe("2026-10-16T22:30:00.000Z");
+    });
+
+    it("garde la date affichée d'une actualité déjà en ligne sans instant de publication", async () => {
+      const { document, publication } = await publishNews(
+        { ...newsRow, publishedAt: null },
+        [publishedDocument]
+      );
+
+      // 09/10/2026 à minuit heure de Paris (UTC+2).
+      expect(document).toMatchObject({
+        date: "17/10/2026",
+        publishedAt: "2026-10-08T22:00:00.000Z",
+      });
+      expect(publication.publishedAt).toBe("2026-10-08T22:00:00.000Z");
     });
   });
 

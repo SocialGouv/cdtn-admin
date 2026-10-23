@@ -69,9 +69,9 @@ const validDate = (value: unknown): Date | undefined => {
 
 // Balises Google Actualités d'une actualité publiée depuis moins de deux jours
 // (Google ignore les plus anciennes). La date de publication est l'instant de
-// publication (`publishedAt`), comme le `datePublished` du front ; à défaut,
-// la date affichée à minuit heure de Paris, et la fenêtre compte alors en
-// jours calendaires faute d'heure connue.
+// première publication (`publishedAt`), comme le `datePublished` du front ; à
+// défaut, la date affichée à minuit heure de Paris, et la fenêtre compte alors
+// en jours calendaires faute d'heure connue.
 const newsTags = (
   doc: Document,
   published: Date,
@@ -113,16 +113,20 @@ export async function toUrlEntries(
   const latestBySource: Partial<Record<SourceKeys, Date>> = {};
 
   const pages = documents.flat().map((doc) => {
-    // Instant de publication d'une actualité, sinon date saisie (minuit
-    // Paris) ; une date invalide retombe sur la mise à jour du document.
+    // Instant de première publication d'une actualité, sinon date affichée
+    // (minuit Paris) ; une date invalide retombe sur la mise à jour du
+    // document. `lastmod` est la plus récente de ces dates, de la date
+    // affichée (jour de la dernière publication) et de `updatedAt`.
     const publishedAt = validDate(doc.document?.publishedAt);
-    const displayed =
-      publishedAt ||
-      (typeof doc.document?.date === "string" &&
-        transformStringDate(doc.document.date)) ||
-      new Date(doc.updated_at);
-    const modified = validDate(doc.document?.updatedAt);
-    const date = modified && modified > displayed ? modified : displayed;
+    const displayDate =
+      typeof doc.document?.date === "string"
+        ? transformStringDate(doc.document.date)
+        : undefined;
+    const displayed = publishedAt || displayDate || new Date(doc.updated_at);
+    const date = latest(
+      validDate(doc.document?.updatedAt),
+      latest(displayDate, displayed)
+    );
     if (date.getTime() > latestPostDate.getTime()) {
       latestPostDate = date;
     }

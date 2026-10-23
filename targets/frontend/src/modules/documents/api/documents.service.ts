@@ -26,6 +26,7 @@ import { WhatIsNewItemsRepository } from "../../what-is-new/api";
 import { NewsRepository } from "../../news/api";
 import { mapNewsToDocument } from "../../news/mapNewsToDocument";
 import { getNewsPublicationErrors } from "../../news/publication";
+import { transformStringDate } from "../../sitemap/date";
 
 export class DocumentsService {
   private readonly informationsRepository: InformationsRepository;
@@ -196,13 +197,25 @@ export class DocumentsService {
         if (errors.length) {
           throw new InvalidQueryError(errors.join(" "), null);
         }
-        // Chaque publication met à jour la date et l'heure de l'actualité
+        // Chaque publication met à jour la date affichée et la date de
+        // modification (`updatedAt`, dateModified de Google). L'instant de
+        // première publication (`publishedAt`, datePublished) n'est jamais
+        // réécrit ; une actualité déjà en ligne sans `publishedAt` garde sa date
+        // affichée jusqu'ici, à minuit heure de Paris.
         const now = new Date();
         const publication = {
           displayDate: getTodayInParis(now),
-          publishedAt: now.toISOString(),
+          publishedAt:
+            news.publishedAt ??
+            (document
+              ? transformStringDate(news.displayDate)?.toISOString()
+              : undefined) ??
+            now.toISOString(),
         };
-        document = mapNewsToDocument({ ...news, ...publication }, document);
+        document = mapNewsToDocument(
+          { ...news, ...publication, updatedAt: now.toISOString() },
+          document
+        );
         postTreatment = async () => {
           await this.newsRepository.updatePublication(
             news.id!,
