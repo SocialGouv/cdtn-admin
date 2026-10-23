@@ -159,7 +159,32 @@ describe("Sitemap", () => {
     );
 
     expect(pages[0]).toContain("<lastmod>2026-10-10T13:07:55.000Z</lastmod>");
-    expect(pages[1]).toContain("<lastmod>2026-10-05T00:00:00.000Z</lastmod>");
+    expect(pages[1]).toContain("<lastmod>2026-10-05T00:00:00+02:00</lastmod>");
+  });
+
+  it("date une actualité à minuit heure de Paris, en été comme en hiver", async () => {
+    const news = (slug: string, date: string): Document => ({
+      updated_at: "2026-10-01T08:00:00.000000+00:00",
+      slug,
+      source: "actualites",
+      document: { date },
+    });
+    const { pages } = await toUrlEntries(
+      [
+        news("ete", "23/09/2026"),
+        news("hiver", "15/01/2026"),
+        news("saisie-courte", "1/9/26"),
+        news("date-invalide", "31/02/2026"),
+      ],
+      [],
+      "base.url"
+    );
+
+    expect(pages[0]).toContain("<lastmod>2026-09-23T00:00:00+02:00</lastmod>");
+    expect(pages[1]).toContain("<lastmod>2026-01-15T00:00:00+01:00</lastmod>");
+    expect(pages[2]).toContain("<lastmod>2026-09-01T00:00:00+02:00</lastmod>");
+    // Date invalide : date de mise à jour du document.
+    expect(pages[3]).toContain("<lastmod>2026-10-01T08:00:00.000Z</lastmod>");
   });
 
   it("liste l'image d'une actualité avec l'url publique du site", async () => {
@@ -181,12 +206,12 @@ describe("Sitemap", () => {
     );
 
     expect(pages[0]).toBe(
-      "<url><loc>base.url/actualite/nouveau-bareme</loc><lastmod>2026-10-01T00:00:00.000Z</lastmod><priority>0.5</priority><image:image><image:loc>https://bucket/published/default/nouveau-bareme.webp</image:loc></image:image></url>"
+      "<url><loc>base.url/actualite/nouveau-bareme</loc><lastmod>2026-10-01T00:00:00+02:00</lastmod><priority>0.5</priority><image:image><image:loc>https://bucket/published/default/nouveau-bareme.webp</image:loc></image:image></url>"
     );
     expect(pages[1]).not.toContain("<image:image>");
     expect(
       staticPages.find((page) => page.includes("<loc>base.url/actualite</loc>"))
-    ).toContain("<lastmod>2026-10-02T00:00:00.000Z</lastmod>");
+    ).toContain("<lastmod>2026-10-02T00:00:00+02:00</lastmod>");
   });
 
   it("ne liste pas d'image sans base d'url", async () => {
@@ -251,10 +276,10 @@ describe("Sitemap", () => {
       );
 
       expect(pages[0]).toContain(
-        "<news:news><news:publication><news:name>Code du travail numérique</news:name><news:language>fr</news:language></news:publication><news:publication_date>2026-10-22</news:publication_date><news:title>Nouveau barème &amp; taux</news:title></news:news>"
+        "<news:news><news:publication><news:name>Code du travail numérique</news:name><news:language>fr</news:language></news:publication><news:publication_date>2026-10-22T00:00:00+02:00</news:publication_date><news:title>Nouveau barème &amp; taux</news:title></news:news>"
       );
       expect(pages[1]).toContain(
-        "<news:publication_date>2026-10-20</news:publication_date>"
+        "<news:publication_date>2026-10-20T00:00:00+02:00</news:publication_date>"
       );
     });
 
@@ -267,6 +292,81 @@ describe("Sitemap", () => {
       );
 
       pages.forEach((page) => expect(page).not.toContain("<news:news>"));
+    });
+
+    it("compte les deux jours en heure de Paris", async () => {
+      // 23/10 à 1 h 30 à Paris, encore le 22/10 en UTC.
+      const { pages } = await toUrlEntries(
+        [news("23/10/2026"), news("21/10/2026"), news("20/10/2026")],
+        [],
+        "base.url",
+        { now: new Date("2026-10-22T23:30:00.000Z") }
+      );
+
+      expect(pages[0]).toContain(
+        "<news:publication_date>2026-10-23T00:00:00+02:00</news:publication_date>"
+      );
+      expect(pages[1]).toContain("<news:news>");
+      expect(pages[2]).not.toContain("<news:news>");
+    });
+
+    it("utilise l'instant de publication quand il est connu", async () => {
+      const { pages } = await toUrlEntries(
+        [
+          {
+            ...news("22/10/2026"),
+            document: {
+              date: "22/10/2026",
+              publishedAt: "2026-10-22T07:45:00.000Z",
+            },
+          },
+        ],
+        [],
+        "base.url",
+        { now }
+      );
+
+      expect(pages[0]).toContain("<lastmod>2026-10-22T07:45:00.000Z</lastmod>");
+      expect(pages[0]).toContain(
+        "<news:publication_date>2026-10-22T07:45:00.000Z</news:publication_date>"
+      );
+    });
+
+    it("compte 48 heures exactement quand l'heure est connue", async () => {
+      const published = (publishedAt: string): Document => ({
+        ...news("20/10/2026"),
+        document: { date: "20/10/2026", publishedAt },
+      });
+      const { pages } = await toUrlEntries(
+        [
+          published("2026-10-20T15:00:00.000Z"),
+          published("2026-10-20T13:00:00.000Z"),
+        ],
+        [],
+        "base.url",
+        { now }
+      );
+
+      expect(pages[0]).toContain("<news:news>");
+      expect(pages[1]).not.toContain("<news:news>");
+    });
+
+    it("ignore un instant de publication invalide", async () => {
+      const { pages } = await toUrlEntries(
+        [
+          {
+            ...news("22/10/2026"),
+            document: { date: "22/10/2026", publishedAt: "n'importe quoi" },
+          },
+        ],
+        [],
+        "base.url",
+        { now }
+      );
+
+      expect(pages[0]).toContain(
+        "<news:publication_date>2026-10-22T00:00:00+02:00</news:publication_date>"
+      );
     });
 
     it("n'ajoute rien aux autres contenus", async () => {

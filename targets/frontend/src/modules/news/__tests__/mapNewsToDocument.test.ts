@@ -121,4 +121,19 @@ describe("mapNewsToDocument", () => {
 
     expect("updatedAt" in document).toBe(false);
   });
+
+  it("exporte l'instant de publication de l'actualité", () => {
+    const { document } = mapNewsToDocument({
+      ...news,
+      publishedAt: "2026-10-10T08:15:00.000Z",
+    });
+
+    expect(document.publishedAt).toBe("2026-10-10T08:15:00.000Z");
+  });
+
+  it("n'exporte pas d'instant de publication absent", () => {
+    const { document } = mapNewsToDocument({ ...news, publishedAt: null });
+
+    expect("publishedAt" in document).toBe(false);
+  });
 });
