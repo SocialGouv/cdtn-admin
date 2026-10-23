@@ -65,6 +65,7 @@ const answerBase: AnswerWithStatus = {
   question: {
     id: "2c820037-62bd-4c0e-a1a8-ca80b97b5958",
     content: "Quelle est la durée maximale de la période d’essai ?",
+    seo_title: "Durée maximale période d’essai",
     order: 5,
     message_id: "1",
   },
