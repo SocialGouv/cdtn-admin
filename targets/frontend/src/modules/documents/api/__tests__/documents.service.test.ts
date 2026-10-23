@@ -11,6 +11,7 @@ import { InfographicRepository } from "../../../infographics/api";
 import { WhatIsNewItemsRepository } from "../../../what-is-new/api";
 import { SOURCES } from "@socialgouv/cdtn-utils";
 import { NewsRepository } from "../../../news/api";
+import { updateNewsPublicationMutation } from "../../../news/api/news.mutation";
 import { mapContributionToDocument } from "../../../contribution";
 import {
   updateDisplayDateMutation,
@@ -301,6 +302,82 @@ describe("document service", () => {
         displayDate: "2026-10-17",
       });
       expect(cdtnIdCall).toBeUndefined();
+    });
+  });
+
+  describe("actualites", () => {
+    const newsRow = {
+      id: "8d2b1c4e-2f6a-4b8e-9a51-7c3e2f1d0a11",
+      title: "Nouveau barème",
+      metaTitle: "Nouveau barème meta",
+      content: "Contenu",
+      metaDescription: "Description meta",
+      displayDate: "2026-10-09",
+      createdAt: "2026-10-09T08:00:00+00:00",
+      updatedAt: "2026-10-12T09:00:00+00:00",
+      publishedAt: "2026-10-09T08:00:00+00:00",
+      imageFile: null,
+      imageAlt: null,
+      imageAuthor: null,
+      imageLicense: null,
+      imageWidth: null,
+      imageHeight: null,
+      newsLinks: [],
+      newsReferences: [],
+    };
+
+    it("met la date et l'heure de publication à chaque publication", async () => {
+      const calls: { query: any; variables: any }[] = [];
+      const localClient = new ApiClient(
+        {
+          query: jest
+            .fn()
+            // DocumentsRepository.fetch()
+            .mockReturnValueOnce({
+              toPromise: () => Promise.resolve({ data: { documents: [] } }),
+            })
+            // NewsRepository.fetch()
+            .mockReturnValueOnce({
+              toPromise: () => Promise.resolve({ data: { news: newsRow } }),
+            }),
+          mutation: jest.fn().mockImplementation((query, variables) => {
+            calls.push({ query, variables });
+            return {
+              toPromise: () =>
+                Promise.resolve({
+                  data: { insert_documents_one: { cdtn_id: "cdtn-id" } },
+                }),
+            };
+          }),
+        } as unknown as GqlClient,
+        {}
+      );
+      const service = new DocumentsService(
+        new InformationsRepository(localClient),
+        new DocumentsRepository(localClient),
+        new ContributionRepository(localClient),
+        new ModelRepository(localClient),
+        new AgreementRepository(localClient),
+        new InfographicRepository(localClient),
+        new WhatIsNewItemsRepository(localClient),
+        new NewsRepository(localClient)
+      );
+
+      await service.publish(newsRow.id, SOURCES.NEWS);
+
+      const [upsert, publication] = calls;
+      // 22 h 30 UTC le 16/10 : déjà le 17/10 à Paris.
+      expect(upsert.variables.upsert.document).toMatchObject({
+        date: "17/10/2026",
+        publishedAt: "2026-10-16T22:30:00.000Z",
+        updatedAt: "2026-10-12T09:00:00+00:00",
+      });
+      expect(publication.query).toBe(updateNewsPublicationMutation);
+      expect(publication.variables).toEqual({
+        id: newsRow.id,
+        displayDate: "2026-10-17",
+        publishedAt: "2026-10-16T22:30:00.000Z",
+      });
     });
   });
 

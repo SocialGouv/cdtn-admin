@@ -24,7 +24,6 @@ const updateNewsQuery = gql`
           metaTitle
           content
           metaDescription
-          displayDate
           imageId
           imageAlt
           imageAuthor

@@ -7,6 +7,7 @@ export type NewsTemplateDoc = {
   meta_title: string;
   date: string;
   updatedAt?: string; // ISO 8601, dernière modification dans l'admin
+  publishedAt?: string; // ISO 8601, instant de la dernière publication
   author: string;
   content: string;
   meta_description: string;

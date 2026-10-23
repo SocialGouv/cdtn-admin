@@ -196,7 +196,20 @@ export class DocumentsService {
         if (errors.length) {
           throw new InvalidQueryError(errors.join(" "), null);
         }
-        document = mapNewsToDocument(news, document);
+        // Chaque publication met à jour la date et l'heure de l'actualité
+        const now = new Date();
+        const publication = {
+          displayDate: getTodayInParis(now),
+          publishedAt: now.toISOString(),
+        };
+        document = mapNewsToDocument({ ...news, ...publication }, document);
+        postTreatment = async () => {
+          await this.newsRepository.updatePublication(
+            news.id!,
+            publication.displayDate,
+            publication.publishedAt
+          );
+        };
         break;
       }
       default:

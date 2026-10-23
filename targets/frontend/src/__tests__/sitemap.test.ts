@@ -310,6 +310,65 @@ describe("Sitemap", () => {
       expect(pages[2]).not.toContain("<news:news>");
     });
 
+    it("utilise l'instant de publication quand il est connu", async () => {
+      const { pages } = await toUrlEntries(
+        [
+          {
+            ...news("22/10/2026"),
+            document: {
+              date: "22/10/2026",
+              publishedAt: "2026-10-22T07:45:00.000Z",
+            },
+          },
+        ],
+        [],
+        "base.url",
+        { now }
+      );
+
+      expect(pages[0]).toContain("<lastmod>2026-10-22T07:45:00.000Z</lastmod>");
+      expect(pages[0]).toContain(
+        "<news:publication_date>2026-10-22T07:45:00.000Z</news:publication_date>"
+      );
+    });
+
+    it("compte 48 heures exactement quand l'heure est connue", async () => {
+      const published = (publishedAt: string): Document => ({
+        ...news("20/10/2026"),
+        document: { date: "20/10/2026", publishedAt },
+      });
+      const { pages } = await toUrlEntries(
+        [
+          published("2026-10-20T15:00:00.000Z"),
+          published("2026-10-20T13:00:00.000Z"),
+        ],
+        [],
+        "base.url",
+        { now }
+      );
+
+      expect(pages[0]).toContain("<news:news>");
+      expect(pages[1]).not.toContain("<news:news>");
+    });
+
+    it("ignore un instant de publication invalide", async () => {
+      const { pages } = await toUrlEntries(
+        [
+          {
+            ...news("22/10/2026"),
+            document: { date: "22/10/2026", publishedAt: "n'importe quoi" },
+          },
+        ],
+        [],
+        "base.url",
+        { now }
+      );
+
+      expect(pages[0]).toContain(
+        "<news:publication_date>2026-10-22T00:00:00+02:00</news:publication_date>"
+      );
+    });
+
     it("n'ajoute rien aux autres contenus", async () => {
       const { pages } = await toUrlEntries(
         [{ ...news("22/10/2026"), source: "information" }],

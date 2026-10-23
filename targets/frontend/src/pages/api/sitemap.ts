@@ -59,20 +59,35 @@ const latest = (a: Date | undefined, b: Date) =>
 // Nom de la publication tel qu'il apparaît sur les articles (Google Actualités).
 const NEWS_PUBLICATION_NAME = "Code du travail numérique";
 const NEWS_MAX_AGE_DAYS = 2;
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+const validDate = (value: unknown): Date | undefined => {
+  if (typeof value !== "string") return;
+  const date = new Date(value);
+  return isNaN(date.getTime()) ? undefined : date;
+};
 
 // Balises Google Actualités d'une actualité publiée depuis moins de deux jours
-// (Google ignore les plus anciennes). La date de publication est la date
-// affichée à minuit heure de Paris, comme le `datePublished` du front : c'est
-// la seule connue.
-const newsTags = (doc: Document, published: Date, now: Date) => {
+// (Google ignore les plus anciennes). La date de publication est l'instant de
+// publication (`publishedAt`), comme le `datePublished` du front ; à défaut,
+// la date affichée à minuit heure de Paris, et la fenêtre compte alors en
+// jours calendaires faute d'heure connue.
+const newsTags = (
+  doc: Document,
+  published: Date,
+  now: Date,
+  exactTime: boolean
+) => {
   if (doc.source !== SOURCES.NEWS || !doc.title || isNaN(published.getTime())) {
     return "";
   }
   const today = parisDate(now);
-  const since = midnightInParis({
-    ...today,
-    day: today.day - NEWS_MAX_AGE_DAYS,
-  }).getTime();
+  const since = exactTime
+    ? now.getTime() - NEWS_MAX_AGE_DAYS * DAY_MS
+    : midnightInParis({
+        ...today,
+        day: today.day - NEWS_MAX_AGE_DAYS,
+      }).getTime();
   if (published.getTime() < since || published.getTime() > now.getTime()) {
     return "";
   }
@@ -98,18 +113,16 @@ export async function toUrlEntries(
   const latestBySource: Partial<Record<SourceKeys, Date>> = {};
 
   const pages = documents.flat().map((doc) => {
-    // Une date saisie invalide retombe sur la date de mise à jour du document.
+    // Instant de publication d'une actualité, sinon date saisie (minuit
+    // Paris) ; une date invalide retombe sur la mise à jour du document.
+    const publishedAt = validDate(doc.document?.publishedAt);
     const displayed =
+      publishedAt ||
       (typeof doc.document?.date === "string" &&
         transformStringDate(doc.document.date)) ||
       new Date(doc.updated_at);
-    const modified = doc.document?.updatedAt
-      ? new Date(doc.document.updatedAt)
-      : undefined;
-    const date =
-      modified && !isNaN(modified.getTime()) && modified > displayed
-        ? modified
-        : displayed;
+    const modified = validDate(doc.document?.updatedAt);
+    const date = modified && modified > displayed ? modified : displayed;
     if (date.getTime() > latestPostDate.getTime()) {
       latestPostDate = date;
     }
@@ -134,7 +147,8 @@ export async function toUrlEntries(
       projectURL,
       date,
       priority,
-      imageTag(newsImageUrl(doc, imageBaseUrl)) + newsTags(doc, displayed, now)
+      imageTag(newsImageUrl(doc, imageBaseUrl)) +
+        newsTags(doc, displayed, now, !!publishedAt)
     );
   });
 
