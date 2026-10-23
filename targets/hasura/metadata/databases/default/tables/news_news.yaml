@@ -23,6 +23,8 @@ configuration:
       custom_name: metaDescription
     meta_title:
       custom_name: metaTitle
+    published_at:
+      custom_name: publishedAt
     updated_at:
       custom_name: updatedAt
   custom_column_names:
@@ -36,6 +38,7 @@ configuration:
     image_height: imageHeight
     meta_description: metaDescription
     meta_title: metaTitle
+    published_at: publishedAt
     updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
@@ -102,6 +105,7 @@ select_permissions:
         - image_license
         - image_width
         - image_height
+        - published_at
       filter: {}
     comment: ""
 update_permissions:
@@ -122,6 +126,7 @@ update_permissions:
         - image_license
         - image_width
         - image_height
+        - published_at
       filter: {}
       check: {}
     comment: ""

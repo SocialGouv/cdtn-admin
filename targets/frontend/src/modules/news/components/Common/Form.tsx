@@ -16,10 +16,13 @@ import { buildNewsFormSchema, NewsFormData } from "./formSchema";
 import { NewsImageField } from "./NewsImageField";
 import { NewsLinks } from "./NewsLinks";
 import { NewsReferences } from "./NewsReferences";
+import { getTodayInParis } from "src/modules/contribution/getTodayInParis";
 
 type FormData = Partial<NewsFormData>;
 
-export type FormDataResult = Required<Omit<News, "createdAt" | "updatedAt">>;
+export type FormDataResult = Required<
+  Omit<News, "createdAt" | "updatedAt" | "publishedAt">
+>;
 
 type Props = {
   news?: News;
@@ -54,6 +57,7 @@ export const NewsForm = ({
       defaultValues: {
         ...defaultValues,
         ...news,
+        displayDate: news?.displayDate ?? getTodayInParis(),
         imageAlt: news?.imageAlt ?? "",
         imageAuthor: news?.imageAuthor ?? "",
       },
@@ -146,6 +150,8 @@ export const NewsForm = ({
             name="displayDate"
             control={control}
             label="Date mise à jour"
+            hintText="Mise à jour automatiquement à chaque publication"
+            disabled
           />
         </FormControl>
         <FormControl>
@@ -213,6 +219,7 @@ export const NewsForm = ({
 
                 try {
                   await onPublish();
+                  setValue("displayDate", getTodayInParis());
                   setSnack({
                     open: true,
                     severity: "success",

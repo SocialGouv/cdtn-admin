@@ -13,6 +13,7 @@ export const selectNewsQuery = gql`
       createdAt
       updatedAt
       displayDate
+      publishedAt
       imageAlt
       imageAuthor
       imageLicense

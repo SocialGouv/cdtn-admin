@@ -6,6 +6,7 @@ import {
 } from "./news.query";
 import { ApiClient } from "src/lib/api";
 import { News } from "../type";
+import { updateNewsPublicationMutation } from "./news.mutation";
 
 export class NewsRepository {
   client: ApiClient;
@@ -28,5 +29,19 @@ export class NewsRepository {
       throw new Error(`Pas d'actualité pour l'id ${id}`);
     }
     return mapNewsRow(data.news);
+  }
+
+  async updatePublication(
+    id: string,
+    displayDate: string,
+    publishedAt: string
+  ): Promise<void> {
+    const { error } = await this.client.mutation(
+      updateNewsPublicationMutation,
+      { id, displayDate, publishedAt }
+    );
+    if (error) {
+      throw error;
+    }
   }
 }

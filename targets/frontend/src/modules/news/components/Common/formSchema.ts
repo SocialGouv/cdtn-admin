@@ -3,7 +3,7 @@ import { newsSchema } from "../../type";
 
 export const buildNewsFormSchema = (requireImage: boolean) =>
   newsSchema
-    .omit({ updatedAt: true, createdAt: true })
+    .omit({ updatedAt: true, createdAt: true, publishedAt: true })
     .extend({ newImage: z.array(z.any()).optional() })
     .superRefine((data, ctx) => {
       const hasImage = (data.newImage?.length ?? 0) > 0 || !!data.imageFile;
