@@ -332,6 +332,31 @@ describe("Sitemap", () => {
       );
     });
 
+    it("garde la première publication d'une actualité republiée", async () => {
+      // Publiée le 21/10 à 9 h 45 (Paris), republiée le 22/10.
+      const { pages } = await toUrlEntries(
+        [
+          {
+            ...news("22/10/2026"),
+            document: {
+              date: "22/10/2026",
+              publishedAt: "2026-10-21T07:45:00.000Z",
+            },
+          },
+        ],
+        [],
+        "base.url",
+        { now }
+      );
+
+      expect(pages[0]).toContain(
+        "<lastmod>2026-10-22T00:00:00+02:00</lastmod>"
+      );
+      expect(pages[0]).toContain(
+        "<news:publication_date>2026-10-21T07:45:00.000Z</news:publication_date>"
+      );
+    });
+
     it("compte 48 heures exactement quand l'heure est connue", async () => {
       const published = (publishedAt: string): Document => ({
         ...news("20/10/2026"),

@@ -78,7 +78,7 @@ export const newsSchema = z.object({
     .min(1, "Une date de mise à jour doit être renseignée"),
   updatedAt: z.string(),
   createdAt: z.string(),
-  // Instant de la dernière publication, renseigné par la publication.
+  // Instant de la première publication, renseigné par la publication.
   publishedAt: z.string().nullish(),
   links: z.array(newsLinkSchema),
   references: z.array(newsReferenceSchema),
