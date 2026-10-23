@@ -7,6 +7,7 @@ import {
 } from "src/modules/contribution";
 import { ModelRepository } from "../../models/api";
 import { generateContributionSlug } from "src/modules/contribution/generateSlug";
+import { getTodayInParis } from "src/modules/contribution/getTodayInParis";
 import { AgreementRepository } from "../../agreements/api";
 import { SourceKeys } from "@socialgouv/cdtn-utils";
 import pMap from "p-map";
@@ -102,8 +103,10 @@ export class DocumentsService {
             });
           }
         }
+        // Chaque publication met à jour la date de la contribution
+        const displayDate = getTodayInParis();
         document = await mapContributionToDocument(
-          contribution,
+          { ...contribution, display_date: displayDate },
           document,
           async (questionId: string) => {
             return await this.contributionRepository.fetchGenericAnswer(
@@ -113,14 +116,20 @@ export class DocumentsService {
         );
         if (!document) {
           await this.contributionRepository.updateCdtnId(contribution.id, null);
-        } else if (!contribution.cdtnId) {
-          postTreatment = async (document) => {
+          break;
+        }
+        postTreatment = async (document) => {
+          if (!contribution.cdtnId) {
             await this.contributionRepository.updateCdtnId(
               contribution.id,
               document.cdtn_id
             );
-          };
-        }
+          }
+          await this.contributionRepository.updateDisplayDate(
+            contribution.id,
+            displayDate
+          );
+        };
         break;
       case "modeles_de_courriers":
         const model = await this.modelRepository.fetch(id);

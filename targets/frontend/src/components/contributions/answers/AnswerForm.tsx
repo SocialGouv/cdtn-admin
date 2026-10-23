@@ -235,7 +235,8 @@ export const AnswerForm = ({
             name="displayDate"
             control={control}
             label="Date mise à jour"
-            disabled={isNotEditable(answer)}
+            hintText="Mise à jour automatiquement à chaque publication"
+            disabled
           />
         </FormControl>
         <FormControl>
