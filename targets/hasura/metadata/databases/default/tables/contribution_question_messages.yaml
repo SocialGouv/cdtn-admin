@@ -20,6 +20,27 @@ configuration:
     content_not_handled: contentNotHandled
     content_not_handled_without_legal: contentNotHandledWithoutLegal
   custom_root_fields: {}
+array_relationships:
+  - name: questions
+    using:
+      manual_configuration:
+        column_mapping:
+          id: message_id
+        insertion_order: null
+        remote_table:
+          name: questions
+          schema: contribution
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - content_agreement
+        - content_agreement_without_legal
+        - content_legal
+        - content_not_handled
+        - content_not_handled_without_legal
+        - label
 select_permissions:
   - role: super
     permission:
@@ -32,3 +53,14 @@ select_permissions:
         - id
         - label
       filter: {}
+update_permissions:
+  - role: super
+    permission:
+      columns:
+        - content_agreement
+        - content_agreement_without_legal
+        - content_legal
+        - content_not_handled
+        - content_not_handled_without_legal
+      filter: {}
+      check: null

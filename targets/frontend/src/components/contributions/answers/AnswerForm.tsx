@@ -1,5 +1,6 @@
 import { Alert, Button, FormControl, Stack } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { countHighlights } from "@shared/utils";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -22,6 +23,9 @@ import {
 import { getNextStatus, getPrimaryButtonLabel } from "../status/utils";
 import { FicheSpDocumentInput } from "./references/FicheSpDocumentInput";
 import { LoadingButton } from "src/components/button/LoadingButton";
+import { CdtReferencesBlock } from "./CdtReferencesBlock";
+import { useGenericCdtReferences } from "./genericCdtReferences.query";
+import { getCdtReferencesMode, pruneSelection } from "./cdtReferences";
 
 const answerFormBaseSchema = answerRelationSchema.pick({
   content: true,
@@ -35,6 +39,8 @@ const answerFormBaseSchema = answerRelationSchema.pick({
   infographics: true,
   contentFichesSpDocument: true,
   displayDate: true,
+  introduction: true,
+  selectedCdtReferenceUrls: true,
 });
 const answerWithAnswerSchema = answerFormBaseSchema.extend({
   contentType: z.literal("ANSWER"),
@@ -129,10 +135,38 @@ export const AnswerForm = ({
       contentFichesSpDocument: answer?.contentFichesSpDocument ?? undefined,
       messageBlockGenericNoCDT: answer?.messageBlockGenericNoCDT ?? undefined,
       displayDate: answer?.displayDate ?? undefined,
+      introduction: answer?.introduction ?? "",
+      selectedCdtReferenceUrls:
+        answer?.selectedCdtReferences?.map((ref) => ref.referenceUrl) ?? [],
     },
   });
 
   const contentType = watch("contentType");
+  const content = watch("content");
+  const highlightCount = countHighlights(content);
+  const isGeneric = isCodeDuTravail(answer);
+  const previousContentType = useRef(contentType);
+  // Références de la réponse générique : lecture seule ou cases à cocher selon le type de la CC
+  const cdtReferences = useGenericCdtReferences(
+    isGeneric ? undefined : answer?.questionId
+  );
+  const cdtReferencesMode = getCdtReferencesMode(contentType, isGeneric);
+
+  // Quand le type passe à « Afficher la réponse » avec un contenu vide,
+  // le template de la question est proposé comme contenu (surlignage et variables compris).
+  useEffect(() => {
+    const templateAnswer = answer?.question?.template_answer;
+    if (
+      previousContentType.current !== contentType &&
+      contentType === "ANSWER" &&
+      !isGeneric &&
+      templateAnswer &&
+      !getValues("content")
+    ) {
+      setValue("content", templateAnswer, { shouldDirty: true });
+    }
+    previousContentType.current = contentType;
+  }, [contentType]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onRouteChangeStart = () => {
     if (
@@ -178,6 +212,13 @@ export const AnswerForm = ({
       }
     }
     const formData = getValues();
+    if (cdtReferences.loaded && formData.selectedCdtReferenceUrls) {
+      // Une référence supprimée de la réponse générique n'est plus conservée
+      formData.selectedCdtReferenceUrls = pruneSelection(
+        formData.selectedCdtReferenceUrls,
+        cdtReferences.items
+      );
+    }
     setStatus(newStatus);
     onSubmit(newStatus, {
       ...answer,
@@ -247,6 +288,16 @@ export const AnswerForm = ({
             control={control}
           />
         </FormControl>
+        {isGeneric && contentType === "ANSWER" && (
+          <FormControl>
+            <FormEditionField
+              label="Introduction de la réponse du Code du travail"
+              name="introduction"
+              disabled={isNotEditable(answer)}
+              control={control}
+            />
+          </FormControl>
+        )}
         {contentType === "ANSWER" && (
           <FormControl>
             <FormEditionField
@@ -274,7 +325,20 @@ export const AnswerForm = ({
               }}
               infographicEnabled={true}
               challengerEnabled={true}
+              highlightEnabled={!isGeneric}
+              variablesEnabled={!isGeneric}
+              variableValues={{
+                agreement_name:
+                  answer.agreement.shortName ?? answer.agreement.name,
+              }}
             />
+            {highlightCount > 0 && (
+              <Alert severity="info" sx={{ mt: 1 }}>
+                {highlightCount} passage{highlightCount > 1 ? "s" : ""} surligné
+                {highlightCount > 1 ? "s" : ""} à relire. Retirez le surlignage
+                avant de soumettre la réponse.
+              </Alert>
+            )}
           </FormControl>
         )}
         {answer && (
@@ -312,6 +376,16 @@ export const AnswerForm = ({
               fullWidth
             />
           </FormControl>
+        )}
+        {cdtReferencesMode !== "none" && (
+          <CdtReferencesBlock
+            mode={cdtReferencesMode}
+            items={cdtReferences.items}
+            genericAnswerId={cdtReferences.genericAnswerId}
+            name="selectedCdtReferenceUrls"
+            control={control}
+            disabled={isNotEditable(answer)}
+          />
         )}
         {answer?.agreement && !isCodeDuTravail(answer) && (
           <KaliReferenceInput

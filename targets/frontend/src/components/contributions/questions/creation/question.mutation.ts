@@ -1,6 +1,7 @@
 import { gql, useMutation } from "urql";
 
-import { Answer, Question } from "../../type";
+import { Answer, Question, Status } from "../../type";
+import { MessageContentInput } from "../common/messageBlock";
 
 const questionCreationMutation = gql`
   mutation CreateQuestion($question: contribution_questions_insert_input!) {
@@ -11,12 +12,29 @@ const questionCreationMutation = gql`
 `;
 
 type MutationProps = {
-  question: Pick<Question, "content" | "message_id" | "seo_title" | "order"> & {
+  question: Pick<
+    Question,
+    | "content"
+    | "seo_title"
+    | "order"
+    | "introduction_nothing"
+    | "introduction_cdt"
+    | "template_answer"
+  > & {
+    /** Ligne de message propre à la contribution, insérée avec la question */
+    message?: { data: { label: string } & MessageContentInput };
     answers: {
       data: {
         display_date: Answer["displayDate"];
         agreement_id: Answer["agreementId"];
         content_type?: Answer["contentType"];
+        content?: string;
+        introduction?: string;
+        legi_references?: { data: { article_id: string }[] };
+        other_references?: { data: { label: string; url?: string }[] };
+        statuses?: {
+          data: { status: Status; user_id: string }[];
+        };
       }[];
     };
   };
