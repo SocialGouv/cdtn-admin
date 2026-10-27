@@ -54,7 +54,9 @@ describe("TemplateResetBlock", () => {
     await userEvent.click(
       screen.getByRole("button", { name: /Réinitialiser la sélection \(2\)/ })
     );
-    await waitFor(() => expect(onReset).toHaveBeenCalledWith(["answer-1", "answer-3"]));
+    await waitFor(() =>
+      expect(onReset).toHaveBeenCalledWith(["answer-1", "answer-3"])
+    );
   });
 
   it("désactive le bouton quand rien n'est sélectionné ou template vide", () => {
@@ -78,7 +80,9 @@ describe("TemplateResetBlock", () => {
         onReset={jest.fn()}
       />
     );
-    expect(screen.getByText(/Aucune réponse réinitialisable/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Aucune réponse réinitialisable/)
+    ).toBeInTheDocument();
   });
 });
 
