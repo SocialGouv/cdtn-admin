@@ -55,6 +55,11 @@ jest.mock("../../../answers/references/OtherReferenceInput", () => ({
     </label>
   ),
 }));
+// Le bloc de réinitialisation requête l'API (urql) : hors sujet pour ce test,
+// qui porte sur les règles du formulaire.
+jest.mock("../TemplateReset", () => ({
+  TemplateReset: () => null,
+}));
 
 const TEMPLATE_LABEL =
   /^Template « La convention collective prévoit des dispositions »/;

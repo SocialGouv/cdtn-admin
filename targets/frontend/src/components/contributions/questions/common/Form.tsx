@@ -21,6 +21,7 @@ import {
 import { FormSection } from "./FormSection";
 import { MessageField } from "./MessageField";
 import { messageFormDefaults, QuestionMessage } from "./messageBlock";
+import { TemplateReset } from "./TemplateReset";
 import { LegiReferenceInput } from "../../answers/references/LegiReferenceInput";
 import { OtherReferenceInput } from "../../answers/references/OtherReferenceInput";
 import { SnackBar } from "../../../utils/SnackBar";
@@ -354,10 +355,11 @@ export const Form = ({
                 à validation.
               </HelpText>
               {question && (
-                <Alert severity="info">
-                  Modifier le template n&apos;est pas répercuté sur les réponses
-                  déjà créées.
-                </Alert>
+                <TemplateReset
+                  questionId={question.id}
+                  template={templateContent}
+                  disabled={submitting}
+                />
               )}
             </Stack>
             <MessageField
