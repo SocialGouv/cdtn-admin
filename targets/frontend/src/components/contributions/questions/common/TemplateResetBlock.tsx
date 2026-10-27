@@ -101,6 +101,8 @@ export const TemplateResetBlock = ({
         )}
         <Stack direction="row" justifyContent="end">
           <Button
+            // Sans « button », un clic déclencherait la soumission du formulaire de la question.
+            type="button"
             variant="contained"
             color="warning"
             disabled={
