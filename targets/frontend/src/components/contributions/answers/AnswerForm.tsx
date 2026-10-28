@@ -115,6 +115,7 @@ export const AnswerForm = ({
   const {
     control,
     getValues,
+    getFieldState,
     setValue,
     trigger,
     formState: { isDirty },
@@ -146,24 +147,32 @@ export const AnswerForm = ({
   const highlightCount = countHighlights(content);
   const isGeneric = isCodeDuTravail(answer);
   const previousContentType = useRef(contentType);
+  // L'éditeur n'affiche pas un nouveau contenu s'il en a déjà un : on le remonte
+  const [contentEditorKey, setContentEditorKey] = useState(0);
   // Références de la réponse générique : lecture seule ou cases à cocher selon le type de la CC
   const cdtReferences = useGenericCdtReferences(
     isGeneric ? undefined : answer?.questionId
   );
   const cdtReferencesMode = getCdtReferencesMode(contentType, isGeneric);
 
-  // Quand le type passe à « Afficher la réponse » avec un contenu vide,
-  // le template de la question est proposé comme contenu (surlignage et variables compris).
+  // Quand le type passe à « Afficher la réponse », le template de la question est
+  // proposé comme contenu (surlignage et variables compris) si le contenu est vide,
+  // ou s'il ne s'agit que d'un ancien contenu non affiché (réponse enregistrée sous
+  // un autre type) que le rédacteur n'a pas modifié.
   useEffect(() => {
     const templateAnswer = answer?.question?.template_answer;
+    const currentContent = getValues("content");
+    const staleContent =
+      answer?.contentType !== "ANSWER" && !getFieldState("content").isDirty;
     if (
       previousContentType.current !== contentType &&
       contentType === "ANSWER" &&
       !isGeneric &&
       templateAnswer &&
-      !getValues("content")
+      (!currentContent || staleContent)
     ) {
       setValue("content", templateAnswer, { shouldDirty: true });
+      setContentEditorKey((key) => key + 1);
     }
     previousContentType.current = contentType;
   }, [contentType]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -301,6 +310,7 @@ export const AnswerForm = ({
         {contentType === "ANSWER" && (
           <FormControl>
             <FormEditionField
+              key={contentEditorKey}
               label="Réponse"
               name="content"
               disabled={isNotEditable(answer)}

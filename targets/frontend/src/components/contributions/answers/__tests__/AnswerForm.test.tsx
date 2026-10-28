@@ -307,4 +307,44 @@ describe("AnswerForm", () => {
     );
     expect(invalidFormat).toBeInTheDocument();
   });
+
+  describe("template de la question", () => {
+    const ccAnswer: AnswerWithStatus = {
+      ...answerBase,
+      agreementId: "0016",
+      agreement: { ...answerBase.agreement, id: "0016" },
+      question: {
+        ...answerBase.question,
+        template_answer: "<p>Template de la CC</p>",
+      },
+      status: { ...answerBase.status, status: "REDACTING" },
+    };
+    const renderCc = (answer: AnswerWithStatus) =>
+      render(
+        <Provider value={mockClient}>
+          <AnswerForm
+            genericAnswerContentType={"ANSWER"}
+            answer={answer}
+            onSubmit={onSubmit}
+          />
+        </Provider>
+      );
+
+    test("charge le template au passage en « Afficher la réponse », même avec un ancien contenu non affiché", async () => {
+      renderCc({
+        ...ccAnswer,
+        contentType: "NOTHING",
+        content: "<p>Ancien contenu</p>",
+      });
+      await userEvent.click(screen.getByLabelText("Afficher la réponse"));
+      expect(await screen.findByText("Template de la CC")).toBeInTheDocument();
+      expect(screen.queryByText("Ancien contenu")).not.toBeInTheDocument();
+    });
+
+    test("conserve le contenu d'une réponse déjà rédigée", () => {
+      renderCc({ ...ccAnswer, content: "<p>Réponse rédigée</p>" });
+      expect(screen.getByText("Réponse rédigée")).toBeInTheDocument();
+      expect(screen.queryByText("Template de la CC")).not.toBeInTheDocument();
+    });
+  });
 });
