@@ -1,8 +1,9 @@
 import { useState } from "react";
 import type { AlertColor } from "@mui/material";
+import { useSession } from "next-auth/react";
 
-import { useQuestionTemplateAnswers } from "./templateReset.query";
-import { useTemplateResetMutation } from "./templateReset.mutation";
+import { useQuestionAgreementAnswers } from "./templateReset.query";
+import { useApplyTemplateMutation } from "./templateReset.mutation";
 import { TemplateResetBlock } from "./TemplateResetBlock";
 import { SnackBar } from "src/components/utils/SnackBar";
 
@@ -18,8 +19,10 @@ export const TemplateReset = ({
   template,
   disabled = false,
 }: TemplateResetProps): JSX.Element | null => {
-  const { answers, fetching, refetch } = useQuestionTemplateAnswers(questionId);
-  const resetMutation = useTemplateResetMutation();
+  const { data: session } = useSession();
+  const { answers, fetching, refetch } =
+    useQuestionAgreementAnswers(questionId);
+  const applyTemplate = useApplyTemplateMutation();
   const [snack, setSnack] = useState<{
     open: boolean;
     severity?: AlertColor;
@@ -28,17 +31,28 @@ export const TemplateReset = ({
     open: false,
   });
 
-  const handleReset = async (ids: string[]) => {
+  const handleApply = async (ids: string[]) => {
     try {
-      await resetMutation(ids, template);
-      refetch();
-      setSnack({ open: true, severity: "success", message: "Réinitialisé" });
+      if (!session?.user?.id) {
+        throw new Error("Utilisateur non connecté");
+      }
+      if (!template?.trim()) {
+        throw new Error("Le template est vide");
+      }
+      const count = await applyTemplate(ids, template, session.user.id);
+      refetch({ requestPolicy: "network-only" });
+      setSnack({
+        open: true,
+        severity: "success",
+        message: `Template appliqué à ${count} réponse${count > 1 ? "s" : ""}, remise${count > 1 ? "s" : ""} en rédaction`,
+      });
     } catch (e: any) {
       setSnack({
         open: true,
         severity: "error",
         message: `Erreur: ${e.message}`,
       });
+      throw e;
     }
   };
 
@@ -48,7 +62,7 @@ export const TemplateReset = ({
         answers={fetching ? [] : answers}
         template={template}
         disabled={disabled}
-        onReset={handleReset}
+        onApply={handleApply}
       />
       <SnackBar snack={snack} setSnack={setSnack} />
     </>

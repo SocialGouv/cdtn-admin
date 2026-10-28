@@ -2,20 +2,21 @@ import { useQuery } from "urql";
 
 import { Status } from "../../type";
 
-const questionTemplateAnswersQuery = `
-query question_template_answers($questionId: uuid!) {
+const questionAgreementAnswersQuery = `
+query question_agreement_answers($questionId: uuid!) {
   contribution_answers(
     where: {
       question_id: { _eq: $questionId }
       agreement_id: { _neq: "0000" }
-      content_type: { _eq: "ANSWER" }
     }
     order_by: { agreement_id: asc }
   ) {
     id
+    contentType: content_type
     agreement {
       id
       name
+      unextended
     }
     statuses(order_by: { created_at: desc }, limit: 1) {
       status
@@ -24,36 +25,38 @@ query question_template_answers($questionId: uuid!) {
 }
 `;
 
-type TemplateAnswer = {
+export type TemplateResetAnswer = {
   id: string;
-  agreement: { id: string; name: string };
-  statuses: { status: Status }[];
+  contentType: string | null;
+  agreement: { id: string; name: string; unextended: boolean };
+  /** Statut courant (absent = « À traiter ») */
+  status: Status | undefined;
 };
 
 type QueryResult = {
-  contribution_answers: TemplateAnswer[];
+  contribution_answers: (Omit<TemplateResetAnswer, "status"> & {
+    statuses: { status: Status }[];
+  })[];
 };
 
 /**
- * Réponses des CC de type « Afficher la réponse » : les seules qui portent
- * une copie du template et peuvent donc être réinitialisées depuis la question.
+ * Réponses des CC de la question, quels que soient leur type et leur statut :
+ * le template peut leur être appliqué à tout moment (elles repassent alors en
+ * rédaction). Les CC non étendues, verrouillées sur « ne prévoit rien », sont exclues.
  */
-export const useQuestionTemplateAnswers = (questionId?: string) => {
-  const [{ data, fetching }, refetch] = useQuery<QueryResult>({
-    query: questionTemplateAnswersQuery,
+export const useQuestionAgreementAnswers = (questionId?: string) => {
+  const [{ data, fetching, error }, refetch] = useQuery<QueryResult>({
+    query: questionAgreementAnswersQuery,
     variables: { questionId },
     pause: !questionId,
     requestPolicy: "network-only",
   });
-  const answers =
-    data?.contribution_answers.map((answer) => ({
-      ...answer,
-      // Seules les réponses en rédaction peuvent recevoir le template :
-      // au-delà (REDACTED et plus), le serveur refuse un contenu surligné.
-      resettable: isResettable(answer.statuses[0]?.status),
-    })) ?? [];
-  return { answers, fetching, refetch };
+  const answers: TemplateResetAnswer[] =
+    data?.contribution_answers
+      .filter((answer) => !answer.agreement.unextended)
+      .map(({ statuses, ...answer }) => ({
+        ...answer,
+        status: statuses[0]?.status,
+      })) ?? [];
+  return { answers, fetching, error, refetch };
 };
-
-export const isResettable = (status: Status | undefined): boolean =>
-  status === undefined || status === "TODO" || status === "REDACTING";
