@@ -12,6 +12,7 @@ export const agreementSchema = z.object({
   id: z.string(),
   name: z.string(),
   kaliId: z.string(),
+  shortName: z.string().optional(),
   unextended: z.boolean(),
 });
 export type Agreement = z.infer<typeof agreementSchema>;
@@ -148,6 +149,10 @@ const answerBaseSchema = z.object({
     .nullable()
     .optional(),
   messageBlockGenericNoCDT: z.string().nullable().optional(),
+  /** Introduction affichée avant la réponse (réponse générique uniquement) */
+  introduction: z.string().nullable().optional(),
+  /** Valeur de formulaire : URL des références du Code du travail cochées (CC « Afficher la réponse ») */
+  selectedCdtReferenceUrls: z.array(z.string()).optional(),
   updatedAt: z.string(),
   displayDate: z.string(),
 });
@@ -162,6 +167,9 @@ export const questionBaseSchema = z.object({
   order: z.coerce.number(),
   message_id: z.string().uuid().optional(),
   seo_title: z.string().optional(),
+  introduction_nothing: z.string().nullable().optional(),
+  introduction_cdt: z.string().nullable().optional(),
+  template_answer: z.string().nullable().optional(),
 });
 
 export const commentsSchema = z.object({
@@ -187,6 +195,9 @@ export const answerRelationSchema = answerBaseSchema.extend({
   kaliReferences: z.array(kaliReferenceSchema),
   legiReferences: z.array(legiReferenceSchema),
   otherReferences: z.array(otherReferenceSchema),
+  selectedCdtReferences: z
+    .array(z.object({ referenceUrl: z.string() }))
+    .optional(),
   cdtnReferences: z.array(cdtnReferenceSchema),
   infographics: z.array(infographicReferenceSchema),
   contentFichesSpDocument: documentSchema.nullable().optional(),

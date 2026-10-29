@@ -1,0 +1,25 @@
+table:
+  name: answer_selected_cdt_references
+  schema: contribution
+object_relationships:
+  - name: answer
+    using:
+      foreign_key_constraint_on: answer_id
+insert_permissions:
+  - role: super
+    permission:
+      check: {}
+      columns:
+        - answer_id
+        - reference_url
+select_permissions:
+  - role: super
+    permission:
+      columns:
+        - answer_id
+        - reference_url
+      filter: {}
+delete_permissions:
+  - role: super
+    permission:
+      filter: {}

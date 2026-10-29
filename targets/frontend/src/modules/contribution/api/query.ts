@@ -22,6 +22,10 @@ export const getContributionAnswerById = gql`
         seo_title
       }
       message_block_generic_no_CDT
+      introduction
+      selected_cdt_references {
+        reference_url
+      }
       kali_references {
         label
         kali_article {

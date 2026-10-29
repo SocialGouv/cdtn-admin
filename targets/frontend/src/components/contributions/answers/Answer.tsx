@@ -1,4 +1,5 @@
 import {
+  Alert,
   AlertColor,
   Box,
   Stack,
@@ -38,6 +39,8 @@ export const ContributionsAnswer = ({
   const { data } = useSession();
   const user = data?.user;
   const updateAnswer = useContributionAnswerUpdateMutation();
+  // Message du serveur en cas de rejet (ex. : surlignage restant), conservé à l'écran
+  const [serverError, setServerError] = useState<string | undefined>();
   const [snack, setSnack] = useState<{
     open: boolean;
     severity?: AlertColor;
@@ -48,6 +51,7 @@ export const ContributionsAnswer = ({
   const onPublish = usePublishContributionMutation();
 
   const onSubmit = async (newStatus: Status, data: Answer) => {
+    setServerError(undefined);
     try {
       if (!answer || !answer.id) {
         throw new Error("Id non définit");
@@ -66,6 +70,8 @@ export const ContributionsAnswer = ({
         userId: user?.id,
         contentServicePublicCdtnId: data.contentFichesSpDocument?.cdtnId,
         messageBlockGenericNoCDT: data.messageBlockGenericNoCDT,
+        introduction: data.introduction,
+        selectedCdtReferenceUrls: data.selectedCdtReferenceUrls,
         kaliReferences: data.kaliReferences,
         legiReferences: data.legiReferences,
         cdtnReferences: data.cdtnReferences,
@@ -89,7 +95,11 @@ export const ContributionsAnswer = ({
           contentType: data.contentType,
           status: "VALIDATED",
           userId: user.id,
+          description: data.description,
           contentServicePublicCdtnId: data.contentFichesSpDocument?.cdtnId,
+          messageBlockGenericNoCDT: data.messageBlockGenericNoCDT,
+          introduction: data.introduction,
+          selectedCdtReferenceUrls: data.selectedCdtReferenceUrls,
           kaliReferences: data.kaliReferences,
           legiReferences: data.legiReferences,
           cdtnReferences: data.cdtnReferences,
@@ -97,6 +107,7 @@ export const ContributionsAnswer = ({
           infographics: data.infographics,
         });
       }
+      setServerError(e.message);
       setSnack({ open: true, severity: "error", message: e.message });
     }
   };
@@ -154,6 +165,11 @@ export const ContributionsAnswer = ({
       </Stack>
       <Stack direction="row">
         <Box sx={{ width: "70%" }}>
+          {serverError && (
+            <Alert severity="error" role="alert" sx={{ mb: 2 }}>
+              {serverError}
+            </Alert>
+          )}
           {answer && genericAnswer && (
             <AnswerForm
               answer={answer}

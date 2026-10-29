@@ -73,6 +73,13 @@ array_relationships:
         table:
           name: answer_other_references
           schema: contribution
+  - name: selected_cdt_references
+    using:
+      foreign_key_constraint_on:
+        column: answer_id
+        table:
+          name: answer_selected_cdt_references
+          schema: contribution
   - name: statuses
     using:
       manual_configuration:
@@ -88,8 +95,10 @@ insert_permissions:
       check: {}
       columns:
         - agreement_id
+        - content
         - content_type
         - display_date
+        - introduction
         - question_id
     comment: ""
 select_permissions:
@@ -104,6 +113,7 @@ select_permissions:
         - description
         - display_date
         - id
+        - introduction
         - message_block_generic_no_CDT
         - question_id
         - updated_at
@@ -119,6 +129,7 @@ update_permissions:
         - content_type
         - description
         - display_date
+        - introduction
         - message_block_generic_no_CDT
       filter: {}
       check: null
