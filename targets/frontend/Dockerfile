@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.7
-ARG NODE_VERSION=24-alpine
+ARG NODE_VERSION=24.22.1-alpine
 
 # Manifests stage: seeds the install layer with version-blanked manifests, so a
 # release bump does not invalidate it. See scripts/docker-prepare-manifests.js.

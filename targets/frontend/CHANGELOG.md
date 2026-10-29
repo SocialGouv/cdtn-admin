@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.78.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.78.0...v2.78.1) (2026-10-23)
+
+### Bug Fixes
+
+- **news:** date de première publication conservée, modification à chaque publication ([#1731](https://github.com/SocialGouv/cdtn-admin/issues/1731)) ([ae6e86c](https://github.com/SocialGouv/cdtn-admin/commit/ae6e86c400cb5a9494f1868fc39a6e0f69612272))
+- **security:** bump Node.js to 24.22.1 (October 2026 security releases) ([#1732](https://github.com/SocialGouv/cdtn-admin/issues/1732)) ([106d325](https://github.com/SocialGouv/cdtn-admin/commit/106d32501966d233bb331c1237f20616036bfaad))
+
+# [2.78.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.16...v2.78.0) (2026-10-23)
+
+### Features
+
+- **contributions:** date de mise à jour automatique à la publication ([#1726](https://github.com/SocialGouv/cdtn-admin/issues/1726)) ([3b0ed2f](https://github.com/SocialGouv/cdtn-admin/commit/3b0ed2ff7ae22bd7df968f56d40e1d87e27b3355))
+- **news:** image, « Pour aller plus loin » et « Références » avec texte d'introduction ([#1722](https://github.com/SocialGouv/cdtn-admin/issues/1722)) ([180509d](https://github.com/SocialGouv/cdtn-admin/commit/180509d2276c807e48451ca404c750b57e75c69e))
+- **news:** lastmod à minuit Paris, dates tolérantes et heure de publication des actualités ([#1730](https://github.com/SocialGouv/cdtn-admin/issues/1730)) ([47b86f4](https://github.com/SocialGouv/cdtn-admin/commit/47b86f487b82437407780a84f4c7832028478708))
+
 ## [2.77.16](https://github.com/SocialGouv/cdtn-admin/compare/v2.77.15...v2.77.16) (2026-10-20)
 
 **Note:** Version bump only for package frontend

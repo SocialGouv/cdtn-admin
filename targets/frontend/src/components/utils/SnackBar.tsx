@@ -17,7 +17,12 @@ export const SnackBar = ({
     <Snackbar
       open={snack.open}
       autoHideDuration={20000}
-      onClose={() => setSnack({ open: false })}
+      onClose={(_event, reason) => {
+        // Un clic ailleurs (ex. sur le bouton qui affiche le message suivant)
+        // ne doit pas refermer le message qui vient d'être posé.
+        if (reason === "clickaway") return;
+        setSnack({ open: false });
+      }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
       <Alert

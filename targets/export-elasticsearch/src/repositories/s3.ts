@@ -68,11 +68,14 @@ export class S3Repository {
     folder: string,
     key: string
   ): Promise<void> {
-    const keyFolder =
-      environment === "production"
-        ? `${this.publishedFolder}/${folder}/${key}`
-        : `${this.previewFolder}/${folder}/${key}`;
-    const response = await axios.get(sitemapEndpoint);
+    const bucketFolder =
+      environment === "production" ? this.publishedFolder : this.previewFolder;
+    const keyFolder = `${bucketFolder}/${folder}/${key}`;
+    // Le sitemap liste les images des actualités dans le dossier public de
+    // l'environnement exporté.
+    const response = await axios.get(sitemapEndpoint, {
+      params: { bucketfolder: bucketFolder },
+    });
     if (response.status !== 200 || !response.data)
       throw new Error(`Error while fetching sitemap: ${response.status}`);
     const data: string = response.data;

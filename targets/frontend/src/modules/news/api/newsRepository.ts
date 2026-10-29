@@ -1,6 +1,12 @@
-import { NewsRequest, NewsResponse, selectNewsQuery } from "./news.query";
+import {
+  mapNewsRow,
+  NewsRequest,
+  NewsResponse,
+  selectNewsQuery,
+} from "./news.query";
 import { ApiClient } from "src/lib/api";
 import { News } from "../type";
+import { updateNewsPublicationMutation } from "./news.mutation";
 
 export class NewsRepository {
   client: ApiClient;
@@ -19,9 +25,23 @@ export class NewsRepository {
     if (error) {
       throw error;
     }
-    if (!data) {
+    if (!data?.news) {
       throw new Error(`Pas d'actualité pour l'id ${id}`);
     }
-    return data.news;
+    return mapNewsRow(data.news);
+  }
+
+  async updatePublication(
+    id: string,
+    displayDate: string,
+    publishedAt: string
+  ): Promise<void> {
+    const { error } = await this.client.mutation(
+      updateNewsPublicationMutation,
+      { id, displayDate, publishedAt }
+    );
+    if (error) {
+      throw error;
+    }
   }
 }

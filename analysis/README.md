@@ -177,6 +177,15 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   dénominateur, ex. part d'un type = `nb_visites` du type / `nb_visites` total.
   Table `visites_totales`.
 
+## Pipeline L2 (audit de taxonomie de contenu)
+
+`src/analysis/l2/` est un pipeline à part : il n'alimente **pas** Metabase et
+ne tourne **pas** dans le cronjob `ingest-all`. C'est un outil d'audit
+éditorial occasionnel, piloté par une seule commande `uv run l2 <étape>`.
+
+Documentation complète (étapes, artefacts, configuration, réglage, outil de
+tagging) : [`src/analysis/l2/README.md`](src/analysis/l2/README.md).
+
 ## La base Metabase (destination)
 
 Les commandes d'ingestion n'écrivent **pas** dans Matomo : elles **agrègent** la
@@ -362,16 +371,21 @@ analysis/
 │   ├── connectors/
 │   │   ├── matomo.py             # MatomoSQLConnector (source SQL, réplica)
 │   │   ├── matomo_reporting.py   # MatomoReportingConnector (source API)
+│   │   ├── elasticsearch.py      # ElasticsearchDocsConnector (source, pipeline L2)
+│   │   ├── albert.py             # AlbertClient + embeddings (LLM, pipeline L2)
+│   │   ├── claude.py             # ClaudeClient (LLM, pipeline L2 -- HTTP brut)
+│   │   ├── openai.py             # embeddings OpenAI -- HTTP brut (pipeline L2)
 │   │   └── metabase_db.py        # MetabaseDBConnector (destination, générique)
 │   ├── reports/                  # calcul des agrégats journaliers (DataFrame)
-│   └── commands/                 # commandes d'ingestion (report + couche BDD)
-│       ├── ingest_all.py               # lance tous les ingesters — job planifié
-│       ├── ingest_taux_contributions.py # ingester taux de complétion/personnalisation des contributions
-│       ├── ingest_nps_scores.py        # ingester scores NPS par device et par page
-│       ├── ingest_taux_personnalisation.py # ingester taux de personnalisation
-│       ├── ingest_completion_modeles_courrier.py # ingester complétion des modèles de courrier
-│       ├── ingest_parcours_actualites.py # ingester parcours après une actualité
-│       ├── ingest_visites_par_type_contenu.py # ingester visites par type de contenu
-│       └── ingest_visites_totales.py # ingester visites et pages vues totales
+│   ├── commands/                 # commandes d'ingestion (report + couche BDD)
+│   │   ├── ingest_all.py               # lance tous les ingesters — job planifié
+│   │   ├── ingest_taux_contributions.py # ingester taux de complétion/personnalisation des contributions
+│   │   ├── ingest_nps_scores.py        # ingester scores NPS par device et par page
+│   │   ├── ingest_taux_personnalisation.py # ingester taux de personnalisation
+│   │   ├── ingest_completion_modeles_courrier.py # ingester complétion des modèles de courrier
+│   │   ├── ingest_parcours_actualites.py # ingester parcours après une actualité
+│   │   ├── ingest_visites_par_type_contenu.py # ingester visites par type de contenu
+│   │   └── ingest_visites_totales.py # ingester visites et pages vues totales
+│   ├── l2/                       # pipeline d'audit de taxonomie (voir src/analysis/l2/README.md)
 └── notebooks/                    # analyses exploratoires
 ```

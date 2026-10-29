@@ -9,14 +9,24 @@ authors = [
 requires-python = ">=3.13"
 dependencies = [
     "asyncpg>=0.31.0",
+    "click>=8.4.2",
+    "elasticsearch==8.12",
     "httpx>=0.28.1",
     "matplotlib>=3.11.0",
+    "networkx>=3.6.1",
+    "openpyxl>=3.1.5",
     "pandas>=3.0.3",
     "plotly>=6.8.0",
     "psycopg[binary]>=3.2.0",
+    "pyarrow>=18.0.0",
     "pydantic-settings>=2.14.2",
+    "python-louvain>=0.16",
     "requests>=2.32.0",
+    "scikit-learn>=1.9.0",
+    "scipy>=1.11.0",
     "seaborn>=0.13.2",
+    "spacy>=3.8.14",
+    "tqdm>=4.67.0",
 ]
 
 [project.scripts]
@@ -28,6 +38,8 @@ ingest-completion-modeles-courrier = "analysis.commands.ingest_completion_modele
 ingest-parcours-actualites = "analysis.commands.ingest_parcours_actualites:main"
 ingest-visites-par-type-contenu = "analysis.commands.ingest_visites_par_type_contenu:main"
 ingest-visites-totales = "analysis.commands.ingest_visites_totales:main"
+
+l2 = "analysis.l2.cli:main"
 
 [build-system]
 requires = ["uv_build>=0.11.22,<0.12.0"]
