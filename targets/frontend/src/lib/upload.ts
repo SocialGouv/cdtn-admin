@@ -2,6 +2,7 @@ import {
   S3Client,
   PutObjectCommand,
   DeleteObjectCommand,
+  HeadObjectCommand,
   ListObjectsCommand,
   _Object,
 } from "@aws-sdk/client-s3";
@@ -63,6 +64,27 @@ export const deleteApiFile = async (key: string) => {
     Key: `${bucketDraftFolder}/${bucketDefaultFolder}/${key}`,
   });
   return await client.send(command);
+};
+
+export const apiFileExists = async (key: string): Promise<boolean> => {
+  try {
+    await client.send(
+      new HeadObjectCommand({
+        Bucket: bucketName,
+        Key: `${bucketDraftFolder}/${bucketDefaultFolder}/${key}`,
+      })
+    );
+    return true;
+  } catch (err) {
+    const error = err as {
+      name?: string;
+      $metadata?: { httpStatusCode?: number };
+    };
+    if (error.$metadata?.httpStatusCode === 404 || error.name === "NotFound") {
+      return false;
+    }
+    throw err;
+  }
 };
 
 export const uploadApiFiles = async (key: string, data: Buffer) => {

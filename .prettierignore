@@ -34,6 +34,9 @@ local_dump
 # Generated files
 targets/ingester/data/**
 targets/hasura/**
+# Écrits par le pipeline L2 (json.dumps), régénérés tels quels
+analysis/src/analysis/l2/tests/golden_links.json
+targets/export-elasticsearch/dataset/fiches_service_public_links.json
 
 # Coverage and test outputs
 coverage

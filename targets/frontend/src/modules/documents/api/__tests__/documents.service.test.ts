@@ -11,6 +11,12 @@ import { InfographicRepository } from "../../../infographics/api";
 import { WhatIsNewItemsRepository } from "../../../what-is-new/api";
 import { SOURCES } from "@socialgouv/cdtn-utils";
 import { NewsRepository } from "../../../news/api";
+import { updateNewsPublicationMutation } from "../../../news/api/news.mutation";
+import { mapContributionToDocument } from "../../../contribution";
+import {
+  updateDisplayDateMutation,
+  updatePublicationMutation,
+} from "../../../contribution/api/mutation";
 
 jest.mock("../../../common/getGlossaryContent.ts", () => {
   return {
@@ -160,10 +166,22 @@ describe("document service", () => {
           return {
             toPromise: () => Promise.resolve({ data: {} }),
           };
+        })
+        .mockReturnValueOnce({
+          toPromise: () => Promise.resolve({ data: {} }),
         }),
     } as unknown as GqlClient,
     {}
   );
+
+  beforeEach(() => {
+    jest.useFakeTimers().setSystemTime(new Date("2026-10-16T22:30:00Z"));
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it("publish sauvegarde le cdtnId s'il n'existait pas dans la contribution answer", async () => {
     const service = new DocumentsService(
       new InformationsRepository(client),
@@ -177,10 +195,239 @@ describe("document service", () => {
     );
 
     await service.publish("1234", "contributions");
-    expect(client.client.mutation).toHaveBeenCalledTimes(2);
+    expect(client.client.mutation).toHaveBeenCalledTimes(3);
     expect(savedArgs).toEqual({
       cdtnId: "b3bc78aed5",
       id: "effee3b9-84fb-4667-944b-4b1e1fd14eb5",
+    });
+  });
+
+  describe("date de mise à jour", () => {
+    const publishedContribution: ContributionsAnswers = {
+      ...inputContribution,
+      cdtnId: "b3bc78aed5",
+    };
+
+    const buildPreviousDocument = async () => {
+      const previous = await mapContributionToDocument(
+        publishedContribution,
+        undefined,
+        jest.fn()
+      );
+      return previous!;
+    };
+
+    const publishWith = async (
+      previousDocument: any,
+      contribution: ContributionsAnswers
+    ) => {
+      const calls: { query: any; variables: any }[] = [];
+      const localClient = new ApiClient(
+        {
+          query: jest
+            .fn()
+            // DocumentsRepository.fetch()
+            .mockReturnValueOnce({
+              toPromise: () =>
+                Promise.resolve({
+                  data: {
+                    documents: previousDocument ? [previousDocument] : [],
+                  },
+                }),
+            })
+            // ContributionRepository.fetch()
+            .mockReturnValueOnce({
+              toPromise: () =>
+                Promise.resolve({
+                  data: { contribution_answers_by_pk: contribution },
+                }),
+            })
+            // DocumentsRepository.fetchDocumentBySlug() (première publication)
+            .mockReturnValueOnce({
+              toPromise: () => Promise.resolve({}),
+            }),
+          mutation: jest.fn().mockImplementation((query, variables) => {
+            calls.push({ query, variables });
+            return {
+              toPromise: () =>
+                Promise.resolve({
+                  data: { insert_documents_one: { cdtn_id: "b3bc78aed5" } },
+                }),
+            };
+          }),
+        } as unknown as GqlClient,
+        {}
+      );
+      const service = new DocumentsService(
+        new InformationsRepository(localClient),
+        new DocumentsRepository(localClient),
+        new ContributionRepository(localClient),
+        new ModelRepository(localClient),
+        new AgreementRepository(localClient),
+        new InfographicRepository(localClient),
+        new WhatIsNewItemsRepository(localClient),
+        new NewsRepository(localClient)
+      );
+      await service.publish(contribution.id, "contributions");
+      const [upsert, ...others] = calls;
+      return {
+        publishedDocument: upsert.variables.upsert.document,
+        displayDateCall: others.find(
+          (call) => call.query === updateDisplayDateMutation
+        ),
+        cdtnIdCall: others.find(
+          (call) => call.query === updatePublicationMutation
+        ),
+      };
+    };
+
+    it("met la date du jour (heure de Paris) en première publication", async () => {
+      const { publishedDocument, displayDateCall } = await publishWith(
+        undefined,
+        publishedContribution
+      );
+      expect(publishedDocument.date).toEqual("17/10/2026");
+      expect(displayDateCall?.variables).toEqual({
+        id: publishedContribution.id,
+        displayDate: "2026-10-17",
+      });
+    });
+
+    it("met la date du jour à chaque republication, même sans changement", async () => {
+      const { publishedDocument, displayDateCall, cdtnIdCall } =
+        await publishWith(await buildPreviousDocument(), publishedContribution);
+      expect(publishedDocument.date).toEqual("17/10/2026");
+      expect(displayDateCall?.variables).toEqual({
+        id: publishedContribution.id,
+        displayDate: "2026-10-17",
+      });
+      expect(cdtnIdCall).toBeUndefined();
+    });
+  });
+
+  describe("actualites", () => {
+    const newsRow = {
+      id: "8d2b1c4e-2f6a-4b8e-9a51-7c3e2f1d0a11",
+      title: "Nouveau barème",
+      metaTitle: "Nouveau barème meta",
+      content: "Contenu",
+      metaDescription: "Description meta",
+      displayDate: "2026-10-09",
+      createdAt: "2026-10-09T08:00:00+00:00",
+      updatedAt: "2026-10-12T09:00:00+00:00",
+      publishedAt: "2026-10-09T08:00:00+00:00",
+      imageFile: null,
+      imageAlt: null,
+      imageAuthor: null,
+      imageLicense: null,
+      imageWidth: null,
+      imageHeight: null,
+      newsLinks: [],
+      newsReferences: [],
+    };
+
+    const publishNews = async (
+      row: Record<string, unknown>,
+      documents: Record<string, unknown>[] = []
+    ) => {
+      const calls: { query: any; variables: any }[] = [];
+      const localClient = new ApiClient(
+        {
+          query: jest
+            .fn()
+            // DocumentsRepository.fetch()
+            .mockReturnValueOnce({
+              toPromise: () => Promise.resolve({ data: { documents } }),
+            })
+            // NewsRepository.fetch()
+            .mockReturnValueOnce({
+              toPromise: () => Promise.resolve({ data: { news: row } }),
+            }),
+          mutation: jest.fn().mockImplementation((query, variables) => {
+            calls.push({ query, variables });
+            return {
+              toPromise: () =>
+                Promise.resolve({
+                  data: { insert_documents_one: { cdtn_id: "cdtn-id" } },
+                }),
+            };
+          }),
+        } as unknown as GqlClient,
+        {}
+      );
+      const service = new DocumentsService(
+        new InformationsRepository(localClient),
+        new DocumentsRepository(localClient),
+        new ContributionRepository(localClient),
+        new ModelRepository(localClient),
+        new AgreementRepository(localClient),
+        new InfographicRepository(localClient),
+        new WhatIsNewItemsRepository(localClient),
+        new NewsRepository(localClient)
+      );
+
+      await service.publish(row.id as string, SOURCES.NEWS);
+
+      const [upsert, publication] = calls;
+      expect(publication.query).toBe(updateNewsPublicationMutation);
+      return {
+        document: upsert.variables.upsert.document,
+        publication: publication.variables,
+      };
+    };
+
+    const publishedDocument = {
+      cdtn_id: "cdtn-id",
+      slug: "nouveau-bareme",
+      is_searchable: true,
+      is_published: true,
+      document: {},
+    };
+
+    it("met à jour la date affichée et la modification, pas la première publication", async () => {
+      const { document, publication } = await publishNews(newsRow, [
+        publishedDocument,
+      ]);
+
+      // 22 h 30 UTC le 16/10 : déjà le 17/10 à Paris.
+      expect(document).toMatchObject({
+        date: "17/10/2026",
+        publishedAt: "2026-10-09T08:00:00+00:00",
+        updatedAt: "2026-10-16T22:30:00.000Z",
+      });
+      expect(publication).toEqual({
+        id: newsRow.id,
+        displayDate: "2026-10-17",
+        publishedAt: "2026-10-09T08:00:00+00:00",
+      });
+    });
+
+    it("date la première publication à l'instant de publication", async () => {
+      const { document, publication } = await publishNews({
+        ...newsRow,
+        publishedAt: null,
+      });
+
+      expect(document).toMatchObject({
+        date: "17/10/2026",
+        publishedAt: "2026-10-16T22:30:00.000Z",
+        updatedAt: "2026-10-16T22:30:00.000Z",
+      });
+      expect(publication.publishedAt).toBe("2026-10-16T22:30:00.000Z");
+    });
+
+    it("garde la date affichée d'une actualité déjà en ligne sans instant de publication", async () => {
+      const { document, publication } = await publishNews(
+        { ...newsRow, publishedAt: null },
+        [publishedDocument]
+      );
+
+      // 09/10/2026 à minuit heure de Paris (UTC+2).
+      expect(document).toMatchObject({
+        date: "17/10/2026",
+        publishedAt: "2026-10-08T22:00:00.000Z",
+      });
+      expect(publication.publishedAt).toBe("2026-10-08T22:00:00.000Z");
     });
   });
 

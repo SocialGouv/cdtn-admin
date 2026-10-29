@@ -9,7 +9,10 @@ import {
   ContributionQuestion,
   ContributionsAnswers,
 } from "@socialgouv/cdtn-types";
-import { updatePublicationMutation } from "./mutation";
+import {
+  updateDisplayDateMutation,
+  updatePublicationMutation,
+} from "./mutation";
 
 interface FetchContribPkData {
   contribution_answers_by_pk: ContributionsAnswers;
@@ -99,6 +102,19 @@ export class ContributionRepository {
       {
         id,
         cdtnId,
+      }
+    );
+    if (error) {
+      throw error;
+    }
+  }
+
+  async updateDisplayDate(id: string, displayDate: string): Promise<void> {
+    const { error } = await this.client.mutation<FetchContribPkData>(
+      updateDisplayDateMutation,
+      {
+        id,
+        displayDate,
       }
     );
     if (error) {
