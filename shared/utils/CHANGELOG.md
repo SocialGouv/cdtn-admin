@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.79.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.78.1...v2.79.0) (2026-10-29)
+
+### Features
+
+- **contribution:** amélioration de la création d'une contribution ([#1727](https://github.com/SocialGouv/cdtn-admin/issues/1727)) ([d45b740](https://github.com/SocialGouv/cdtn-admin/commit/d45b74004875dc3b2980f3aa04ca60eb0b829d7b))
+
 ## [2.78.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.78.0...v2.78.1) (2026-10-23)
 
 **Note:** Version bump only for package @shared/utils
