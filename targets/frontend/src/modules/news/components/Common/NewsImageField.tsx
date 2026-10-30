@@ -34,11 +34,7 @@ type Props = {
   savedFile: NewsImageFile | null;
 };
 
-export const NewsImageField = ({
-  control,
-  setValue,
-  savedFile,
-}: Props) => {
+export const NewsImageField = ({ control, setValue, savedFile }: Props) => {
   const [rejection, setRejection] = useState<string>();
   const [warning, setWarning] = useState<string>();
   const alt: string | null | undefined = useWatch({
