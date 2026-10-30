@@ -25,6 +25,7 @@ from analysis.commands import (
     ingest_completion_modeles_courrier,
     ingest_nps_scores,
     ingest_parcours_actualites,
+    ingest_parcours_brut_net,
     ingest_taux_contributions,
     ingest_taux_personnalisation,
     ingest_visites_par_type_contenu,
@@ -40,6 +41,7 @@ INGESTERS: list[Ingester] = [
     ingest_taux_personnalisation.INGESTER,
     ingest_completion_modeles_courrier.INGESTER,
     ingest_parcours_actualites.INGESTER,
+    ingest_parcours_brut_net.INGESTER,
     ingest_visites_par_type_contenu.INGESTER,
     ingest_visites_totales.INGESTER,
 ]
