@@ -51,7 +51,6 @@ export const NewsForm = ({
   onUpsert,
   onPublish,
 }: Props): React.ReactElement => {
-  const requireImage = !news || !!news.imageFile;
   const { control, handleSubmit, setValue, trigger, getValues } =
     useForm<FormData>({
       defaultValues: {
@@ -61,7 +60,7 @@ export const NewsForm = ({
         imageAlt: news?.imageAlt ?? "",
         imageAuthor: news?.imageAuthor ?? "",
       },
-      resolver: zodResolver(buildNewsFormSchema(requireImage)),
+      resolver: zodResolver(buildNewsFormSchema()),
       shouldFocusError: true,
     });
 
@@ -110,9 +109,9 @@ export const NewsForm = ({
         links: newData.links!,
         references: newData.references!,
         imageFile,
-        imageAlt: newData.imageAlt || null,
-        imageAuthor: newData.imageAuthor || null,
-        imageLicense: newData.imageLicense ?? null,
+        imageAlt: imageFile ? newData.imageAlt || null : null,
+        imageAuthor: imageFile ? newData.imageAuthor || null : null,
+        imageLicense: imageFile ? (newData.imageLicense ?? null) : null,
         imageWidth,
         imageHeight,
       });
@@ -185,7 +184,6 @@ export const NewsForm = ({
           control={control}
           setValue={setValue}
           savedFile={news?.imageFile ?? null}
-          canRemove={!requireImage}
         />
         <NewsLinks control={control} />
         <NewsReferences control={control} />

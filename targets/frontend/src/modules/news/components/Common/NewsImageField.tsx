@@ -32,14 +32,12 @@ type Props = {
   control: Control<any>;
   setValue: UseFormSetValue<any>;
   savedFile: NewsImageFile | null;
-  canRemove: boolean;
 };
 
 export const NewsImageField = ({
   control,
   setValue,
   savedFile,
-  canRemove,
 }: Props) => {
   const [rejection, setRejection] = useState<string>();
   const [warning, setWarning] = useState<string>();
@@ -166,12 +164,6 @@ export const NewsImageField = ({
                       <Button
                         variant="outlined"
                         startIcon={<Delete />}
-                        disabled={!canRemove && !newImage.length}
-                        title={
-                          !canRemove && !newImage.length
-                            ? "L'image est obligatoire : remplacez-la en déposant un nouveau fichier."
-                            : undefined
-                        }
                         onClick={() => {
                           const hadNewImage = newImage.length > 0;
                           setValue("newImage", []);
