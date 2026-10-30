@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { ReactNode, useRef, useState } from "react";
+import { useFormLock } from "src/hooks/useFormLock";
 import { CONTRIBUTION_COLORS } from "../../../utils/contributionColors";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -102,7 +103,9 @@ export const Form = ({
   const templateContent = watch("template_answer");
   const [submitError, setSubmitError] = useState<Error | undefined>(undefined);
   const pendingData = useRef<QuestionFormData | undefined>(undefined);
-  const [submitting, setSubmit] = useState<boolean>(false);
+  // À la création, la navigation vers la question créée suit le succès : le
+  // verrou est conservé pour ne pas pouvoir la créer une seconde fois.
+  const { run, submit, saving: submitting } = useFormLock();
 
   const [snack, setSnack] = useState<{
     open: boolean;
@@ -112,13 +115,13 @@ export const Form = ({
     open: false,
   });
 
-  const submitData = async (formData: QuestionFormData) => {
-    setSubmit(true);
+  const submitData = async (formData: QuestionFormData): Promise<boolean> => {
     setSubmitError(undefined);
     pendingData.current = formData;
     try {
       await onSubmit(formData);
       setSnack({ open: true, severity: "success", message: "Sauvegardé" });
+      return true;
     } catch (e: any) {
       if (creation) {
         // En création : alerte avec « Réessayer », la saisie est conservée
@@ -130,11 +133,11 @@ export const Form = ({
           message: `Erreur: ${e.message}`,
         });
       }
+      return false;
     }
-    setSubmit(false);
   };
 
-  const onSubmitForm = async (formData: QuestionFormData) => {
+  const onSubmitForm = async (formData: QuestionFormData): Promise<boolean> => {
     if (creation) {
       // Champs obligatoires à la création : toutes les erreurs sont remontées d'un coup
       let hasError = false;
@@ -153,15 +156,19 @@ export const Form = ({
         hasError = true;
       }
       if (hasError) {
-        return;
+        return false;
       }
     }
-    await submitData(formData);
+    return submitData(formData);
   };
 
   return (
     <Stack mt={4} spacing={2}>
-      <form onSubmit={handleSubmit(onSubmitForm)}>
+      <form
+        onSubmit={submit(handleSubmit, onSubmitForm, {
+          holdOnSuccess: creation,
+        })}
+      >
         <Stack spacing={4}>
           {creation &&
             (errors.generic_answer_content || errors.template_answer) && (
@@ -388,9 +395,14 @@ export const Form = ({
                     color="inherit"
                     size="small"
                     disabled={submitting}
-                    onClick={() =>
-                      pendingData.current && submitData(pendingData.current)
-                    }
+                    onClick={() => {
+                      const pending = pendingData.current;
+                      if (pending) {
+                        void run("save", () => submitData(pending), {
+                          holdOnSuccess: creation,
+                        });
+                      }
+                    }}
                   >
                     Réessayer
                   </Button>

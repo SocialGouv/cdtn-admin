@@ -5,8 +5,10 @@ import { Prequalified } from "../type";
 import { usePrequalifiedCreateMutation } from "./prequalifiedCreate.mutation";
 import { useState } from "react";
 import { AlertColor } from "@mui/material";
+import { useRouter } from "next/router";
 
 export const PrequalifiedCreate = (): JSX.Element => {
+  const router = useRouter();
   const createPrequalified = usePrequalifiedCreateMutation();
   const [snack, setSnack] = useState<{
     open: boolean;
@@ -18,12 +20,18 @@ export const PrequalifiedCreate = (): JSX.Element => {
 
   const onSubmit = async (data: Prequalified) => {
     try {
-      await createPrequalified(data);
+      const result = await createPrequalified(data);
       setSnack({
         open: true,
         severity: "success",
         message: "La réponse a été créé",
       });
+      // Rester sur la page de création permettait de recréer la même réponse
+      // à chaque nouveau clic sur « Créer ».
+      const id = result.data?.insert_search_prequalified_one.id;
+      if (id) {
+        await router.push(`/prequalified/${id}`);
+      }
     } catch (e: any) {
       setSnack({ open: true, severity: "error", message: e.message });
     }

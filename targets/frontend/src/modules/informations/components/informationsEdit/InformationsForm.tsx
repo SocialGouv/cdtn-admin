@@ -1,6 +1,7 @@
 import { Button, FormControl, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { useFormLock } from "src/hooks/useFormLock";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   FormDatePicker,
@@ -17,7 +18,8 @@ import { LoadingButton } from "../../../../components/button/LoadingButton";
 
 export type InformationsFormProps = {
   data?: InformationsResult;
-  onUpsert: (props: Information) => Promise<void>;
+  /** Renvoie `false` quand l'enregistrement a échoué. */
+  onUpsert: (props: Information) => Promise<boolean | void>;
   onDelete?: () => Promise<void>;
   onPublish?: () => Promise<void>;
 };
@@ -56,11 +58,11 @@ export const InformationsForm = ({
   const [expandedContent, setExpandedContent] = React.useState<string | false>(
     false
   );
-  const [isPublishing, setIsPublishing] = useState(false);
+  const { run, submit, saving, publishing } = useFormLock();
 
   return (
     <>
-      <form onSubmit={handleSubmit(onUpsert)}>
+      <form onSubmit={submit(handleSubmit, onUpsert, { holdOnSuccess: !data })}>
         <Stack spacing={4}>
           <FormControl>
             <FormDatePicker
@@ -214,18 +216,24 @@ export const InformationsForm = ({
             >
               Supprimer
             </Button>
-            <Button type="submit">Sauvegarder</Button>
+            <LoadingButton
+              type="submit"
+              variant="text"
+              color="primary"
+              loading={saving}
+              disabled={publishing}
+            >
+              Sauvegarder
+            </LoadingButton>
             {onPublish && (
               <LoadingButton
-                disabled={!onPublish}
-                onClick={async () => {
+                disabled={saving}
+                onClick={() => {
                   if (data?.id) {
-                    setIsPublishing(true);
-                    await onPublish();
-                    setIsPublishing(false);
+                    void run("publish", onPublish);
                   }
                 }}
-                loading={isPublishing}
+                loading={publishing}
               >
                 Publier
               </LoadingButton>
