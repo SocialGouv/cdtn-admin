@@ -7,7 +7,8 @@ import {
 
 import { useForm } from "react-hook-form";
 import { News } from "../../type";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+import { useFormLock } from "src/hooks/useFormLock";
 import { SnackBar } from "src/components/utils/SnackBar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { request } from "src/lib/request";
@@ -73,12 +74,7 @@ export const NewsForm = ({
     open: false,
   });
 
-  // Verrou partagé par la sauvegarde et la publication : posé avant tout
-  // `await` (validation comprise) pour qu'un double clic ne déclenche jamais
-  // deux envois.
-  const busyRef = useRef(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isPublishing, setIsPublishing] = useState(false);
+  const { run, submit, saving, publishing } = useFormLock();
 
   const onSubmit = async (newData: FormData): Promise<boolean> => {
     try {
@@ -149,28 +145,8 @@ export const NewsForm = ({
     }
   };
 
-  const onFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (busyRef.current) return;
-    busyRef.current = true;
-    setIsSaving(true);
-    let saved = false;
-    try {
-      await handleSubmit(async (data) => {
-        saved = await onSubmit(data);
-      })(event);
-    } finally {
-      // À la création, la navigation vers l'actualité créée est en cours : on
-      // garde le verrou pour ne pas pouvoir la créer une seconde fois.
-      if (news || !saved) {
-        busyRef.current = false;
-        setIsSaving(false);
-      }
-    }
-  };
-
   return (
-    <form onSubmit={onFormSubmit}>
+    <form onSubmit={submit(handleSubmit, onSubmit, { holdOnSuccess: !news })}>
       <Stack spacing={4}>
         <FormControl>
           <FormDatePicker
@@ -220,56 +196,52 @@ export const NewsForm = ({
           <LoadingButton
             type="submit"
             color="primary"
-            loading={isSaving}
-            disabled={isPublishing}
+            loading={saving}
+            disabled={publishing}
           >
             {news ? "Sauvegarder" : "Créer"}
           </LoadingButton>
           {onPublish && (
             <LoadingButton
-              loading={isPublishing}
-              disabled={isSaving}
-              onClick={async () => {
-                if (busyRef.current) return;
-                busyRef.current = true;
-                setIsPublishing(true);
-                try {
-                  const valid = await trigger();
-                  if (!valid) {
+              loading={publishing}
+              disabled={saving}
+              onClick={() =>
+                run("publish", async () => {
+                  try {
+                    const valid = await trigger();
+                    if (!valid) {
+                      setSnack({
+                        open: true,
+                        severity: "error",
+                        message:
+                          "Corrigez les erreurs du formulaire avant de publier.",
+                      });
+                      return;
+                    }
+                    if (getValues("newImage")?.length) {
+                      setSnack({
+                        open: true,
+                        severity: "error",
+                        message: "Sauvegardez l'actualité avant de la publier.",
+                      });
+                      return;
+                    }
+                    await onPublish();
+                    setValue("displayDate", getTodayInParis());
+                    setSnack({
+                      open: true,
+                      severity: "success",
+                      message: "L'actualité a été publiée",
+                    });
+                  } catch (e: any) {
                     setSnack({
                       open: true,
                       severity: "error",
-                      message:
-                        "Corrigez les erreurs du formulaire avant de publier.",
+                      message: `Erreur lors de la publication du document: ${e.message}`,
                     });
-                    return;
                   }
-                  if (getValues("newImage")?.length) {
-                    setSnack({
-                      open: true,
-                      severity: "error",
-                      message: "Sauvegardez l'actualité avant de la publier.",
-                    });
-                    return;
-                  }
-                  await onPublish();
-                  setValue("displayDate", getTodayInParis());
-                  setSnack({
-                    open: true,
-                    severity: "success",
-                    message: "L'actualité a été publiée",
-                  });
-                } catch (e: any) {
-                  setSnack({
-                    open: true,
-                    severity: "error",
-                    message: `Erreur lors de la publication du document: ${e.message}`,
-                  });
-                } finally {
-                  busyRef.current = false;
-                  setIsPublishing(false);
-                }
-              }}
+                })
+              }
             >
               Publier
             </LoadingButton>

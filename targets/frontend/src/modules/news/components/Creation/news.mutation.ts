@@ -1,15 +1,7 @@
-import { CombinedError, gql, useMutation } from "urql";
+import { gql, useMutation } from "urql";
+import { isDuplicateIdError } from "src/lib/mutationUtils";
 import { FormDataResult } from "../Common";
 import { formatNewsRelations, NewsInsertInput } from "../graphql.type";
-
-// L'id est généré une seule fois à l'ouverture du formulaire de création : un
-// second insert avec le même id veut dire que l'actualité existe déjà.
-export const isNewsAlreadyCreated = (error?: CombinedError): boolean =>
-  !!error?.graphQLErrors.some(
-    (e) =>
-      e.extensions?.code === "constraint-violation" &&
-      /"news_(pkey|id_key)"/.test(e.message)
-  );
 
 const insertNewsQuery = gql`
   mutation InsertNews($news: news_news_insert_input!) {
@@ -61,7 +53,7 @@ export const useNewsInsertMutation = (): MutationFn => {
           : {}),
       },
     });
-    if (isNewsAlreadyCreated(result.error)) {
+    if (isDuplicateIdError(result.error, "news")) {
       return { id: data.id };
     }
     if (result.error) {
