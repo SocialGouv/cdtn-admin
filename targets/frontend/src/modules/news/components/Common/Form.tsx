@@ -1,4 +1,4 @@
-import { AlertColor, Button, FormControl, Stack } from "@mui/material";
+import { AlertColor, FormControl, Stack } from "@mui/material";
 import {
   FormDatePicker,
   FormEditionField,
@@ -7,7 +7,7 @@ import {
 
 import { useForm } from "react-hook-form";
 import { News } from "../../type";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { SnackBar } from "src/components/utils/SnackBar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { request } from "src/lib/request";
@@ -73,7 +73,14 @@ export const NewsForm = ({
     open: false,
   });
 
-  const onSubmit = async (newData: FormData) => {
+  // Verrou partagé par la sauvegarde et la publication : posé avant tout
+  // `await` (validation comprise) pour qu'un double clic ne déclenche jamais
+  // deux envois.
+  const busyRef = useRef(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
+
+  const onSubmit = async (newData: FormData): Promise<boolean> => {
     try {
       // L'id vient de l'actualité rechargée après chaque sauvegarde, pas du
       // formulaire : la ligne public.files est ainsi toujours mise à jour sur place.
@@ -127,6 +134,7 @@ export const NewsForm = ({
           ? "L'actualité a été modifiée avec succès"
           : "L'actualité a été créée avec succès",
       });
+      return true;
     } catch (error) {
       console.error("Echec à la sauvegarde", error);
       const uploadError = error as { data?: { errorMessage?: string } };
@@ -137,13 +145,32 @@ export const NewsForm = ({
           uploadError?.data?.errorMessage ??
           "Une erreur est survenue lors de la sauvegarde de l'actualité",
       });
+      return false;
     }
   };
 
-  const [isPublishing, setIsPublishing] = useState(false);
+  const onFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (busyRef.current) return;
+    busyRef.current = true;
+    setIsSaving(true);
+    let saved = false;
+    try {
+      await handleSubmit(async (data) => {
+        saved = await onSubmit(data);
+      })(event);
+    } finally {
+      // À la création, la navigation vers l'actualité créée est en cours : on
+      // garde le verrou pour ne pas pouvoir la créer une seconde fois.
+      if (news || !saved) {
+        busyRef.current = false;
+        setIsSaving(false);
+      }
+    }
+  };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={onFormSubmit}>
       <Stack spacing={4}>
         <FormControl>
           <FormDatePicker
@@ -190,34 +217,41 @@ export const NewsForm = ({
         <NewsLinks control={control} />
         <NewsReferences control={control} />
         <Stack direction="row" spacing={2} justifyContent="end">
-          <Button variant="contained" color="primary" type="submit">
+          <LoadingButton
+            type="submit"
+            color="primary"
+            loading={isSaving}
+            disabled={isPublishing}
+          >
             {news ? "Sauvegarder" : "Créer"}
-          </Button>
+          </LoadingButton>
           {onPublish && (
             <LoadingButton
               loading={isPublishing}
+              disabled={isSaving}
               onClick={async () => {
-                const valid = await trigger();
-                if (!valid) {
-                  setSnack({
-                    open: true,
-                    severity: "error",
-                    message:
-                      "Corrigez les erreurs du formulaire avant de publier.",
-                  });
-                  return;
-                }
-                if (getValues("newImage")?.length) {
-                  setSnack({
-                    open: true,
-                    severity: "error",
-                    message: "Sauvegardez l'actualité avant de la publier.",
-                  });
-                  return;
-                }
+                if (busyRef.current) return;
+                busyRef.current = true;
                 setIsPublishing(true);
-
                 try {
+                  const valid = await trigger();
+                  if (!valid) {
+                    setSnack({
+                      open: true,
+                      severity: "error",
+                      message:
+                        "Corrigez les erreurs du formulaire avant de publier.",
+                    });
+                    return;
+                  }
+                  if (getValues("newImage")?.length) {
+                    setSnack({
+                      open: true,
+                      severity: "error",
+                      message: "Sauvegardez l'actualité avant de la publier.",
+                    });
+                    return;
+                  }
                   await onPublish();
                   setValue("displayDate", getTodayInParis());
                   setSnack({
@@ -225,13 +259,14 @@ export const NewsForm = ({
                     severity: "success",
                     message: "L'actualité a été publiée",
                   });
-                  setIsPublishing(false);
                 } catch (e: any) {
                   setSnack({
                     open: true,
                     severity: "error",
                     message: `Erreur lors de la publication du document: ${e.message}`,
                   });
+                } finally {
+                  busyRef.current = false;
                   setIsPublishing(false);
                 }
               }}

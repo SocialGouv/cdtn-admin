@@ -1,6 +1,15 @@
-import { gql, useMutation } from "urql";
+import { CombinedError, gql, useMutation } from "urql";
 import { FormDataResult } from "../Common";
 import { formatNewsRelations, NewsInsertInput } from "../graphql.type";
+
+// L'id est généré une seule fois à l'ouverture du formulaire de création : un
+// second insert avec le même id veut dire que l'actualité existe déjà.
+export const isNewsAlreadyCreated = (error?: CombinedError): boolean =>
+  !!error?.graphQLErrors.some(
+    (e) =>
+      e.extensions?.code === "constraint-violation" &&
+      /"news_(pkey|id_key)"/.test(e.message)
+  );
 
 const insertNewsQuery = gql`
   mutation InsertNews($news: news_news_insert_input!) {
@@ -31,6 +40,7 @@ export const useNewsInsertMutation = (): MutationFn => {
   const resultFunction = async (data: MutationProps) => {
     const result = await executeUpdate({
       news: {
+        id: data.id,
         title: data.title,
         metaTitle: data.metaTitle,
         content: data.content,
@@ -51,6 +61,9 @@ export const useNewsInsertMutation = (): MutationFn => {
           : {}),
       },
     });
+    if (isNewsAlreadyCreated(result.error)) {
+      return { id: data.id };
+    }
     if (result.error) {
       throw new Error(result.error.message);
     }
