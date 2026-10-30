@@ -41,18 +41,12 @@ const errorPaths = (
     : result.error.issues.map((issue) => issue.path.join("."));
 
 describe("buildNewsFormSchema", () => {
-  it("exige une image quand elle est obligatoire", () => {
-    const result = buildNewsFormSchema(true).safeParse(base);
-
-    expect(errorPaths(result)).toContain("newImage");
-  });
-
-  it("accepte l'absence d'image quand elle est facultative", () => {
-    expect(buildNewsFormSchema(false).safeParse(base).success).toBe(true);
+  it("accepte une actualité sans image", () => {
+    expect(buildNewsFormSchema().safeParse(base).success).toBe(true);
   });
 
   it("exige un texte alternatif pour l'image", () => {
-    const result = buildNewsFormSchema(true).safeParse({
+    const result = buildNewsFormSchema().safeParse({
       ...withImage,
       imageAlt: " ",
     });
@@ -61,7 +55,7 @@ describe("buildNewsFormSchema", () => {
   });
 
   it("exige un auteur quand la source doit être indiquée", () => {
-    const result = buildNewsFormSchema(true).safeParse({
+    const result = buildNewsFormSchema().safeParse({
       ...withImage,
       imageLicense: "source",
     });
@@ -70,11 +64,11 @@ describe("buildNewsFormSchema", () => {
   });
 
   it("n'exige pas d'auteur pour une image libre de droit", () => {
-    expect(buildNewsFormSchema(true).safeParse(withImage).success).toBe(true);
+    expect(buildNewsFormSchema().safeParse(withImage).success).toBe(true);
   });
 
   it("refuse un article du code du travail en double", () => {
-    const result = buildNewsFormSchema(false).safeParse({
+    const result = buildNewsFormSchema().safeParse({
       ...base,
       references: [legiReference, { ...legiReference, intro: "Voir" }],
     });
@@ -83,7 +77,7 @@ describe("buildNewsFormSchema", () => {
   });
 
   it("accepte un article et un lien externe avec texte d'introduction", () => {
-    const result = buildNewsFormSchema(false).safeParse({
+    const result = buildNewsFormSchema().safeParse({
       ...base,
       references: [
         { ...legiReference, intro: "Indemnité de licenciement" },
@@ -103,7 +97,7 @@ describe("buildNewsFormSchema", () => {
   });
 
   it("refuse une référence externe qui n'est pas en http ou https", () => {
-    const result = buildNewsFormSchema(false).safeParse({
+    const result = buildNewsFormSchema().safeParse({
       ...base,
       references: [{ type: "external", label: "Lien", url: "ftp://x" }],
     });
@@ -112,7 +106,7 @@ describe("buildNewsFormSchema", () => {
   });
 
   it("refuse un lien externe qui n'est pas en http ou https", () => {
-    const result = buildNewsFormSchema(false).safeParse({
+    const result = buildNewsFormSchema().safeParse({
       ...base,
       links: [{ type: "external", label: "Lien", url: "ftp://x" }],
     });
