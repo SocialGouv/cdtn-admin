@@ -20,6 +20,7 @@ import { Comments } from "./Comments";
 import { SnackBar } from "../../utils/SnackBar";
 import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
 import { AnswerForm } from "./AnswerForm";
+import { getHighlightError } from "./highlightGuard";
 import { fr } from "@codegouvfr/react-dsfr";
 import { usePublishContributionMutation } from "./usePublishAnswer";
 import { useGenericContributionAnswerQuery } from "./answerGeneric.query";
@@ -59,6 +60,15 @@ export const ContributionsAnswer = ({
 
       if (!user) {
         throw new Error("Utilisateur non connecté");
+      }
+
+      const highlightError = getHighlightError(
+        newStatus,
+        data.contentType,
+        data.content
+      );
+      if (highlightError) {
+        throw new Error(highlightError);
       }
 
       await updateAnswer({

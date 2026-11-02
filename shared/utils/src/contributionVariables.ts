@@ -82,5 +82,9 @@ export const replaceContributionVariables = (
 export const hasHighlight = (html: string | null | undefined): boolean =>
   !!html && /<mark[ >]/.test(html);
 
+/** Message affiché quand une réponse « Afficher la réponse » soumise contient encore du surlignage. */
+export const HIGHLIGHT_ERROR_MESSAGE =
+  "Cette réponse contient des passages surlignés. Relisez-les, adaptez-les puis retirez le surlignage avant de la soumettre.";
+
 export const countHighlights = (html: string | null | undefined): number =>
   html ? (html.match(/<mark[ >]/g) ?? []).length : 0;
