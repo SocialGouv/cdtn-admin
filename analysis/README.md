@@ -159,6 +159,34 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   - taux de rebond (complément) = `1 - poursuite`.
     Table `parcours_actualites`.
 
+- **`parcours_contributions`** — poursuite de navigation après une **contribution**,
+  par contribution (`slug`, sans IDCC), par device et par type de référent
+  (`referrer_type`, même convention que `parcours_actualites`). Source : réplica SQL
+  Matomo. Compteurs de **visites** :
+  - `nb_visites_total` : visites ayant vu la contribution, quelle que soit leur
+    page d'entrée ;
+  - `nb_visites_contribution` : parmi elles, celles qui **démarrent** sur la
+    contribution (première page vue du jour) ;
+  - `nb_visites_suite` : parmi ces dernières, celles qui voient ensuite une autre
+    page (un rechargement ne compte pas ; revenir sur la contribution après une
+    autre page compte).
+
+  Formes d'URL : générique `/contribution/{slug}`, personnalisée
+  `/contribution/{idcc}-{slug}`, et pour `les-conges-pour-evenements-familiaux`
+  `/contribution/{slug}/{idcc}-{nom}`. Passer de la version générique à une version
+  personnalisée de la **même** contribution (ou l'inverse, ou d'une CC à une autre)
+  n'est pas une poursuite ; aller vers une autre contribution en est une. Taux
+  calculés dans Metabase (somme des compteurs **puis** division) :
+  - part d'entrée = `SUM(nb_visites_contribution) / SUM(nb_visites_total)` ;
+  - poursuite de navigation = `SUM(nb_visites_suite) / SUM(nb_visites_contribution)`.
+    Table `parcours_contributions`.
+
+- **`parcours_fiches_sp`** — idem pour les **fiches Service Public**
+  (`/fiche-service-public/{slug}`), avec `nb_visites_total`, `nb_visites_fiche_sp`
+  (visites démarrant sur la fiche) et `nb_visites_suite`. Même logique et mêmes
+  taux (`nb_visites_fiche_sp` à la place de `nb_visites_contribution`). Table
+  `parcours_fiches_sp`.
+
 - **`visites_par_type_contenu`** — visites par type de contenu et par device
   (desktop / mobile). Source : réplica SQL Matomo. Le type est le premier segment
   de l'URL, d'après `routeBySource` de `@socialgouv/cdtn-utils` (reprise dans
@@ -222,13 +250,13 @@ au premier ingest, aucune étape de schéma manuelle n'est requise.
 
 ## Ingérer des données dans Metabase
 
-Sept console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
+Neuf console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
 l'**upsert** dans la base PostgreSQL de Metabase :
 
 - **`ingest-all`** — lance **tous** les ingesters (actuellement
   `nps_scores`, `taux-contributions`, `taux-personnalisation`,
   `completion-modeles-courrier`, `parcours-actualites`,
-  `visites-par-type-contenu` et `visites-totales`). C'est le job planifié. **Sans argument, il cible J-2**
+  `parcours-contributions`, `parcours-fiches-sp`, `visites-par-type-contenu` et `visites-totales`). C'est le job planifié. **Sans argument, il cible J-2**
   (l'avant-veille, UTC — Matomo a alors archivé et stabilisé cette journée).
   C'est le point d'extension : pour ajouter un report, exposer un `Ingester`
   dans son module de commande et l'enregistrer dans `ingest_all.INGESTERS`.
@@ -244,6 +272,10 @@ l'**upsert** dans la base PostgreSQL de Metabase :
   complétion des modèles de courrier, pour un jour ou une période explicite.
 - **`ingest-parcours-actualites`** — lance uniquement l'ingester du parcours
   après une actualité, pour un jour ou une période explicite.
+- **`ingest-parcours-contributions`** et **`ingest-parcours-fiches-sp`** — lancent
+  uniquement l'ingester du parcours après une contribution / une fiche SP, pour un
+  jour ou une période explicite (backfill manuel, ex. sur 1 an :
+  `ingest-parcours-contributions 2025-11-04 --end 2026-11-03`).
 - **`ingest-visites-par-type-contenu`** — lance uniquement l'ingester des visites
   par type de contenu, pour un jour ou une période explicite.
 - **`ingest-visites-totales`** — lance uniquement l'ingester des visites et pages
@@ -384,6 +416,8 @@ analysis/
 │   │   ├── ingest_taux_personnalisation.py # ingester taux de personnalisation
 │   │   ├── ingest_completion_modeles_courrier.py # ingester complétion des modèles de courrier
 │   │   ├── ingest_parcours_actualites.py # ingester parcours après une actualité
+│   │   ├── ingest_parcours_contributions.py # ingester parcours après une contribution
+│   │   ├── ingest_parcours_fiches_sp.py # ingester parcours après une fiche SP
 │   │   ├── ingest_visites_par_type_contenu.py # ingester visites par type de contenu
 │   │   └── ingest_visites_totales.py # ingester visites et pages vues totales
 │   ├── l2/                       # pipeline d'audit de taxonomie (voir src/analysis/l2/README.md)
