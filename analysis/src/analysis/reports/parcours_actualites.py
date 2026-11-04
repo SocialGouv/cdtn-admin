@@ -25,6 +25,7 @@ import pandas as pd
 
 from analysis.connectors.matomo import MatomoSQLConnectorSync
 from analysis.matomo_segments import device_from_os
+from analysis.visit_order import with_position
 
 _COLUMNS = [
     "device",
@@ -45,8 +46,8 @@ _ACTUALITE_LIKE = "%/actualite/%"
 
 _EVENT_COLUMNS = [
     "idvisit",
-    "actions",
     "action_id",
+    "action_timestamp",
     "operatingsystemname",
     "referrertype",
     "action_url",
@@ -68,7 +69,7 @@ WHERE action_timestamp >= %s
           AND action_type = 'action'
           AND action_url LIKE %s
   )
-ORDER BY idvisit, actions, action_id;
+ORDER BY idvisit, action_timestamp, action_id;
 """
 
 
@@ -99,14 +100,14 @@ def classify_events(pages: pd.DataFrame) -> pd.DataFrame:
     Fonction pure (sans I/O), séparée de la requête pour être testable.
 
     Args:
-        pages: pages vues, avec au moins les colonnes ``idvisit``, ``actions``,
-            ``action_id``, ``operatingsystemname``, ``referrertype`` et
+        pages: pages vues, avec au moins les colonnes ``idvisit``, ``action_id``,
+            ``action_timestamp``, ``operatingsystemname``, ``referrertype`` et
             ``action_url``.
     """
     if pages.empty:
         return pd.DataFrame(columns=_COLUMNS)
 
-    pages = pages.sort_values(["idvisit", "actions", "action_id"])
+    pages = with_position(pages)
     pages = pages.assign(slug=pages["action_url"].str.extract(_ACTUALITE_RE)[0])
 
     # Visites ayant vu chaque actualité (une visite compte une fois par slug).
@@ -119,17 +120,17 @@ def classify_events(pages: pd.DataFrame) -> pd.DataFrame:
     entries = first.dropna(subset=["slug"])
 
     # Poursuite : une page vue après l'entrée, d'une URL différente.
-    first_action = pages["idvisit"].map(entries["actions"])
+    first_position = pages["idvisit"].map(entries["position"])
     first_url = pages["idvisit"].map(entries["action_url"])
     later = pages[
-        (pages["actions"] > first_action) & (pages["action_url"] != first_url)
+        (pages["position"] > first_position) & (pages["action_url"] != first_url)
     ]
 
     is_entry = seen["idvisit"].map(entries["slug"]) == seen["slug"]
     visits = pd.DataFrame(
         {
             "device": seen["operatingsystemname"].map(device_from_os),
-            "referrer_type": _referrer(seen["referrertype"]),
+            "referrer_type": normalize_referrer(seen["referrertype"]),
             "slug": seen["slug"],
             "nb_visites_total": 1,
             "nb_visites_actualite": is_entry.astype(int),
@@ -142,7 +143,7 @@ def classify_events(pages: pd.DataFrame) -> pd.DataFrame:
     return out.loc[:, _COLUMNS]
 
 
-def _referrer(referrer_type: pd.Series) -> pd.Series:
+def normalize_referrer(referrer_type: pd.Series) -> pd.Series:
     """Type de référent normalisé (minuscules), ``inconnu`` si absent."""
     return (
         referrer_type.fillna(_REFERRER_UNKNOWN)

@@ -36,6 +36,7 @@ ingest-taux-contributions = "analysis.commands.ingest_taux_contributions:main"
 ingest-taux-personnalisation = "analysis.commands.ingest_taux_personnalisation:main"
 ingest-completion-modeles-courrier = "analysis.commands.ingest_completion_modeles_courrier:main"
 ingest-parcours-actualites = "analysis.commands.ingest_parcours_actualites:main"
+ingest-parcours-brut-net = "analysis.commands.ingest_parcours_brut_net:main"
 ingest-visites-par-type-contenu = "analysis.commands.ingest_visites_par_type_contenu:main"
 ingest-visites-totales = "analysis.commands.ingest_visites_totales:main"
 
