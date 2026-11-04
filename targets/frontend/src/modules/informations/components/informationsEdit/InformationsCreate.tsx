@@ -56,12 +56,14 @@ export const InformationsCreate = (): JSX.Element => {
                   severity: "success",
                   message: "La page information a été crée",
                 });
+                return true;
               } catch (e: any) {
                 setSnack({
                   open: true,
                   severity: "error",
                   message: e.message,
                 });
+                return false;
               }
             }}
           ></InformationsForm>

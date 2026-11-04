@@ -1,4 +1,5 @@
 import { gql, useMutation } from "urql";
+import { isDuplicateIdError } from "src/lib/mutationUtils";
 import { FormDataResult } from "../Common";
 import { InfographicInsertInput } from "../graphql.type";
 import { LegiReference } from "../../../../components/forms/LegiReferences/type";
@@ -35,6 +36,7 @@ export const useInfographicInsertMutation = (): MutationFn => {
   const resultFunction = async (data: MutationProps) => {
     const result = await executeUpdate({
       infographic: {
+        id: data.id,
         title: data.title,
         metaTitle: data.metaTitle,
         transcription: data.transcription,
@@ -53,6 +55,9 @@ export const useInfographicInsertMutation = (): MutationFn => {
         displayDate: data.displayDate,
       },
     });
+    if (isDuplicateIdError(result.error, "infographic")) {
+      return { id: data.id };
+    }
     if (result.error) {
       throw new Error(result.error.message);
     }

@@ -117,4 +117,57 @@ describe("InfographicForm", () => {
       pdfFile: infographic.pdfFile,
     });
   });
+
+  describe("double envoi", () => {
+    const pending = () => jest.fn(() => new Promise<void>(() => {}));
+
+    it("n'enregistre qu'une fois sur un double clic", async () => {
+      const onUpsert = pending();
+      render(<InfographicForm infographic={infographic} onUpsert={onUpsert} />);
+
+      const save = screen.getByRole("button", { name: "Sauvegarder" });
+      fireEvent.click(save);
+      fireEvent.click(save);
+
+      await waitFor(() => expect(onUpsert).toHaveBeenCalled());
+      expect(onUpsert).toHaveBeenCalledTimes(1);
+    });
+
+    it("ne publie qu'une fois sur un double clic", async () => {
+      const onPublish = pending();
+      render(
+        <InfographicForm
+          infographic={infographic}
+          onUpsert={jest.fn()}
+          onPublish={onPublish}
+        />
+      );
+
+      const publish = screen.getByRole("button", { name: "Publier" });
+      fireEvent.click(publish);
+      fireEvent.click(publish);
+
+      await waitFor(() => expect(onPublish).toHaveBeenCalled());
+      expect(onPublish).toHaveBeenCalledTimes(1);
+    });
+
+    it("ne publie pas pendant une sauvegarde", async () => {
+      const onUpsert = pending();
+      const onPublish = jest.fn();
+      render(
+        <InfographicForm
+          infographic={infographic}
+          onUpsert={onUpsert}
+          onPublish={onPublish}
+        />
+      );
+
+      const publish = screen.getByRole("button", { name: "Publier" });
+      fireEvent.click(screen.getByRole("button", { name: "Sauvegarder" }));
+      fireEvent.click(publish);
+
+      await waitFor(() => expect(onUpsert).toHaveBeenCalled());
+      expect(onPublish).not.toHaveBeenCalled();
+    });
+  });
 });
