@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "matomo": {
+      "command": "sh",
+      "args": [
+        "-c",
+        "exec \"$(git rev-parse --show-toplevel)/scripts/mcp/matomo.sh\""
+      ]
+    },
+    "metabase": {
+      "command": "sh",
+      "args": [
+        "-c",
+        "exec \"$(git rev-parse --show-toplevel)/scripts/mcp/metabase.sh\""
+      ]
+    }
+  }
+}
