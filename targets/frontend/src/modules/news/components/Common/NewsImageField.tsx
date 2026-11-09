@@ -31,15 +31,19 @@ import { NewsImageFile } from "../../type";
 type Props = {
   control: Control<any>;
   setValue: UseFormSetValue<any>;
-  savedFile: NewsImageFile | null;
 };
 
-export const NewsImageField = ({ control, setValue, savedFile }: Props) => {
+export const NewsImageField = ({ control, setValue }: Props) => {
   const [rejection, setRejection] = useState<string>();
   const [warning, setWarning] = useState<string>();
   const alt: string | null | undefined = useWatch({
     control,
     name: "imageAlt",
+  });
+  // Image enregistrée, absente dès que « Supprimer l'image » a été cliqué.
+  const savedFile: NewsImageFile | null | undefined = useWatch({
+    control,
+    name: "imageFile",
   });
 
   const onDrop = async ([file]: File[]) => {
@@ -164,8 +168,16 @@ export const NewsImageField = ({ control, setValue, savedFile }: Props) => {
                           const hadNewImage = newImage.length > 0;
                           setValue("newImage", []);
                           if (!hadNewImage) {
-                            setValue("imageFile", null, { shouldDirty: true });
+                            // Plus d'image : on vide aussi ses métadonnées.
+                            const opts = { shouldDirty: true };
+                            setValue("imageFile", null, opts);
+                            setValue("imageAlt", "", opts);
+                            setValue("imageAuthor", "", opts);
+                            setValue("imageLicense", null, opts);
+                            setValue("imageWidth", null, opts);
+                            setValue("imageHeight", null, opts);
                           }
+                          setRejection(undefined);
                           setWarning(undefined);
                         }}
                       >
