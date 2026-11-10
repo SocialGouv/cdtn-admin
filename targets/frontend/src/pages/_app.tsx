@@ -6,7 +6,6 @@ import Link from "next/link";
 import type { AppProps } from "next/app";
 import { Client, Provider, cacheExchange, fetchExchange } from "urql";
 import { authExchangeUrql } from "src/modules/authentification/utils/exchanges";
-import { BASE_URL } from "src/config";
 
 declare module "@codegouvfr/react-dsfr/next-pagesdir" {
   interface RegisterLink {
@@ -24,7 +23,7 @@ export { dsfrDocumentApi };
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const client = new Client({
-    url: `${BASE_URL}/api/graphql`,
+    url: "/api/graphql",
     exchanges: [authExchangeUrql, cacheExchange, fetchExchange],
     requestPolicy: "cache-and-network",
   });

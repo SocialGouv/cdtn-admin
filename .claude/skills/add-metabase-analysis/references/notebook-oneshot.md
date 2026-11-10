@@ -10,8 +10,8 @@ Le script `scripts/new_notebook.py` génère le squelette. Complète-le en garda
 cette structure, pensée pour quelqu'un qui n'est pas développeur :
 
 1. **Titre + question posée** (markdown) : ce que le notebook cherche à savoir.
-2. **Mode d'emploi en 3 lignes** : « Exécuter toutes les cellules (menu *Run → Run
-   All Cells*). Les paramètres sont dans la cellule *Paramètres*. »
+2. **Mode d'emploi en 3 lignes** : « Exécuter toutes les cellules (menu _Run → Run
+   All Cells_). Les paramètres sont dans la cellule _Paramètres_. »
 3. **Paramètres** (une seule cellule, en tête) : dates de début/fin, liste de slugs
    ou de pages, etc. Le PO ne doit modifier que ça.
 4. **Connexion** : `MatomoSQLConnectorSync` (synchrone ; ne pas utiliser le
@@ -63,6 +63,7 @@ Ne demande pas au PO de taper des commandes : fais-les, puis donne-lui le lien.
    repère l'URL `http://localhost:<port>/lab?token=…` (le port peut différer de
    8888 s'il est pris). Si un JupyterLab tourne déjà pour ce projet, réutilise-le
    plutôt que d'en lancer un second.
+
 4. **Donne le lien direct vers le notebook** : `http://localhost:<port>/lab/tree/notebooks/Analyses/<Thème>/<fichier>.ipynb?token=…`
    (le dossier racine du serveur est `analysis/`). Le lien contient un jeton : ne
    le partage nulle part ailleurs que dans cette conversation.
