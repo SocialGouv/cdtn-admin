@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.80.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.79.2...v2.80.0) (2026-11-12)
+
+### Features
+
+- **frontend:** image Docker unique pour tous les environnements ([#1743](https://github.com/SocialGouv/cdtn-admin/issues/1743)) ([4947f1c](https://github.com/SocialGouv/cdtn-admin/commit/4947f1c4afc52e2b48f6f72a23cf1e8a6e9d0ca3))
+
 ## [2.79.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.79.1...v2.79.2) (2026-11-02)
 
 **Note:** Version bump only for package export-elasticsearch

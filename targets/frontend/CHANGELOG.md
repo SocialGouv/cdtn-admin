@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.80.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.79.2...v2.80.0) (2026-11-12)
+
+### Bug Fixes
+
+- empêcher la double création, sauvegarde et publication des contenus ([#1736](https://github.com/SocialGouv/cdtn-admin/issues/1736)) ([da40968](https://github.com/SocialGouv/cdtn-admin/commit/da40968773f4b0b8bbc6c8b21bee135cf177d0fa))
+- **news:** suppression d'image visible et notification à gauche ([#1742](https://github.com/SocialGouv/cdtn-admin/issues/1742)) ([ea9b598](https://github.com/SocialGouv/cdtn-admin/commit/ea9b5985d97eab58ddb68def7f306b29ad4f9c02))
+
+### Features
+
+- **frontend:** image Docker unique pour tous les environnements ([#1743](https://github.com/SocialGouv/cdtn-admin/issues/1743)) ([4947f1c](https://github.com/SocialGouv/cdtn-admin/commit/4947f1c4afc52e2b48f6f72a23cf1e8a6e9d0ca3))
+
 ## [2.79.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.79.1...v2.79.2) (2026-11-02)
 
 ### Bug Fixes
