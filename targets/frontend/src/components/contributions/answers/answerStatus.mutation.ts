@@ -1,6 +1,7 @@
 import { OperationResult, useMutation } from "urql";
 
 import { Answer } from "../type";
+import { getServerErrorMessage } from "./serverError";
 
 export const contributionAnswerUpdateStatusMutation = `
 mutation contributionAnswerUpdate($id: uuid!, $status: statustype!, $userId: uuid!) {
@@ -25,7 +26,7 @@ export const useContributionAnswerUpdateStatusMutation = (): MutationResult => {
   const resultFunction = async (data: MutationProps) => {
     const result = await executeUpdate(data);
     if (result.error) {
-      throw new Error(result.error.message);
+      throw new Error(getServerErrorMessage(result.error));
     }
     return result;
   };

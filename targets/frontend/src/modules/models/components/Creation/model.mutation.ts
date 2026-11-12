@@ -1,4 +1,5 @@
 import { gql, useMutation } from "urql";
+import { isDuplicateIdError } from "src/lib/mutationUtils";
 import { LegiReference } from "src/components/forms/LegiReferences/type";
 import { FormDataResult } from "../Common";
 import { OtherReference } from "../../../../components/forms/OtherReferences/type";
@@ -31,6 +32,7 @@ export const useModelInsertMutation = (): MutationFn => {
   const resultFunction = async (data: MutationProps) => {
     const result = await executeUpdate({
       model: {
+        id: data.id,
         title: data.title,
         metaTitle: data.metaTitle,
         type: data.type,
@@ -45,6 +47,9 @@ export const useModelInsertMutation = (): MutationFn => {
         displayDate: data.displayDate,
       },
     });
+    if (isDuplicateIdError(result.error, "models")) {
+      return { id: data.id };
+    }
     if (result.error) {
       throw new Error(result.error.message);
     }

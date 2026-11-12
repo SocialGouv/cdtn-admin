@@ -7,7 +7,7 @@ object_relationships:
       manual_configuration:
         column_mapping:
           message_id: id
-        insertion_order: null
+        insertion_order: before_parent
         remote_table:
           name: question_messages
           schema: contribution
@@ -29,6 +29,9 @@ insert_permissions:
         - seo_title
         - id
         - message_id
+        - introduction_nothing
+        - introduction_cdt
+        - template_answer
 select_permissions:
   - role: super
     permission:
@@ -38,6 +41,9 @@ select_permissions:
         - seo_title
         - id
         - message_id
+        - introduction_nothing
+        - introduction_cdt
+        - template_answer
       filter: {}
       allow_aggregations: true
 update_permissions:
@@ -49,6 +55,9 @@ update_permissions:
         - seo_title
         - id
         - message_id
+        - introduction_nothing
+        - introduction_cdt
+        - template_answer
       filter: {}
       check: {}
 delete_permissions:

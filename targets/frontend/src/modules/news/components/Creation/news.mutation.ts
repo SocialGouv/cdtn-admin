@@ -1,4 +1,5 @@
 import { gql, useMutation } from "urql";
+import { isDuplicateIdError } from "src/lib/mutationUtils";
 import { FormDataResult } from "../Common";
 import { formatNewsRelations, NewsInsertInput } from "../graphql.type";
 
@@ -31,6 +32,7 @@ export const useNewsInsertMutation = (): MutationFn => {
   const resultFunction = async (data: MutationProps) => {
     const result = await executeUpdate({
       news: {
+        id: data.id,
         title: data.title,
         metaTitle: data.metaTitle,
         content: data.content,
@@ -51,6 +53,9 @@ export const useNewsInsertMutation = (): MutationFn => {
           : {}),
       },
     });
+    if (isDuplicateIdError(result.error, "news")) {
+      return { id: data.id };
+    }
     if (result.error) {
       throw new Error(result.error.message);
     }

@@ -1,4 +1,4 @@
-import { AlertColor, Box, Button, FormControl, Stack } from "@mui/material";
+import { AlertColor, Box, FormControl, Stack } from "@mui/material";
 import {
   DropzoneFile,
   FormCdtnReferences,
@@ -13,6 +13,7 @@ import {
 import { useForm } from "react-hook-form";
 import { Infographic, infographicSchema } from "../../type";
 import React, { useState } from "react";
+import { useFormLock } from "src/hooks/useFormLock";
 import { request } from "src/lib/request";
 import { SnackBar } from "src/components/utils/SnackBar";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -149,7 +150,9 @@ export const InfographicForm = ({
     });
   };
 
-  const onSubmit = async (newData: FormData) => {
+  const { run, submit, saving, publishing } = useFormLock();
+
+  const onSubmit = async (newData: FormData): Promise<boolean> => {
     try {
       if (newData.newSvg && newData.newSvg.length === 1) {
         await uploadFile(newData.newSvg[0]);
@@ -189,6 +192,7 @@ export const InfographicForm = ({
           ? "L'infographie a été modifiée avec succès"
           : "L'infographie a été créée avec succès",
       });
+      return true;
     } catch (error) {
       console.error("Echec à la sauvegarde", error);
       setSnack({
@@ -197,14 +201,18 @@ export const InfographicForm = ({
         message:
           "Une erreur est survenue lors de la sauvegarde de l'infographie",
       });
+      return false;
     }
   };
 
-  const [isPublishing, setIsPublishing] = useState(false);
   const [uploadSvgFile, setUploadSvgFile] = useState<File | undefined>();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={submit(handleSubmit, onSubmit, {
+        holdOnSuccess: !infographic,
+      })}
+    >
       <Stack spacing={4}>
         <FormControl>
           <FormDatePicker
@@ -290,32 +298,36 @@ export const InfographicForm = ({
           <FormCdtnReferences name="cdtnReferences" control={control} />
         </FormControl>
         <Stack direction="row" spacing={2} justifyContent="end">
-          <Button variant="contained" color="primary" type="submit">
+          <LoadingButton
+            type="submit"
+            color="primary"
+            loading={saving}
+            disabled={publishing}
+          >
             {infographic ? "Sauvegarder" : "Créer"}
-          </Button>
+          </LoadingButton>
           {onPublish && (
             <LoadingButton
-              loading={isPublishing}
-              onClick={async () => {
-                setIsPublishing(true);
-
-                try {
-                  await onPublish();
-                  setSnack({
-                    open: true,
-                    severity: "success",
-                    message: "L'infographie a été publiée",
-                  });
-                  setIsPublishing(false);
-                } catch (e: any) {
-                  setSnack({
-                    open: true,
-                    severity: "error",
-                    message: `Erreur lors de la publication du document: ${e.message}`,
-                  });
-                  setIsPublishing(false);
-                }
-              }}
+              loading={publishing}
+              disabled={saving}
+              onClick={() =>
+                run("publish", async () => {
+                  try {
+                    await onPublish();
+                    setSnack({
+                      open: true,
+                      severity: "success",
+                      message: "L'infographie a été publiée",
+                    });
+                  } catch (e: any) {
+                    setSnack({
+                      open: true,
+                      severity: "error",
+                      message: `Erreur lors de la publication du document: ${e.message}`,
+                    });
+                  }
+                })
+              }
             >
               Publier
             </LoadingButton>

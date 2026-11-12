@@ -1,19 +1,12 @@
 import { z } from "zod";
 import { newsSchema } from "../../type";
 
-export const buildNewsFormSchema = (requireImage: boolean) =>
+export const buildNewsFormSchema = () =>
   newsSchema
     .omit({ updatedAt: true, createdAt: true, publishedAt: true })
     .extend({ newImage: z.array(z.any()).optional() })
     .superRefine((data, ctx) => {
       const hasImage = (data.newImage?.length ?? 0) > 0 || !!data.imageFile;
-      if (requireImage && !hasImage) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["newImage"],
-          message: "Une image doit être ajoutée",
-        });
-      }
       if (hasImage && !data.imageAlt?.trim()) {
         ctx.addIssue({
           code: "custom",

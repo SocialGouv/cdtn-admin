@@ -8,8 +8,10 @@ import {
   formatKaliReferences,
   formatLegiReferences,
   formatOtherReferences,
+  formatSelectedCdtReferences,
 } from "./answerReferences";
 import { gql } from "@shared/utils";
+import { getServerErrorMessage } from "./serverError";
 
 export const contributionAnswerUpdateMutation = gql`
   mutation contributionAnswerUpdate(
@@ -22,6 +24,8 @@ export const contributionAnswerUpdateMutation = gql`
     $contentServicePublicCdtnId: String
     $messageIntroNoCDT: String
     $messageBlockGenericNoCDT: String
+    $introduction: String
+    $selectedCdtReferences: [contribution_answer_selected_cdt_references_insert_input!]!
     $kaliReferences: [contribution_answer_kali_references_insert_input!]!
     $legiReferences: [contribution_answer_legi_references_insert_input!]!
     $otherReferences: [contribution_answer_other_references_insert_input!]!
@@ -36,9 +40,20 @@ export const contributionAnswerUpdateMutation = gql`
         content_type: $contentType
         content_service_public_cdtn_id: $contentServicePublicCdtnId
         message_block_generic_no_CDT: $messageBlockGenericNoCDT
+        introduction: $introduction
       }
     ) {
       __typename
+    }
+    delete_contribution_answer_selected_cdt_references(
+      where: { answer_id: { _eq: $id } }
+    ) {
+      affected_rows
+    }
+    insert_contribution_answer_selected_cdt_references(
+      objects: $selectedCdtReferences
+    ) {
+      affected_rows
     }
     insert_contribution_answer_statuses_one(
       object: { status: $status, user_id: $userId, answer_id: $id }
@@ -109,6 +124,8 @@ export type MutationProps = Pick<
   | "description"
   | "contentServicePublicCdtnId"
   | "messageBlockGenericNoCDT"
+  | "introduction"
+  | "selectedCdtReferenceUrls"
   | "content"
   | "kaliReferences"
   | "legiReferences"
@@ -122,21 +139,35 @@ export type MutationProps = Pick<
 
 type MutationResult = (props: MutationProps) => Promise<OperationResult>;
 
+/**
+ * Variables de la mutation. `selectedCdtReferenceUrls` est une valeur de formulaire :
+ * elle est transformée en `selectedCdtReferences` et ne doit pas être envoyée telle quelle
+ * (Hasura refuse les variables non déclarées dans la requête).
+ */
+export const buildMutationVariables = ({
+  selectedCdtReferenceUrls,
+  ...data
+}: MutationProps) => ({
+  ...data,
+  selectedCdtReferences: formatSelectedCdtReferences(
+    data.id,
+    selectedCdtReferenceUrls ?? []
+  ),
+  kaliReferences: formatKaliReferences(data.id, data.kaliReferences),
+  legiReferences: formatLegiReferences(data.id, data.legiReferences),
+  cdtnReferences: formatCdtnReferences(data.id, data.cdtnReferences),
+  otherReferences: formatOtherReferences(data.id, data.otherReferences),
+  infographics: formatInfographics(data.id, data.infographics),
+});
+
 export const useContributionAnswerUpdateMutation = (): MutationResult => {
   const [, executeUpdate] = useMutation<MutationProps>(
     contributionAnswerUpdateMutation
   );
   const resultFunction = async (data: MutationProps) => {
-    const result = await executeUpdate({
-      ...data,
-      kaliReferences: formatKaliReferences(data.id, data.kaliReferences),
-      legiReferences: formatLegiReferences(data.id, data.legiReferences),
-      cdtnReferences: formatCdtnReferences(data.id, data.cdtnReferences),
-      otherReferences: formatOtherReferences(data.id, data.otherReferences),
-      infographics: formatInfographics(data.id, data.infographics),
-    });
+    const result = await executeUpdate(buildMutationVariables(data));
     if (result.error) {
-      throw new Error(result.error.message);
+      throw new Error(getServerErrorMessage(result.error));
     }
     return result;
   };

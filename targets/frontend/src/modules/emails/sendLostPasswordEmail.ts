@@ -1,8 +1,8 @@
-import { ACCOUNT_MAIL_SENDER, BASE_URL } from "src/config";
+import { ACCOUNT_MAIL_SENDER, getBaseUrl } from "src/config";
 import sendMail from "./send";
 
 export function sendLostPasswordEmail(email: string, secret_token: string) {
-  const activateUrl = `${BASE_URL}/change_password?token=${secret_token}`;
+  const activateUrl = `${getBaseUrl()}/change_password?token=${secret_token}`;
   const subject = "Réinitialisation de votre mot de passe";
   const text = `
     Bonjour,

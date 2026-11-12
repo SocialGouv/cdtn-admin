@@ -47,6 +47,16 @@ export const formatOtherReferences = (
   }));
 };
 
+export const formatSelectedCdtReferences = (
+  answerId: string,
+  urls: string[]
+) => {
+  return urls.map((url) => ({
+    answer_id: answerId,
+    reference_url: url,
+  }));
+};
+
 export const formatInfographics = (
   answerId: string,
   refs: InfographicReference[]

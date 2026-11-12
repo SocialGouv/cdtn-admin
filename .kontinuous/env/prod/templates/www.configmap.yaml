@@ -3,6 +3,9 @@ apiVersion: v1
 metadata:
   name: www
 data:
+  BUCKET_DEFAULT_FOLDER: "default"
+  BUCKET_DRAFT_FOLDER: "draft"
+  BUCKET_PUBLIC_ENDPOINT: "https://cdtn-prod-public.s3.gra.io.cloud.ovh.net"
   HASURA_GRAPHQL_ENDPOINT: "http://hasura/v1/graphql"
   MATOMO_SITE_ID: "27"
   MATOMO_URL: "https://matomo.fabrique.social.gouv.fr/"
