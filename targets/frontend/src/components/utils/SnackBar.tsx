@@ -1,4 +1,4 @@
-import { Alert, AlertColor, Snackbar } from "@mui/material";
+import { Alert, AlertColor, Snackbar, SnackbarOrigin } from "@mui/material";
 import React from "react";
 
 type Snack = {
@@ -9,9 +9,11 @@ type Snack = {
 export const SnackBar = ({
   snack,
   setSnack,
+  anchorOrigin = { horizontal: "right", vertical: "bottom" },
 }: {
   snack: Snack;
   setSnack: (s: Snack) => void;
+  anchorOrigin?: SnackbarOrigin;
 }): JSX.Element => {
   return (
     <Snackbar
@@ -23,7 +25,7 @@ export const SnackBar = ({
         if (reason === "clickaway") return;
         setSnack({ open: false });
       }}
-      anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      anchorOrigin={anchorOrigin}
     >
       <Alert
         onClose={() => setSnack({ open: false })}

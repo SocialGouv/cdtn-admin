@@ -183,11 +183,7 @@ export const NewsForm = ({
             fullWidth
           />
         </FormControl>
-        <NewsImageField
-          control={control}
-          setValue={setValue}
-          savedFile={news?.imageFile ?? null}
-        />
+        <NewsImageField control={control} setValue={setValue} />
         <NewsLinks control={control} />
         <NewsReferences control={control} />
         <Stack direction="row" spacing={2} justifyContent="end">
@@ -246,7 +242,11 @@ export const NewsForm = ({
           )}
         </Stack>
       </Stack>
-      <SnackBar snack={snack} setSnack={setSnack}></SnackBar>
+      <SnackBar
+        snack={snack}
+        setSnack={setSnack}
+        anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+      ></SnackBar>
     </form>
   );
 };
