@@ -32,11 +32,10 @@ export class QuestionsService {
       );
 
     if (!documents || documents.length === 0) {
-      throw new NotFoundError({
-        message: `No documents found for question with id ${questionId}`,
-        name: "NOT_FOUND",
-        cause: null,
-      });
+      // Une contribution nouvellement créée n'a encore aucun document publié :
+      // il n'y a simplement rien à mettre à jour (une erreur bloquerait la
+      // sauvegarde du formulaire de la question).
+      return 0;
     }
 
     const newDocuments = documents.map((document) => ({

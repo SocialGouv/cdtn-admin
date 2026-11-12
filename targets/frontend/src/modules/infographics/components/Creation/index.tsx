@@ -1,13 +1,16 @@
 import { Stack } from "@mui/material";
 import { Breadcrumb, BreadcrumbLink } from "src/components/utils";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
+import { generateInitialId } from "@shared/utils";
 import { InfographicForm } from "../Common";
 import { useInfographicInsertMutation } from "./infographic.mutation";
 
 export const InfographicCreation = (): React.ReactElement => {
   const router = useRouter();
   const insert = useInfographicInsertMutation();
+  // Généré une fois pour toutes : un envoi répété retombe sur la même infographie.
+  const [infographicId] = useState(generateInitialId);
 
   const Header = () => (
     <Breadcrumb>
@@ -28,7 +31,7 @@ export const InfographicCreation = (): React.ReactElement => {
         <Stack mt={4} spacing={2}>
           <InfographicForm
             onUpsert={async (props) => {
-              const { id } = await insert(props);
+              const { id } = await insert({ ...props, id: infographicId });
               router.push(`/infographics/${id}`);
             }}
           />

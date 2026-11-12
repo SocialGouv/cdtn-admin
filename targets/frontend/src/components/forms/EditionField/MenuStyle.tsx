@@ -12,6 +12,7 @@ import {
 } from "../../utils/dsfrIcons";
 
 import { styled } from "@mui/material/styles";
+import { CONTRIBUTION_COLORS } from "../../utils/contributionColors";
 
 const setLink = (editor: Editor) => {
   const previousUrl = editor.getAttributes("link").href;
@@ -42,10 +43,13 @@ export const MenuStyle = ({
   editor,
   challengerEnabled = false,
   onChallenger,
+  highlightEnabled = false,
 }: {
   editor: Editor | null;
   challengerEnabled?: boolean;
   onChallenger?: (from: number, to: number) => void;
+  /** Affiche l'option « Surligner » (désactivée par défaut, réservée aux templates / réponses de CC) */
+  highlightEnabled?: boolean;
 }) => {
   return editor ? (
     <StyledBubbleMenu
@@ -135,6 +139,21 @@ export const MenuStyle = ({
       >
         <LightbulbIcon />
       </button>
+      {highlightEnabled && (
+        <button
+          onClick={() => {
+            editor.chain().focus().toggleHighlight().run();
+          }}
+          className={editor.isActive("highlight") ? "is-active" : ""}
+          aria-pressed={editor.isActive("highlight")}
+          type="button"
+          title="Surligner"
+        >
+          <BubbleMenuText>
+            <HighlightSample>A</HighlightSample>
+          </BubbleMenuText>
+        </button>
+      )}
       {editor.isActive("infographic") && (
         <button
           onClick={() => {
@@ -190,6 +209,13 @@ const StyledBubbleMenu = styled(BubbleMenu)`
       opacity: 1;
     }
   }
+`;
+
+const HighlightSample = styled("span")`
+  background-color: ${CONTRIBUTION_COLORS.highlightBackground};
+  color: ${CONTRIBUTION_COLORS.text};
+  padding: 0 4px;
+  border-radius: 2px;
 `;
 
 const BubbleMenuText = styled("div")`

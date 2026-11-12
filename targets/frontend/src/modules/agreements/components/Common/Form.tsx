@@ -4,6 +4,7 @@ import { FormAutocompleteChips, FormTextField } from "src/components/forms";
 import { useForm } from "react-hook-form";
 import { Agreement, agreementSchema } from "../../type";
 import React, { useState } from "react";
+import { useFormLock } from "src/hooks/useFormLock";
 import { SnackBar } from "src/components/utils/SnackBar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -52,7 +53,9 @@ export const AgreementForm = ({
     open: false,
   });
 
-  const onSubmit = async (newData: FormData) => {
+  const { run, submit, saving, publishing } = useFormLock();
+
+  const onSubmit = async (newData: FormData): Promise<boolean> => {
     try {
       await onUpsert({
         id: newData.id!,
@@ -73,6 +76,7 @@ export const AgreementForm = ({
           ? "La convention collective a été modifiée avec succès"
           : "La convention collective a été créée avec succès",
       });
+      return true;
     } catch (error) {
       console.error("Echec à la sauvegarde", error);
       setSnack({
@@ -81,12 +85,14 @@ export const AgreementForm = ({
         message:
           "Une erreur est survenue lors de la sauvegarde de la convention collective",
       });
+      return false;
     }
   };
-  const [isPublishing, setIsPublishing] = useState(false);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={submit(handleSubmit, onSubmit, { holdOnSuccess: !agreement })}
+    >
       <Stack spacing={4}>
         {agreement && (
           <FormControl>
@@ -193,31 +199,36 @@ export const AgreementForm = ({
               Supprimer
             </Button>
           )}
-          <Button variant="contained" type="submit">
+          <LoadingButton
+            type="submit"
+            color="primary"
+            loading={saving}
+            disabled={publishing}
+          >
             {agreement ? "Sauvegarder" : "Créer"}
-          </Button>
+          </LoadingButton>
           {onPublish && (
             <LoadingButton
-              loading={isPublishing}
-              onClick={async () => {
-                setIsPublishing(true);
-                try {
-                  await onPublish();
-                  setSnack({
-                    open: true,
-                    severity: "success",
-                    message: "La convention collective a été publiée",
-                  });
-                  setIsPublishing(false);
-                } catch (e: any) {
-                  setSnack({
-                    open: true,
-                    severity: "error",
-                    message: `Erreur lors de la publication de la convention collective: ${e.message}`,
-                  });
-                  setIsPublishing(false);
-                }
-              }}
+              loading={publishing}
+              disabled={saving}
+              onClick={() =>
+                run("publish", async () => {
+                  try {
+                    await onPublish();
+                    setSnack({
+                      open: true,
+                      severity: "success",
+                      message: "La convention collective a été publiée",
+                    });
+                  } catch (e: any) {
+                    setSnack({
+                      open: true,
+                      severity: "error",
+                      message: `Erreur lors de la publication de la convention collective: ${e.message}`,
+                    });
+                  }
+                })
+              }
             >
               Publier
             </LoadingButton>

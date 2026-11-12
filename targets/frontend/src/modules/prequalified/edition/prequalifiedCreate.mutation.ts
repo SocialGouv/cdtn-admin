@@ -13,12 +13,14 @@ mutation prequalified_create($value: search_prequalified_insert_input!) {
 
 export type MutationProps = Prequalified;
 
+type CreateResult = { insert_search_prequalified_one: { id: string } };
+
 type MutationResult = (
   props: MutationProps
-) => Promise<OperationResult<Prequalified>>;
+) => Promise<OperationResult<CreateResult>>;
 
 export const usePrequalifiedCreateMutation = (): MutationResult => {
-  const [, executeCreate] = useMutation<MutationProps>(prequalifiedCreate);
+  const [, executeCreate] = useMutation<CreateResult>(prequalifiedCreate);
   const resultFunction = async (data: MutationProps) => {
     const value = mapPrequalified(data);
     const result = await executeCreate({ value });

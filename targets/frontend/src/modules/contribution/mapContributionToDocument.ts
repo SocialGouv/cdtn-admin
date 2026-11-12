@@ -63,6 +63,27 @@ async function getBaseDocument(
   }
 }
 
+/**
+ * - Réponse générique : son introduction, affichée avant la réponse.
+ * - CC « Afficher la réponse » : URL des références du Code du travail cochées par le rédacteur.
+ *   La sélection n'est portée que par ce type (elle reste enregistrée, mais inactive, pour les autres).
+ */
+const getIntroductionAndCdtReferences = (
+  data: ContributionsAnswers
+): Pick<ContributionDocumentJson, "introduction" | "includedCdtReferences"> => {
+  if (data.agreement.id === "0000") {
+    return data.introduction?.trim() ? { introduction: data.introduction } : {};
+  }
+  if (data.content_type === "ANSWER" && data.selected_cdt_references?.length) {
+    return {
+      includedCdtReferences: data.selected_cdt_references.map(
+        (ref) => ref.reference_url
+      ),
+    };
+  }
+  return {};
+};
+
 export const mapContributionToDocument = async (
   data: ContributionsAnswers,
   document: HasuraDocument<ContributionDocumentJson> | undefined,
@@ -88,6 +109,7 @@ export const mapContributionToDocument = async (
     questionId: data.question.id,
     idcc: data.agreement.id,
     description: data.description,
+    ...getIntroductionAndCdtReferences(data),
   } as ContributionDocumentJson;
 
   return {

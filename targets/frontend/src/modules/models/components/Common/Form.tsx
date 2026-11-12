@@ -2,7 +2,6 @@ import {
   Alert,
   AlertColor,
   AlertTitle,
-  Button,
   CircularProgress,
   FormControl,
   Stack,
@@ -20,6 +19,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Model, modelSchema } from "../../type";
 import React, { useState } from "react";
 import mammoth from "mammoth";
+import { useFormLock } from "src/hooks/useFormLock";
 import { TitleBox } from "src/components/forms/TitleBox";
 import { request } from "src/lib/request";
 import { SnackBar } from "src/components/utils/SnackBar";
@@ -109,7 +109,9 @@ export const ModelForm = ({
     });
   };
 
-  const onSubmit = async (newData: FormData) => {
+  const { run, submit, saving, publishing } = useFormLock();
+
+  const onSubmit = async (newData: FormData): Promise<boolean> => {
     try {
       if (newData.newFile && newData.newFile.length === 1) {
         await uploadFile(newData.newFile[0]);
@@ -144,6 +146,7 @@ export const ModelForm = ({
           ? "Le modèle a été modifié avec succès"
           : "Le modèle a été créé avec succès",
       });
+      return true;
     } catch (error) {
       console.error("Echec à la sauvegarde", error);
       setSnack({
@@ -151,9 +154,9 @@ export const ModelForm = ({
         severity: "error",
         message: "Une erreur est survenue lors de la sauvegarde du modèle",
       });
+      return false;
     }
   };
-  const [isPublishing, setIsPublishing] = useState(false);
 
   const convertToHTML = async (file: File) => {
     setIsLoadingPreview(true);
@@ -189,7 +192,7 @@ export const ModelForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={submit(handleSubmit, onSubmit, { holdOnSuccess: !model })}>
       <Stack spacing={4}>
         <FormControl>
           <FormDatePicker
@@ -305,32 +308,36 @@ export const ModelForm = ({
           />
         </FormControl>
         <Stack direction="row" spacing={2} justifyContent="end">
-          <Button variant="contained" type="submit">
+          <LoadingButton
+            type="submit"
+            color="primary"
+            loading={saving}
+            disabled={publishing}
+          >
             {model ? "Sauvegarder" : "Créer"}
-          </Button>
+          </LoadingButton>
           {onPublish && (
             <LoadingButton
-              loading={isPublishing}
-              onClick={async () => {
-                setIsPublishing(true);
-
-                try {
-                  await onPublish();
-                  setSnack({
-                    open: true,
-                    severity: "success",
-                    message: "Le modèle de document a été publiée",
-                  });
-                  setIsPublishing(false);
-                } catch (e: any) {
-                  setSnack({
-                    open: true,
-                    severity: "error",
-                    message: `Erreur lors de la publication du document: ${e.message}`,
-                  });
-                  setIsPublishing(false);
-                }
-              }}
+              loading={publishing}
+              disabled={saving}
+              onClick={() =>
+                run("publish", async () => {
+                  try {
+                    await onPublish();
+                    setSnack({
+                      open: true,
+                      severity: "success",
+                      message: "Le modèle de document a été publiée",
+                    });
+                  } catch (e: any) {
+                    setSnack({
+                      open: true,
+                      severity: "error",
+                      message: `Erreur lors de la publication du document: ${e.message}`,
+                    });
+                  }
+                })
+              }
             >
               Publier
             </LoadingButton>

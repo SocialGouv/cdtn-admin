@@ -20,6 +20,10 @@ export type ContributionsAnswers = {
   infographics: InfographicReference[];
   content_fiche_sp: ContributionContentFicheSp | null;
   message_block_generic_no_CDT: string | null;
+  /** Introduction (HTML) de la réponse générique (0000) */
+  introduction?: string | null;
+  /** URL des références de la réponse générique choisies par une CC « Afficher la réponse » */
+  selected_cdt_references?: { reference_url: string }[];
   agreement: ContributionAgreement;
   updatedAt: string;
   statuses?: ContributionStatus[];
@@ -100,6 +104,13 @@ type ContributionDocumentJsonBasic = {
   description: string;
   idcc: string; // 0000 pour la générique, impossible d'être nulle
   date: string;
+  /** Introduction affichée avant la réponse (réponse générique uniquement) */
+  introduction?: string;
+  /**
+   * URL des références de la réponse générique à ajouter à cette CC (type « Afficher la réponse »).
+   * Résolues à l'export contre les références du document de la réponse générique.
+   */
+  includedCdtReferences?: string[];
 };
 
 export type ContributionDocumentJsonContent = ContributionDocumentJsonBasic & {

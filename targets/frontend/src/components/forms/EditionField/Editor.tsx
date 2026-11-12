@@ -22,9 +22,14 @@ import {
   Alert,
   Challenger,
   GoodToKnow,
+  Highlight,
   Infographic,
   Title,
+  Variable,
 } from "./extensions";
+import { ContributionVariableValues } from "@shared/utils";
+import { ContributionToolbar } from "./component/ContributionToolbar";
+import { CONTRIBUTION_COLORS } from "../../utils/contributionColors";
 
 const smicQuery = gql`
   query SmicCurrentValueEditor {
@@ -60,6 +65,12 @@ export type EditorProps = {
   infographicBaseUrl: string;
   onInfographicChange?: (infoId: string, state: "added" | "deleted") => void;
   challengerEnabled?: boolean;
+  /** Autorise le surlignage (template, réponses « Afficher la réponse »). Sinon le surlignage collé est supprimé. */
+  highlightEnabled?: boolean;
+  /** Autorise l'insertion de variables (nom de la CC, …) */
+  variablesEnabled?: boolean;
+  /** Valeurs affichées en aperçu dans la pastille des variables */
+  variableValues?: ContributionVariableValues;
 };
 
 const emptyHtml = "<p></p>";
@@ -122,6 +133,9 @@ export const Editor = function Editor({
   infographicEnabled,
   onInfographicChange,
   challengerEnabled = false,
+  highlightEnabled = false,
+  variablesEnabled = false,
+  variableValues = {},
 }: EditorProps) {
   const [smicResult] = useQuery<SmicEditorResult>({
     query: smicQuery,
@@ -158,6 +172,10 @@ export const Editor = function Editor({
         ? [Infographic.configure({ baseUrl: infographicBaseUrl })]
         : []),
       ...(challengerEnabled ? [Challenger] : []),
+      ...(highlightEnabled ? [Highlight] : []),
+      ...(variablesEnabled
+        ? [Variable.configure({ values: variableValues })]
+        : []),
     ],
     onUpdate: ({ editor, transaction }) => {
       if (infographicEnabled && onInfographicChange && transaction.docChanged) {
@@ -292,6 +310,7 @@ export const Editor = function Editor({
           <MenuStyle
             editor={editor}
             challengerEnabled={challengerEnabled}
+            highlightEnabled={highlightEnabled}
             onChallenger={(from, to) => {
               if (!editor) return;
               const detected = detectAmountsInRange(editor, from, to);
@@ -333,6 +352,11 @@ export const Editor = function Editor({
             }}
           />
           <MenuTable editor={editor} />
+          <ContributionToolbar
+            editor={editor}
+            variablesEnabled={variablesEnabled}
+            disabled={disabled}
+          />
 
           <StyledEditorContent
             editor={editor}
@@ -472,6 +496,25 @@ const StyledEditorContent = styled(EditorContent)(() => {
           color: "#0053b3",
           verticalAlign: "super",
         },
+      },
+      // Surlignage des passages à relire (jamais publié).
+      // Couleurs issues du DSFR : elles s'adaptent au thème clair / sombre
+      // (fond jaune sombre + texte clair en dark mode, et inversement).
+      mark: {
+        backgroundColor: CONTRIBUTION_COLORS.highlightBackground,
+        color: CONTRIBUTION_COLORS.text,
+        padding: "0 1px",
+      },
+      // Variable résolue à l'export (nom de la CC, …)
+      "span.variable": {
+        display: "inline-block",
+        backgroundColor: CONTRIBUTION_COLORS.variableBackground,
+        color: CONTRIBUTION_COLORS.variableText,
+        border: `1px solid ${CONTRIBUTION_COLORS.variableBorder}`,
+        borderRadius: "4px",
+        padding: "0 6px",
+        fontSize: "0.9em",
+        userSelect: "all",
       },
       ".ProseMirror-selectednode": {
         border: "1px solid #6f8ac9",
