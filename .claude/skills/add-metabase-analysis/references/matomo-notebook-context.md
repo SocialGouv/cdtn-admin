@@ -72,8 +72,18 @@ CREATE TABLE IF NOT EXISTS public.matomo_partitioned (
 - `experiments` (jsonb) contient les variantes d'A/B testing :
 
   ```json
-  [{"name": "LabelCardSearch", "variation": {"name": "fiche-pratique", "idvariation": 7}, "idexperiment": "5"},
-   {"name": "contribution_afficher_info", "variation": {"name": "Version originale", "idvariation": 0}, "idexperiment": "8"}]
+  [
+    {
+      "name": "LabelCardSearch",
+      "variation": { "name": "fiche-pratique", "idvariation": 7 },
+      "idexperiment": "5"
+    },
+    {
+      "name": "contribution_afficher_info",
+      "variation": { "name": "Version originale", "idvariation": 0 },
+      "idexperiment": "8"
+    }
+  ]
   ```
 
   Ici deux tests A/B (`LabelCardSearch`, `contribution_afficher_info`), avec la
@@ -127,7 +137,7 @@ manque, dis-le au PO au lieu d'inventer l'import.
 
 Pose les questions **regroupées**, en langage métier, dès que tu as un doute sur :
 
-- **L'ordonnancement des events** : « l'event X doit-il arriver *avant* ou *après*
+- **L'ordonnancement des events** : « l'event X doit-il arriver _avant_ ou _après_
   la page Y dans la visite ? immédiatement après, ou n'importe quand ensuite ? »
   Une visite peut contenir plusieurs fois le même event : on compte la visite une
   fois ou chaque occurrence ?

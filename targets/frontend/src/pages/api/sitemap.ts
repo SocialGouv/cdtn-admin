@@ -3,6 +3,10 @@ import { getRouteBySource, SourceKeys, SOURCES } from "@socialgouv/cdtn-utils";
 import { NextApiRequest, NextApiResponse } from "next";
 import pLimit from "p-limit";
 import {
+  getBucketDefaultFolder,
+  getBucketPublicEndpoint,
+} from "src/runtime-env";
+import {
   formatDateToCustomISO,
   midnightInParis,
   parisDate,
@@ -226,9 +230,7 @@ export function getImageBaseUrl(bucketFolder: unknown): string | undefined {
   if (typeof bucketFolder !== "string" || !/^[\w-]+$/.test(bucketFolder)) {
     return;
   }
-  return `${
-    process.env.NEXT_PUBLIC_BUCKET_PUBLIC_ENDPOINT ?? "http://localhost:9000"
-  }/${bucketFolder}/${process.env.NEXT_PUBLIC_BUCKET_DEFAULT_FOLDER ?? "default"}`;
+  return `${getBucketPublicEndpoint()}/${bucketFolder}/${getBucketDefaultFolder()}`;
 }
 
 const escapeXml = (value: string) =>

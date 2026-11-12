@@ -95,7 +95,7 @@ Règles de calcul propres à ces tables (les oublier donne des chiffres faux) :
   (utiliser `visites_totales`).
 - `device` vaut `desktop` ou `mobile` (mobile = iOS/Android, tablettes incluses).
 - Convention des cartes existantes : fenêtre `date >= current_date - interval '90
-  days' AND date < current_date`. Reprends-la sauf demande contraire.
+days' AND date < current_date`. Reprends-la sauf demande contraire.
 
 ## Étape 1 — Comprendre le besoin
 
@@ -124,12 +124,12 @@ colonne (ou la combinaison de colonnes) qui la fournit. Trois cas :
 
   > « Ce besoin est-il **ponctuel** (une analyse à un instant donné) ou
   > **récurrent** (on veut le voir évoluer dans le dashboard) ? »
-
   - **Ponctuel (one shot)** → étape 4 : notebook Python.
   - **Récurrent** → étape 5 : on ne contourne pas, on redirige vers les devs.
   - Le PO hésite → explique la différence : un suivi dans le temps exige une
     nouvelle donnée agrégée chaque nuit (travail dev) ; une réponse ponctuelle
     se fait dans un notebook, une fois.
+
 - **Rien n'est disponible** → même question ponctuel / récurrent.
 
 Dans tous les cas où la donnée est absente, **ne crée rien dans Metabase** : une
@@ -195,14 +195,12 @@ python3 .claude/skills/add-metabase-analysis/scripts/new_notebook.py \
   --question "<la question du PO>"
 ```
 
-   Le fichier est créé dans `analysis/notebooks/Analyses/<Thème>/<JJMMAAAA>_<nom>.ipynb`.
-   Requêtes SQL simples (`WHERE` seulement), calcul en pandas.
-3. **Lance Jupyter** et donne le lien direct au PO : `references/notebook-oneshot.md`,
-   section « Lancer Jupyter pour le PO » (`uv sync`, contrôle du `.env` sans
-   exposer les identifiants, `uv run jupyter lab --no-browser` en arrière-plan,
-   lien avec jeton).
-4. Ne présente jamais un résultat que tu n'as pas obtenu ; si tu n'as pas pu
-   exécuter le notebook, dis-le.
+Le fichier est créé dans `analysis/notebooks/Analyses/<Thème>/<JJMMAAAA>_<nom>.ipynb`.
+Requêtes SQL simples (`WHERE` seulement), calcul en pandas. 3. **Lance Jupyter** et donne le lien direct au PO : `references/notebook-oneshot.md`,
+section « Lancer Jupyter pour le PO » (`uv sync`, contrôle du `.env` sans
+exposer les identifiants, `uv run jupyter lab --no-browser` en arrière-plan,
+lien avec jeton). 4. Ne présente jamais un résultat que tu n'as pas obtenu ; si tu n'as pas pu
+exécuter le notebook, dis-le.
 
 ## Étape 5 — Besoin récurrent : rediriger vers l'équipe dev
 
