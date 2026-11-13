@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.80.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.80.0...v2.80.1) (2026-11-13)
+
+### Bug Fixes
+
+- **export:** indexe le contenu des actualités en texte brut pour la recherche ([#1740](https://github.com/SocialGouv/cdtn-admin/issues/1740)) ([48f7319](https://github.com/SocialGouv/cdtn-admin/commit/48f731946b41f5c394415037d3170e36ec797019))
+
+### Features
+
+- **analysis:** serveurs MCP Matomo et Metabase pour Claude Code ([#1741](https://github.com/SocialGouv/cdtn-admin/issues/1741)) ([21cd89d](https://github.com/SocialGouv/cdtn-admin/commit/21cd89d2faad548b4eca73597bd08ce35b3a0eb0))
+
 # [2.80.0](https://github.com/SocialGouv/cdtn-admin/compare/v2.79.2...v2.80.0) (2026-11-12)
 
 ### Bug Fixes
