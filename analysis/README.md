@@ -205,6 +205,21 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   dénominateur, ex. part d'un type = `nb_visites` du type / `nb_visites` total.
   Table `visites_totales`.
 
+- **`notation_contributions`** — contribution clarity rating widget (1 to 5
+  stars, event `notation_contribution` / `note_1` … `note_5`), per device.
+  Source: Matomo SQL replica. `nb_visites_contributions` counts **visits** that
+  viewed at least one contribution page (`/contribution/{slug}`, generic or
+  collective agreement page, the `/contribution` index excluded);
+  `nb_notes_1` … `nb_notes_5` count the **rating events** for each score. The
+  CDTN relays ratings server side without a visitor id, so a rating cannot be
+  linked to the visit that viewed the page: ratings are counted as events.
+  Derived values are computed in Metabase (sum the counters over the period
+  **then** divide):
+  - number of ratings = `nb_notes_1 + … + nb_notes_5`;
+  - response rate = number of ratings / `nb_visites_contributions`;
+  - average score = `(1 * nb_notes_1 + … + 5 * nb_notes_5)` / number of ratings.
+    Table `notation_contributions`.
+
 ## Pipeline L2 (audit de taxonomie de contenu)
 
 `src/analysis/l2/` est un pipeline à part : il n'alimente **pas** Metabase et
@@ -250,13 +265,14 @@ au premier ingest, aucune étape de schéma manuelle n'est requise.
 
 ## Ingérer des données dans Metabase
 
-Neuf console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
+Onze console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
 l'**upsert** dans la base PostgreSQL de Metabase :
 
 - **`ingest-all`** — lance **tous** les ingesters (actuellement
   `nps_scores`, `taux-contributions`, `taux-personnalisation`,
   `completion-modeles-courrier`, `parcours-actualites`,
-  `parcours-contributions`, `parcours-fiches-sp`, `visites-par-type-contenu` et `visites-totales`). C'est le job planifié. **Sans argument, il cible J-2**
+  `parcours-contributions`, `parcours-fiches-sp`, `visites-par-type-contenu`,
+  `visites-totales` et `notation-contributions`). C'est le job planifié. **Sans argument, il cible J-2**
   (l'avant-veille, UTC — Matomo a alors archivé et stabilisé cette journée).
   C'est le point d'extension : pour ajouter un report, exposer un `Ingester`
   dans son module de commande et l'enregistrer dans `ingest_all.INGESTERS`.
@@ -280,6 +296,8 @@ l'**upsert** dans la base PostgreSQL de Metabase :
   par type de contenu, pour un jour ou une période explicite.
 - **`ingest-visites-totales`** — lance uniquement l'ingester des visites et pages
   vues totales, pour un jour ou une période explicite.
+- **`ingest-notation-contributions`** — runs only the contribution rating
+  ingester (response rate + score), for an explicit day or period.
 
 ```bash
 # forme planifiée : agrège J-2 avec tous les ingesters (ce que lance le cronjob)
