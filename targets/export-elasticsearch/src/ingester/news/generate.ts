@@ -4,6 +4,7 @@ import {
   NewsTemplateDoc,
 } from "@socialgouv/cdtn-types";
 import pMap from "p-map";
+import { htmlToText } from "../utils/textConverter";
 import { generateLinks } from "./generateLinks";
 
 export const generateNews = async (
@@ -17,6 +18,8 @@ export const generateNews = async (
       return {
         ...rest,
         source: "actualites",
+        // Texte brut pour la recherche plein texte (le contenu est du HTML).
+        text: htmlToText(rest.content),
         // Contenus CDTN des « Contenus liés », pour les lecteurs de
         // `linkedContent` (frontend antérieur aux liens externes).
         linkedContent: links.flatMap((link) =>
