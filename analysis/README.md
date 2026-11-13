@@ -2,7 +2,7 @@
 
 Brique d'analytics pour **cdtn-admin**. Elle sert à deux choses :
 
-- **Alimenter Metabase.** Récupérer des données depuis Matomo (via l'**API de
+- **Alimenter Metabase.** Récupérer des données depuis Matomo (via l' **API de
   reporting exclusivement**), les transformer, et produire des **agrégats**
   insérés dans la base PostgreSQL de Metabase. Ce sont ces agrégats qui
   alimentent les dashboards Metabase (notamment les **KPIs**).
@@ -82,14 +82,12 @@ de Metabase avec les agrégats de la veille (les dashboards se rafraîchissent
 alors automatiquement). Pour brancher une nouvelle donnée sur ce cronjob, il faut
 deux morceaux :
 
-1. **Un report** dans `src/analysis/reports/` : une fonction qui construit le
-   **tableau agrégé** d'une journée (un `DataFrame`). On s'appuie sur le notebook
+1. **Un report** dans `src/analysis/reports/` : une fonction qui construit le **tableau agrégé** d'une journée (un `DataFrame`). On s'appuie sur le notebook
    de l'étape précédente pour figer la logique de calcul, puis on la porte ici en
    code de package. Le report ne connaît que Matomo — il ne touche pas à la BDD.
 2. **Une commande d'ingestion** dans `src/analysis/commands/` : elle appelle le
    report pour un jour donné et prend en charge la **couche BDD** — définition de
-   la table cible (`CREATE TABLE IF NOT EXISTS`), requête d'upsert
-   (`INSERT ... ON CONFLICT`), et mapping du `DataFrame` vers les lignes. Le
+   la table cible (`CREATE TABLE IF NOT EXISTS`), requête d'upsert (`INSERT ... ON CONFLICT`), et mapping du `DataFrame` vers les lignes. Le
    connecteur `MetabaseDBConnector` reste générique : c'est la commande qui
    fournit son schéma et son insert.
 
@@ -120,9 +118,7 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   contributions de `BASE_SLUGS`, par device. Source : réplica SQL Matomo.
   Seules les visites ayant vu la page **générique** à un moment de la visite sont
   comptées (`nb_visites_total`). Chaque visite ayant cliqué « Afficher les
-  informations » est rangée dans **un seul** cas, par priorité : résultat de la CC
-  (`nb_visites_cc`) > CDT faute de réponse pour la CC
-  (`nb_visites_cdt_cc_non_traitee`) > CDT sans CC (`nb_visites_cdt`). Les taux ne
+  informations » est rangée dans **un seul** cas, par priorité : résultat de la CC (`nb_visites_cc`) > CDT faute de réponse pour la CC (`nb_visites_cdt_cc_non_traitee`) > CDT sans CC (`nb_visites_cdt`). Les taux ne
   sont pas stockés, Metabase les calcule :
   - complétion = somme des trois cas / `nb_visites_total` ;
   - personnalisation = `nb_visites_cc` / `nb_visites_total`.
@@ -130,9 +126,7 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
 - **`completion_modeles_courrier`** — complétion des modèles de courrier, par
   modèle (`slug`) et par device. Source : réplica SQL Matomo. Le download n'est
   pas rattaché à la page du modèle : on reconstruit chaque visite ayant vu un
-  modèle (`modeles-de-courriers/{slug}`), on l'ordonne (`actions`) et on cherche,
-  **après** la vue du modèle, un download (`nb_download`) ou un copier-coller
-  (`type_CTRL_C`, `nb_copier_coller`). Un seul modèle par visite (le premier vu) ;
+  modèle (`modeles-de-courriers/{slug}`), on l'ordonne (horodatage puis indice de `action_id` ; la colonne `actions` est le total d'actions de la visite, pas un rang) et on cherche, **après** la vue du modèle, un download (`nb_download`) ou un copier-coller (`type_CTRL_C`, `nb_copier_coller`). Un seul modèle par visite (le premier vu) ;
   si la visite a les deux, le download prime. Le taux n'est pas stocké :
   complétion = `(nb_download + nb_copier_coller) / nb_visites`.
   Table `completion_modeles_courrier`.
@@ -143,8 +137,7 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   `inconnu` si vide). Source : réplica SQL Matomo. Compteurs de **visites** :
   - `nb_visites_total` : visites ayant vu l'actualité, quelle que soit leur page
     d'entrée ;
-  - `nb_visites_actualite` : parmi elles, celles qui **démarrent** sur l'actualité
-    (première page vue du jour) ;
+  - `nb_visites_actualite` : parmi elles, celles qui **démarrent** sur l'actualité (première page vue du jour) ;
   - `nb_visites_suite` : parmi ces dernières, celles qui voient ensuite une page
     d'URL différente de l'entrée (autre actualité, liste des actualités ou autre
     contenu ; un rechargement ne compte pas).
@@ -160,8 +153,7 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
     Table `parcours_actualites`.
 
 - **`parcours_contributions`** — poursuite de navigation après une **contribution**,
-  par contribution (`slug`, sans IDCC), par device et par type de référent
-  (`referrer_type`, même convention que `parcours_actualites`). Source : réplica SQL
+  par contribution (`slug`, sans IDCC), par device et par type de référent (`referrer_type`, même convention que `parcours_actualites`). Source : réplica SQL
   Matomo. Compteurs de **visites** :
   - `nb_visites_total` : visites ayant vu la contribution, quelle que soit leur
     page d'entrée ;
@@ -187,8 +179,21 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   taux (`nb_visites_fiche_sp` à la place de `nb_visites_contribution`). Table
   `parcours_fiches_sp`.
 
-- **`visites_par_type_contenu`** — visites par type de contenu et par device
-  (desktop / mobile). Source : réplica SQL Matomo. Le type est le premier segment
+- **`parcours_brut_net`** — poursuite de navigation après le simulateur brut/net (`/outils/simulateur-embauche`), par device et par type de référent. Même
+  méthode que `parcours_actualites`, sans dimension `slug`. Source : réplica SQL
+  Matomo. Compteurs de **visites** :
+  - `nb_visites_total` : visites ayant vu le simulateur, quelle que soit leur page
+    d'entrée ;
+  - `nb_visites_entree` : parmi elles, celles qui **démarrent** sur le simulateur (première page vue du jour) ;
+  - `nb_visites_suite` : parmi ces dernières, celles qui voient ensuite une page de
+    chemin différent (requête et ancre ignorées).
+
+  Taux calculés dans Metabase sur les sommes de la période : part d'entrée =
+  `SUM(nb_visites_entree) / SUM(nb_visites_total)`, poursuite =
+  `SUM(nb_visites_suite) / SUM(nb_visites_entree)`.
+  Table `parcours_brut_net`.
+
+- **`visites_par_type_contenu`** — visites par type de contenu et par device (desktop / mobile). Source : réplica SQL Matomo. Le type est le premier segment
   de l'URL, d'après `routeBySource` de `@socialgouv/cdtn-utils` (reprise dans
   `ROUTES`) : `contribution`, `outils`, `actualite`, `code-du-travail`… Cas
   particuliers : `/` → `home`, `/{route}` seul (page qui recense les contenus,
@@ -198,8 +203,7 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   compte dans chacun, **ne pas sommer les types** pour obtenir le total de visites.
   Table `visites_par_type_contenu`.
 
-- **`visites_totales`** — visites et pages vues totales du site par device
-  (desktop / mobile). Source : réplica SQL Matomo. `nb_visites` compte les visites
+- **`visites_totales`** — visites et pages vues totales du site par device (desktop / mobile). Source : réplica SQL Matomo. `nb_visites` compte les visites
   ayant vu au moins une page (cohérent avec `visites_par_type_contenu`),
   `nb_pages_vues` les pages vues (hors events et téléchargements). Sert de
   dénominateur, ex. part d'un type = `nb_visites` du type / `nb_visites` total.
@@ -250,13 +254,13 @@ au premier ingest, aucune étape de schéma manuelle n'est requise.
 
 ## Ingérer des données dans Metabase
 
-Neuf console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
-l'**upsert** dans la base PostgreSQL de Metabase :
+Ten console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
+l' **upsert** dans la base PostgreSQL de Metabase :
 
 - **`ingest-all`** — lance **tous** les ingesters (actuellement
   `nps_scores`, `taux-contributions`, `taux-personnalisation`,
   `completion-modeles-courrier`, `parcours-actualites`,
-  `parcours-contributions`, `parcours-fiches-sp`, `visites-par-type-contenu` et `visites-totales`). C'est le job planifié. **Sans argument, il cible J-2**
+  `parcours-contributions`, `parcours-fiches-sp`, `parcours-brut-net`, `visites-par-type-contenu` et `visites-totales`). C'est le job planifié. **Sans argument, il cible J-2**
   (l'avant-veille, UTC — Matomo a alors archivé et stabilisé cette journée).
   C'est le point d'extension : pour ajouter un report, exposer un `Ingester`
   dans son module de commande et l'enregistrer dans `ingest_all.INGESTERS`.
@@ -276,6 +280,8 @@ l'**upsert** dans la base PostgreSQL de Metabase :
   uniquement l'ingester du parcours après une contribution / une fiche SP, pour un
   jour ou une période explicite (backfill manuel, ex. sur 1 an :
   `ingest-parcours-contributions 2025-11-04 --end 2026-11-03`).
+- **`ingest-parcours-brut-net`** — lance uniquement l'ingester du parcours après
+  le simulateur brut/net, pour un jour ou une période explicite.
 - **`ingest-visites-par-type-contenu`** — lance uniquement l'ingester des visites
   par type de contenu, pour un jour ou une période explicite.
 - **`ingest-visites-totales`** — lance uniquement l'ingester des visites et pages
@@ -342,16 +348,14 @@ docker compose up -d metabase        # http://localhost:3030
 ```
 
 Après modification du code, reconstruire l'image :
-`docker compose build analysis`. Pour un run purement **exploratoire** sans Docker
-(notebooks, itération sur un report), rester sur `uv run …` décrit plus haut.
+`docker compose build analysis`. Pour un run purement **exploratoire** sans Docker (notebooks, itération sur un report), rester sur `uv run …` décrit plus haut.
 
 ### À la main dans le cluster (Kubernetes)
 
 En prod, le CronJob `cron-analysis` lance `ingest-all` chaque nuit. Pour un run
 manuel, on crée un Job **à partir de ce CronJob** : il hérite de l'image, du
 secret `analysis` et des ressources. Chaque ingester étant un console script
-distinct dans l'image (le conteneur lance `ingest-all` par défaut), il suffit de
-**surcharger la commande du conteneur** pour n'en lancer qu'un — ou pour cibler
+distinct dans l'image (le conteneur lance `ingest-all` par défaut), il suffit de **surcharger la commande du conteneur** pour n'en lancer qu'un — ou pour cibler
 une période.
 
 ```bash
@@ -425,8 +429,7 @@ Détails :
 - **Metabase** : la clé d'API hérite des droits de son groupe. Lui donner un
   groupe non admin limité aux collections et bases utiles.
   `"TOOL_MODE": "read"` (dans `.mcp.json`) restreint aux outils non destructifs.
-- Mettre à jour un serveur = changer la version (Metabase) ou le commit + sha256
-  (Matomo) dans son wrapper, après relecture du diff amont.
+- Mettre à jour un serveur = changer la version (Metabase) ou le commit + sha256 (Matomo) dans son wrapper, après relecture du diff amont.
 
 **Source de vérité des events Matomo** : le plan de tracking du site,
 [`packages/code-du-travail-stats/events/TRACKING_PLAN.md`](https://github.com/SocialGouv/code-du-travail-numerique/blob/dev/packages/code-du-travail-stats/events/TRACKING_PLAN.md)
@@ -469,7 +472,8 @@ analysis/
 │   │   ├── ingest_parcours_actualites.py # ingester parcours après une actualité
 │   │   ├── ingest_parcours_contributions.py # ingester parcours après une contribution
 │   │   ├── ingest_parcours_fiches_sp.py # ingester parcours après une fiche SP
-│   │   ├── ingest_visites_par_type_contenu.py # ingester visites par type de contenu
+│   │   ├── ingest_parcours_brut_net.py # ingester parcours après le simulateur brut/net
+│       ├── ingest_visites_par_type_contenu.py # ingester visites par type de contenu
 │   │   └── ingest_visites_totales.py # ingester visites et pages vues totales
 │   ├── l2/                       # pipeline d'audit de taxonomie (voir src/analysis/l2/README.md)
 └── notebooks/                    # analyses exploratoires
