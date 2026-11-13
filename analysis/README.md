@@ -383,6 +383,57 @@ kubectl -n "$NS" delete job taux-contributions-manual
 créations manuelles. Sans `jq`, utiliser `-o yaml`, éditer la ligne `command:`
 du conteneur, puis `kubectl apply -f -`.
 
+## Serveurs MCP (Claude Code)
+
+Le `.mcp.json` à la racine du repo déclare deux serveurs MCP, chargés
+automatiquement par Claude Code (valider avec `/mcp`). Il est versionné : toute
+la config publique (URLs, `idSite`, namespace…) est dans ses blocs `env`, et
+les **deux seuls secrets** sont lus dans le `.env` **à la racine du repo**.
+
+| Serveur    | Code source (épinglé)                                                                                                                   | Outils                                                                                                   | Secret (`.env` racine) |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `matomo`   | [`lucaspretti/matomo-mcp-client`](https://github.com/lucaspretti/matomo-mcp-client/tree/3e8a22e455f0a928c155fae368e8dfe65ea0c532) (MIT) | 23 — events, segments, visites Live, pages, référents, `matomo_batch` (toute méthode de l'API Reporting) | `MATOMO_API_KEY`       |
+| `metabase` | [`easecloudio/mcp-metabase-server`](https://github.com/easecloudio/mcp-metabase-server/tree/v1.3.0) (npm `1.3.0`)                       | 95 — cartes, dashboards, collections, SQL natif, schéma (lecture + écriture)                             | `METABASE_API_KEY`     |
+
+Mise en place, une seule fois :
+
+```bash
+# 1. Ajouter MATOMO_API_KEY et METABASE_API_KEY au .env racine (cf. .env.example).
+# 2. Optionnel : préinstaller le serveur Matomo (sinon fait au 1er lancement).
+scripts/mcp/matomo.sh --install
+# 3. Relancer Claude Code puis /mcp.
+```
+
+Détails :
+
+- Une variable déjà exportée dans le shell a priorité sur le `.env`, qui est lu
+  clé par clé, sans être sourcé. Depuis un worktree (pas de `.env`, car
+  gitignoré), les wrappers retombent sur le `.env` du checkout principal.
+- **Accès Metabase** : `metabase-cdtn.fabrique.social.gouv.fr` est derrière un
+  oauth2-proxy (SSO GitHub SocialGouv) qui bloque les appels d'API par clé. Si
+  `kubectl` a accès au namespace `startup-cdtn--metabase-prod` (contexte
+  `ovh-prod`), `scripts/mcp/metabase.sh` ouvre un port-forward vers le service
+  `metabase` (port local libre, fermé avec le serveur MCP). Sans accès
+  kubectl, il utilise l'URL publique, qui ne fonctionnera qu'une fois une route
+  d'API ouverte côté infra (`SocialGouv/infra-apps`).
+- **Matomo** : le serveur n'est pas publié sur npm. `scripts/mcp/matomo.sh`
+  clone le commit épinglé dans `~/.cache/cdtn-admin/`, vérifie le sha256 du
+  fichier source, **réactive la vérification TLS** (désactivée en amont) et
+  installe les dépendances du lockfile sans scripts d'installation.
+  `matomo_batch` accepte n'importe quelle méthode : utiliser le token d'un
+  utilisateur Matomo **en lecture seule**.
+- **Metabase** : la clé d'API hérite des droits de son groupe. Lui donner un
+  groupe non admin limité aux collections et bases utiles.
+  `"TOOL_MODE": "read"` (dans `.mcp.json`) restreint aux outils non destructifs.
+- Mettre à jour un serveur = changer la version (Metabase) ou le commit + sha256
+  (Matomo) dans son wrapper, après relecture du diff amont.
+
+**Source de vérité des events Matomo** : le plan de tracking du site,
+[`packages/code-du-travail-stats/events/TRACKING_PLAN.md`](https://github.com/SocialGouv/code-du-travail-numerique/blob/dev/packages/code-du-travail-stats/events/TRACKING_PLAN.md)
+(repo `code-du-travail-numerique`, branche `dev`, synchronisé sur le wiki à
+chaque merge). S'y référer pour les catégories / actions / noms d'events avant
+d'interroger Matomo ou de construire une carte Metabase.
+
 ## Lint / formatage
 
 Mêmes checks que la CI :
