@@ -23,6 +23,7 @@ from datetime import date as Date
 
 from analysis.commands import (
     ingest_completion_modeles_courrier,
+    ingest_notation_contributions,
     ingest_nps_scores,
     ingest_parcours_actualites,
     ingest_parcours_contributions,
@@ -46,6 +47,7 @@ INGESTERS: list[Ingester] = [
     ingest_parcours_fiches_sp.INGESTER,
     ingest_visites_par_type_contenu.INGESTER,
     ingest_visites_totales.INGESTER,
+    ingest_notation_contributions.INGESTER,
 ]
 
 # Décalage par défaut : J-2 (avant-veille).
