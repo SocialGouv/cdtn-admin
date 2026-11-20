@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS notation_contributions (
     nb_raisons_comment_appliquer     INTEGER NOT NULL,
     nb_raisons_informations_fausses  INTEGER NOT NULL,
     nb_remarques                     INTEGER NOT NULL,
+    nb_suggestions                   INTEGER NOT NULL,
     PRIMARY KEY (date, device)
 );
 """
@@ -50,8 +51,8 @@ INSERT INTO notation_contributions
      nb_notes_1, nb_notes_2, nb_notes_3,
      nb_raisons_texte_difficile, nb_raisons_applicable_situation,
      nb_raisons_comment_appliquer, nb_raisons_informations_fausses,
-     nb_remarques)
-VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+     nb_remarques, nb_suggestions)
+VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
 ON CONFLICT (date, device)
 DO UPDATE SET
     nb_visites_contributions        = EXCLUDED.nb_visites_contributions,
@@ -62,7 +63,8 @@ DO UPDATE SET
     nb_raisons_applicable_situation = EXCLUDED.nb_raisons_applicable_situation,
     nb_raisons_comment_appliquer    = EXCLUDED.nb_raisons_comment_appliquer,
     nb_raisons_informations_fausses = EXCLUDED.nb_raisons_informations_fausses,
-    nb_remarques                    = EXCLUDED.nb_remarques;
+    nb_remarques                    = EXCLUDED.nb_remarques,
+    nb_suggestions                  = EXCLUDED.nb_suggestions;
 """
 
 
@@ -84,6 +86,7 @@ def _rows_from_df(df: pd.DataFrame, date: str) -> list[tuple]:
             int(row["nb_raisons_comment_appliquer"]),
             int(row["nb_raisons_informations_fausses"]),
             int(row["nb_remarques"]),
+            int(row["nb_suggestions"]),
         )
         for _, row in df.iterrows()
     ]
@@ -106,8 +109,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
             "Counts contribution visits and clarity widget events (scores 1 to 3, "
-            "reasons, remarks) from the Matomo SQL replica and stores them in "
-            "the Metabase PostgreSQL database."
+            "reasons, remarks, suggestions) from the Matomo SQL replica and stores "
+            "them in the Metabase PostgreSQL database."
         )
     )
     parser.add_argument(

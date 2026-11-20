@@ -20,9 +20,11 @@ For each device (desktop / mobile) and day, this report counts:
   ``nb_raisons_comment_appliquer``, ``nb_raisons_informations_fausses`` — number
   of **reason events** for each reason.
 * ``nb_remarques`` — number of **"Une remarque ?" click events**.
+* ``nb_suggestions`` — number of **suggestions sent** (category
+  ``clarte_contribution_suggestion``, from either panel). Only counted: the
+  free text itself (the event action) is never read into the table.
 
-Free-text suggestions (category ``clarte_contribution_suggestion``) are not
-ingested. The historical 5-point events (category ``notation_contribution``) are
+The historical 5-point events (category ``notation_contribution``) are
 intentionally not ingested either, so the two scales never mix.
 
 The events are relayed server side by the CDTN without any visitor id: in Matomo
@@ -46,10 +48,13 @@ from analysis.matomo_segments import DEVICE_SEGMENTS, device_from_os
 
 DEVICES: list[str] = list(DEVICE_SEGMENTS)
 
-# Events emitted by the CDTN clarity widget (``RatingMatomo`` in the frontend).
-# The historical 5-point category ``notation_contribution`` is deliberately left
-# out, as is ``clarte_contribution_suggestion`` (free text).
+# Events emitted by the CDTN clarity widget (``RatingMatomoCategory`` in the
+# frontend). The historical 5-point category ``notation_contribution`` is
+# deliberately left out. Suggestions carry the free text in their action: they
+# are only counted, the text never reaches the table.
 _RATING_CATEGORY = "clarte_contribution"
+_SUGGESTION_CATEGORY = "clarte_contribution_suggestion"
+_SUGGESTION_COLUMN = "nb_suggestions"
 SCORES: list[int] = [1, 2, 3]
 REASONS: list[str] = [
     "texte_difficile",
@@ -64,7 +69,7 @@ _ACTION_COLUMNS: dict[str, str] = {
     **{f"raison_{reason}": f"nb_raisons_{reason}" for reason in REASONS},
     "remarque": "nb_remarques",
 }
-_EVENT_COUNT_COLUMNS = list(_ACTION_COLUMNS.values())
+_EVENT_COUNT_COLUMNS = [*_ACTION_COLUMNS.values(), _SUGGESTION_COLUMN]
 _COLUMNS = ["device", "nb_visites_contributions", *_EVENT_COUNT_COLUMNS]
 
 # Contribution page: ``/contribution/{slug}`` (optionally followed by a
@@ -88,7 +93,7 @@ WHERE action_timestamp >= %s
   AND action_timestamp < %s::date + 1
   AND (
         (action_type = 'action' AND action_url LIKE %s)
-     OR (action_type = 'event' AND action_eventcategory = %s)
+     OR (action_type = 'event' AND action_eventcategory IN (%s, %s))
   );
 """
 
@@ -105,12 +110,13 @@ def get_notation_contributions(date: str, matomo: object | None = None) -> pd.Da
         DataFrame with columns: device, nb_visites_contributions, nb_notes_1 …
         nb_notes_3, nb_raisons_texte_difficile, nb_raisons_applicable_situation,
         nb_raisons_comment_appliquer, nb_raisons_informations_fausses,
-        nb_remarques. One row per device, set to 0 when there is no data that
-        day.
+        nb_remarques, nb_suggestions. One row per device, set to 0 when there
+        is no data that day.
     """
     with MatomoSQLConnectorSync() as client:
         events = client.run_query_df(
-            _QUERY, (date, date, "%/contribution/%", _RATING_CATEGORY)
+            _QUERY,
+            (date, date, "%/contribution/%", _RATING_CATEGORY, _SUGGESTION_CATEGORY),
         )
     return aggregate_events(events)
 
@@ -148,17 +154,22 @@ def aggregate_events(events: pd.DataFrame) -> pd.DataFrame:
     visits = is_mobile.map({True: "mobile", False: "desktop"}).value_counts()
     counts["nb_visites_contributions"] = visits.reindex(counts.index, fill_value=0)
 
-    # Ratings, reasons and remarks: counted as events (one per click), device
-    # read from the user agent the CDTN forwards with each event.
+    # Ratings, reasons, remarks and suggestions: counted as events (one per
+    # click or send), device read from the user agent the CDTN forwards with
+    # each event. A suggestion maps to its column whatever its (free text)
+    # action.
     widget = events[
         (events["action_type"] == "event")
-        & (events["action_eventcategory"] == _RATING_CATEGORY)
+        & events["action_eventcategory"].isin([_RATING_CATEGORY, _SUGGESTION_CATEGORY])
     ]
+    is_suggestion = widget["action_eventcategory"] == _SUGGESTION_CATEGORY
     by_column = (
         pd.DataFrame(
             {
                 "device": widget["operatingsystemname"].map(device_from_os),
-                "column": widget["action_eventaction"].map(_ACTION_COLUMNS),
+                "column": widget["action_eventaction"]
+                .map(_ACTION_COLUMNS)
+                .where(~is_suggestion, _SUGGESTION_COLUMN),
             }
         )
         .dropna(subset=["column"])

@@ -215,12 +215,14 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   - `nb_raisons_texte_difficile`, `nb_raisons_applicable_situation`,
     `nb_raisons_comment_appliquer`, `nb_raisons_informations_fausses`: one per
     reason checked after a score of 1 or 2 (`raison_*`);
-  - `nb_remarques`: clicks on "Une remarque ?" (`remarque`).
+  - `nb_remarques`: clicks on "Une remarque ?" (`remarque`);
+  - `nb_suggestions`: suggestions sent (category
+    `clarte_contribution_suggestion`), counted only: the free text is never
+    stored.
 
   The CDTN relays these events server side without a visitor id, so an event
   cannot be linked to the visit that viewed the page: they are counted as
-  events. Free-text suggestions (`clarte_contribution_suggestion`) are not
-  ingested. The historical 5-point events (`notation_contribution`) are
+  events. The historical 5-point events (`notation_contribution`) are
   intentionally not ingested, so the two scales never mix. Derived values are
   computed in Metabase (sum the counters over the period **then** divide):
   - response rate =

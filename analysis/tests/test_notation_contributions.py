@@ -22,6 +22,7 @@ EVENT_COLUMNS = [
     "nb_notes_3",
     *REASON_COLUMNS,
     "nb_remarques",
+    "nb_suggestions",
 ]
 
 
@@ -179,9 +180,6 @@ def test_other_categories_are_ignored():
                 # Historical 5-point scale: never mixed with the 3-point one.
                 event(10, "note_1", category="notation_contribution"),
                 event(11, "note_5", category="notation_contribution"),
-                # Free-text suggestion: not ingested.
-                event(12, "remarque", category="clarte_contribution_suggestion"),
-                event(13, "note_2", category="clarte_contribution_suggestion"),
                 rating(14, 3),
             ]
         )
@@ -189,6 +187,35 @@ def test_other_categories_are_ignored():
     r = row(df)
     assert sum(r[column] for column in EVENT_COLUMNS) == 1
     assert r["nb_notes_3"] == 1
+
+
+def test_counts_suggestions_whatever_their_text():
+    df = aggregate_events(
+        pd.DataFrame(
+            [
+                # The action is the free text: it may even look like a known
+                # action, it still only counts as a suggestion.
+                event(
+                    12, "Ajoutez un exemple", category="clarte_contribution_suggestion"
+                ),
+                event(13, "note_2", category="clarte_contribution_suggestion"),
+                event(
+                    14,
+                    "remarque",
+                    os="Android",
+                    category="clarte_contribution_suggestion",
+                ),
+            ]
+        )
+    )
+    desktop, mobile = row(df), row(df, "mobile")
+    assert desktop["nb_suggestions"] == 2
+    assert mobile["nb_suggestions"] == 1
+    assert desktop["nb_notes_2"] == 0
+    assert mobile["nb_remarques"] == 0
+    assert not any(
+        isinstance(value, str) and "exemple" in value for value in desktop.values()
+    )
 
 
 def test_rows_follow_upsert_column_order():
@@ -199,10 +226,11 @@ def test_rows_follow_upsert_column_order():
                 rating(2, 2),
                 event(2, "raison_comment_appliquer"),
                 event(3, "remarque"),
+                event(3, "Trop long", category="clarte_contribution_suggestion"),
             ]
         )
     )
     rows = _rows_from_df(df, "2026-11-01")
-    assert ("2026-11-01", "desktop", 1, 0, 1, 0, 0, 0, 1, 0, 1) in rows
-    assert ("2026-11-01", "mobile", 0, 0, 0, 0, 0, 0, 0, 0, 0) in rows
-    assert all(len(r) == 11 for r in rows)
+    assert ("2026-11-01", "desktop", 1, 0, 1, 0, 0, 0, 1, 0, 1, 1) in rows
+    assert ("2026-11-01", "mobile", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) in rows
+    assert all(len(r) == 12 for r in rows)
