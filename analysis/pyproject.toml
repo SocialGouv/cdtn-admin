@@ -41,6 +41,9 @@ ingest-parcours-fiches-sp = "analysis.commands.ingest_parcours_fiches_sp:main"
 ingest-parcours-brut-net = "analysis.commands.ingest_parcours_brut_net:main"
 ingest-visites-par-type-contenu = "analysis.commands.ingest_visites_par_type_contenu:main"
 ingest-visites-totales = "analysis.commands.ingest_visites_totales:main"
+ingest-notation-contributions = "analysis.commands.ingest_notation_contributions:main"
+ingest-notation-contributions-pages = "analysis.commands.ingest_notation_contributions_pages:main"
+ingest-suggestions-contributions = "analysis.commands.ingest_suggestions_contributions:main"
 
 l2 = "analysis.l2.cli:main"
 
