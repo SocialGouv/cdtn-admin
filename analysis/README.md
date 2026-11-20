@@ -205,19 +205,28 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   dénominateur, ex. part d'un type = `nb_visites` du type / `nb_visites` total.
   Table `visites_totales`.
 
-- **`notation_contributions`** — contribution clarity rating widget (1 to 5
-  stars, event `notation_contribution` / `note_1` … `note_5`), per device.
-  Source: Matomo SQL replica. `nb_visites_contributions` counts **visits** that
-  viewed at least one contribution page (`/contribution/{slug}`, generic or
-  collective agreement page, the `/contribution` index excluded);
-  `nb_notes_1` … `nb_notes_5` count the **rating events** for each score. The
-  CDTN relays ratings server side without a visitor id, so a rating cannot be
-  linked to the visit that viewed the page: ratings are counted as events.
-  Derived values are computed in Metabase (sum the counters over the period
-  **then** divide):
-  - number of ratings = `nb_notes_1 + … + nb_notes_5`;
-  - response rate = number of ratings / `nb_visites_contributions`;
-  - average score = `(1 * nb_notes_1 + … + 5 * nb_notes_5)` / number of ratings.
+- **`notation_contributions`** — contribution clarity rating widget (3 stars:
+  1 = "Pas clair", 2 = "En partie", 3 = "Très clair"), per device. Source:
+  Matomo SQL replica, event category `clarte_contribution`.
+  `nb_visites_contributions` counts **visits** that viewed at least one
+  contribution page (`/contribution/{slug}`, generic or collective agreement
+  page, the `/contribution` index excluded). The other columns count **events**:
+  - `nb_notes_1` … `nb_notes_3`: one per star click (`note_1` … `note_3`);
+  - `nb_raisons_texte_difficile`, `nb_raisons_applicable_situation`,
+    `nb_raisons_comment_appliquer`, `nb_raisons_informations_fausses`: one per
+    reason checked after a score of 1 or 2 (`raison_*`);
+  - `nb_remarques`: clicks on "Une remarque ?" (`remarque`).
+
+  The CDTN relays these events server side without a visitor id, so an event
+  cannot be linked to the visit that viewed the page: they are counted as
+  events. Free-text suggestions (`clarte_contribution_suggestion`) are not
+  ingested. The historical 5-point events (`notation_contribution`) are
+  intentionally not ingested, so the two scales never mix. Derived values are
+  computed in Metabase (sum the counters over the period **then** divide):
+  - response rate =
+    `SUM(nb_notes_1 + nb_notes_2 + nb_notes_3) / SUM(nb_visites_contributions)`;
+  - average score (1 to 3) =
+    `SUM(1 * nb_notes_1 + 2 * nb_notes_2 + 3 * nb_notes_3) / SUM(nb_notes_1 + nb_notes_2 + nb_notes_3)`.
     Table `notation_contributions`.
 
 ## Pipeline L2 (audit de taxonomie de contenu)
@@ -296,8 +305,8 @@ l'**upsert** dans la base PostgreSQL de Metabase :
   par type de contenu, pour un jour ou une période explicite.
 - **`ingest-visites-totales`** — lance uniquement l'ingester des visites et pages
   vues totales, pour un jour ou une période explicite.
-- **`ingest-notation-contributions`** — runs only the contribution rating
-  ingester (response rate + score), for an explicit day or period.
+- **`ingest-notation-contributions`** — runs only the contribution clarity
+  rating ingester (scores, reasons, remarks), for an explicit day or period.
 
 ```bash
 # forme planifiée : agrège J-2 avec tous les ingesters (ce que lance le cronjob)

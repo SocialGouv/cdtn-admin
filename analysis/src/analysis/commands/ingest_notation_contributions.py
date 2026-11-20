@@ -1,4 +1,4 @@
-"""CLI: stores the contribution rating counts (response rate + score) in the DB.
+"""CLI: stores the contribution clarity rating counts in the DB.
 
 Usage::
 
@@ -20,22 +20,26 @@ from analysis.connectors.matomo_reporting import MatomoReportingConnector
 from analysis.connectors.metabase_db import MetabaseDBConnector
 from analysis.reports.notation_contributions import get_notation_contributions
 
-# Target table schema and upsert for this report.
+# Target table schema and upsert for this report (3-point clarity scale,
+# Matomo category ``clarte_contribution``).
 #
 # Rates and averages are NOT stored (derived values, computed in Metabase):
-# response rate = (nb_notes_1 + … + nb_notes_5) / nb_visites_contributions;
-# average score = (1 * nb_notes_1 + … + 5 * nb_notes_5) / (nb_notes_1 + … +
-# nb_notes_5).
+# response rate = (nb_notes_1 + nb_notes_2 + nb_notes_3) / nb_visites_contributions;
+# average score (1 to 3) = (1 * nb_notes_1 + 2 * nb_notes_2 + 3 * nb_notes_3) /
+# (nb_notes_1 + nb_notes_2 + nb_notes_3).
 _CREATE_TABLE = """
 CREATE TABLE IF NOT EXISTS notation_contributions (
-    date                      DATE    NOT NULL,
-    device                    TEXT    NOT NULL,
-    nb_visites_contributions  INTEGER NOT NULL,
-    nb_notes_1                INTEGER NOT NULL,
-    nb_notes_2                INTEGER NOT NULL,
-    nb_notes_3                INTEGER NOT NULL,
-    nb_notes_4                INTEGER NOT NULL,
-    nb_notes_5                INTEGER NOT NULL,
+    date                             DATE    NOT NULL,
+    device                           TEXT    NOT NULL,
+    nb_visites_contributions         INTEGER NOT NULL,
+    nb_notes_1                       INTEGER NOT NULL,
+    nb_notes_2                       INTEGER NOT NULL,
+    nb_notes_3                       INTEGER NOT NULL,
+    nb_raisons_texte_difficile       INTEGER NOT NULL,
+    nb_raisons_applicable_situation  INTEGER NOT NULL,
+    nb_raisons_comment_appliquer     INTEGER NOT NULL,
+    nb_raisons_informations_fausses  INTEGER NOT NULL,
+    nb_remarques                     INTEGER NOT NULL,
     PRIMARY KEY (date, device)
 );
 """
@@ -43,16 +47,22 @@ CREATE TABLE IF NOT EXISTS notation_contributions (
 _UPSERT = """
 INSERT INTO notation_contributions
     (date, device, nb_visites_contributions,
-     nb_notes_1, nb_notes_2, nb_notes_3, nb_notes_4, nb_notes_5)
-VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+     nb_notes_1, nb_notes_2, nb_notes_3,
+     nb_raisons_texte_difficile, nb_raisons_applicable_situation,
+     nb_raisons_comment_appliquer, nb_raisons_informations_fausses,
+     nb_remarques)
+VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
 ON CONFLICT (date, device)
 DO UPDATE SET
-    nb_visites_contributions = EXCLUDED.nb_visites_contributions,
-    nb_notes_1               = EXCLUDED.nb_notes_1,
-    nb_notes_2               = EXCLUDED.nb_notes_2,
-    nb_notes_3               = EXCLUDED.nb_notes_3,
-    nb_notes_4               = EXCLUDED.nb_notes_4,
-    nb_notes_5               = EXCLUDED.nb_notes_5;
+    nb_visites_contributions        = EXCLUDED.nb_visites_contributions,
+    nb_notes_1                      = EXCLUDED.nb_notes_1,
+    nb_notes_2                      = EXCLUDED.nb_notes_2,
+    nb_notes_3                      = EXCLUDED.nb_notes_3,
+    nb_raisons_texte_difficile      = EXCLUDED.nb_raisons_texte_difficile,
+    nb_raisons_applicable_situation = EXCLUDED.nb_raisons_applicable_situation,
+    nb_raisons_comment_appliquer    = EXCLUDED.nb_raisons_comment_appliquer,
+    nb_raisons_informations_fausses = EXCLUDED.nb_raisons_informations_fausses,
+    nb_remarques                    = EXCLUDED.nb_remarques;
 """
 
 
@@ -69,8 +79,11 @@ def _rows_from_df(df: pd.DataFrame, date: str) -> list[tuple]:
             int(row["nb_notes_1"]),
             int(row["nb_notes_2"]),
             int(row["nb_notes_3"]),
-            int(row["nb_notes_4"]),
-            int(row["nb_notes_5"]),
+            int(row["nb_raisons_texte_difficile"]),
+            int(row["nb_raisons_applicable_situation"]),
+            int(row["nb_raisons_comment_appliquer"]),
+            int(row["nb_raisons_informations_fausses"]),
+            int(row["nb_remarques"]),
         )
         for _, row in df.iterrows()
     ]
@@ -79,7 +92,7 @@ def _rows_from_df(df: pd.DataFrame, date: str) -> list[tuple]:
 def ingest_day(
     matomo: MatomoReportingConnector, metabase: MetabaseDBConnector, day: str
 ) -> int:
-    """Aggregate and upsert the contribution ratings for one day."""
+    """Aggregate and upsert the contribution clarity ratings for one day."""
     df = get_notation_contributions(day, matomo)
     rows = _rows_from_df(df, day)
     return metabase.upsert(table_ddl=_CREATE_TABLE, insert_sql=_UPSERT, rows=rows)
@@ -92,9 +105,9 @@ INGESTER = Ingester(name="notation-contributions", run=ingest_day)
 def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
-            "Counts contribution visits and rating widget scores (1 to 5 stars) "
-            "from the Matomo SQL replica and stores them in the Metabase "
-            "PostgreSQL database."
+            "Counts contribution visits and clarity widget events (scores 1 to 3, "
+            "reasons, remarks) from the Matomo SQL replica and stores them in "
+            "the Metabase PostgreSQL database."
         )
     )
     parser.add_argument(
