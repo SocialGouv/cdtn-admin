@@ -221,8 +221,8 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
     reason checked after a score of 1 or 2 (`raison_*`);
   - `nb_remarques`: clicks on "Une remarque ?" (`remarque`);
   - `nb_suggestions`: suggestions sent (category
-    `clarte_contribution_suggestion`), counted only: the free text is never
-    stored.
+    `clarte_contribution_suggestion`), counted only: the free text goes to
+    `suggestions_contributions` (restricted access, see below).
 
   The CDTN relays these events server side without a visitor id, so an event
   cannot be linked to the visit that viewed the page: they are counted as
@@ -234,6 +234,125 @@ La commande expose un objet `Ingester` ; il suffit de l'enregistrer dans
   - average score (1 to 3) =
     `SUM(1 * nb_notes_1 + 2 * nb_notes_2 + 3 * nb_notes_3) / SUM(nb_notes_1 + nb_notes_2 + nb_notes_3)`.
     Table `notation_contributions`.
+
+- **`notation_contributions_pages`** — per-contribution detail of
+  `notation_contributions`, one row per (day, `page`), no device dimension.
+  Same source and counters (`nb_notes_1` … `nb_notes_3`, `nb_raisons_*`,
+  `nb_remarques`, `nb_suggestions`), plus `nb_visites`: **visits** that viewed
+  that contribution page. `page` is the contribution slug: the `<slug>` of the
+  event name `contribution/<slug>` for widget events, of the
+  `/contribution/<slug>` URL path (query string and anchor stripped) for page
+  views; the collective agreement page `/contribution/<slug>/<idcc>-<name>`
+  maps to `<idcc>-<slug>`, the slug its widget sends. The `/contribution`
+  index is excluded and pages whose counters are all 0 are not stored. A visit
+  that viewed several contributions counts in each of them: **do not sum
+  `nb_visites` across pages**, the global response rate must use
+  `notation_contributions`. Per-page response rate =
+  `SUM(nb_notes_1 + nb_notes_2 + nb_notes_3) / SUM(nb_visites)` for that page.
+  Table `notation_contributions_pages`.
+
+- **`suggestions_contributions`** — suggestion verbatims of the clarity widget,
+  one row per suggestion sent (category `clarte_contribution_suggestion`, the
+  event action is the text typed, 1 to 500 characters): `horodatage` (event
+  timestamp, UTC), `date`, `page` (contribution slug, as above), `device`,
+  `suggestion` (the text). Primary key `(horodatage, page, suggestion)` with
+  `ON CONFLICT DO NOTHING`: re-running a day does not duplicate rows (two
+  identical texts on the same page at the same timestamp are stored once).
+  **Personal data**: this is free text typed by users, which may contain
+  personal data despite the on-page warning: **restrict the Metabase access to
+  this table to the team**. Retention: purge rows older than 12 months
+  (proposed, not automated). Table `suggestions_contributions`.
+
+### Metabase cards (clarity widget)
+
+Ready-to-paste PostgreSQL queries (native questions) over the last 90 days
+ending yesterday. Counters are summed over the period **then** divided;
+`NULLIF` avoids divisions by zero (the result is then `NULL`).
+
+1. Response rate and average score (1 to 3), from `notation_contributions`:
+
+   ```sql
+   SELECT
+     SUM(nb_notes_1 + nb_notes_2 + nb_notes_3) AS ratings,
+     SUM(nb_visites_contributions) AS contribution_visits,
+     SUM(nb_notes_1 + nb_notes_2 + nb_notes_3)::numeric
+       / NULLIF(SUM(nb_visites_contributions), 0) AS response_rate,
+     SUM(1 * nb_notes_1 + 2 * nb_notes_2 + 3 * nb_notes_3)::numeric
+       / NULLIF(SUM(nb_notes_1 + nb_notes_2 + nb_notes_3), 0) AS average_score
+   FROM notation_contributions
+   WHERE date >= current_date - interval '90 days' AND date < current_date;
+   ```
+
+2. Remark clicks, suggestions sent and suggestions per 1,000 contribution
+   visits, from `notation_contributions`:
+
+   ```sql
+   SELECT
+     SUM(nb_remarques) AS remark_clicks,
+     SUM(nb_suggestions) AS suggestions_sent,
+     1000 * SUM(nb_suggestions)::numeric
+       / NULLIF(SUM(nb_visites_contributions), 0) AS suggestions_per_1000_visits
+   FROM notation_contributions
+   WHERE date >= current_date - interval '90 days' AND date < current_date;
+   ```
+
+3. Reasons breakdown (one row per reason, for a bar chart), from
+   `notation_contributions`:
+
+   ```sql
+   SELECT reasons.reason, reasons.count
+   FROM (
+     SELECT
+       SUM(nb_raisons_texte_difficile) AS texte_difficile,
+       SUM(nb_raisons_applicable_situation) AS applicable_situation,
+       SUM(nb_raisons_comment_appliquer) AS comment_appliquer,
+       SUM(nb_raisons_informations_fausses) AS informations_fausses
+     FROM notation_contributions
+     WHERE date >= current_date - interval '90 days' AND date < current_date
+   ) AS totals
+   CROSS JOIN LATERAL (
+     VALUES
+       ('texte_difficile', totals.texte_difficile),
+       ('applicable_situation', totals.applicable_situation),
+       ('comment_appliquer', totals.comment_appliquer),
+       ('informations_fausses', totals.informations_fausses)
+   ) AS reasons (reason, count)
+   ORDER BY reasons.count DESC NULLS LAST;
+   ```
+
+4. Top 20 contributions by suggestions sent, with their ratings count, average
+   score and share of low scores (1 or 2), from `notation_contributions_pages`:
+
+   ```sql
+   SELECT
+     page,
+     SUM(nb_suggestions) AS suggestions_sent,
+     SUM(nb_notes_1 + nb_notes_2 + nb_notes_3) AS ratings,
+     SUM(1 * nb_notes_1 + 2 * nb_notes_2 + 3 * nb_notes_3)::numeric
+       / NULLIF(SUM(nb_notes_1 + nb_notes_2 + nb_notes_3), 0) AS average_score,
+     SUM(nb_notes_1 + nb_notes_2)::numeric
+       / NULLIF(SUM(nb_notes_1 + nb_notes_2 + nb_notes_3), 0) AS low_score_share
+   FROM notation_contributions_pages
+   WHERE date >= current_date - interval '90 days' AND date < current_date
+   GROUP BY page
+   ORDER BY suggestions_sent DESC, ratings DESC, page
+   LIMIT 20;
+   ```
+
+5. Latest suggestion verbatims, newest first, from `suggestions_contributions`
+   (restricted access, see above):
+
+   ```sql
+   SELECT
+     horodatage,
+     'https://code.travail.gouv.fr/contribution/' || page AS page,
+     device,
+     suggestion
+   FROM suggestions_contributions
+   WHERE date >= current_date - interval '90 days' AND date < current_date
+   ORDER BY horodatage DESC
+   LIMIT 200;
+   ```
 
 ## Pipeline L2 (audit de taxonomie de contenu)
 
@@ -280,14 +399,15 @@ au premier ingest, aucune étape de schéma manuelle n'est requise.
 
 ## Ingérer des données dans Metabase
 
-Eleven console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
+Thirteen console scripts (déclarés dans `pyproject.toml`) agrègent la donnée et
 l' **upsert** dans la base PostgreSQL de Metabase :
 
 - **`ingest-all`** — lance **tous** les ingesters (actuellement
   `nps_scores`, `taux-contributions`, `taux-personnalisation`,
   `completion-modeles-courrier`, `parcours-actualites`,
   `parcours-contributions`, `parcours-fiches-sp`, `parcours-brut-net`, `visites-par-type-contenu`,
-  `visites-totales` et `notation-contributions`). C'est le job planifié. **Sans argument, il cible J-2**
+  `visites-totales`, `notation-contributions`, `notation-contributions-pages`
+  et `suggestions-contributions`). C'est le job planifié. **Sans argument, il cible J-2**
   (l'avant-veille, UTC — Matomo a alors archivé et stabilisé cette journée).
   C'est le point d'extension : pour ajouter un report, exposer un `Ingester`
   dans son module de commande et l'enregistrer dans `ingest_all.INGESTERS`.
@@ -315,6 +435,11 @@ l' **upsert** dans la base PostgreSQL de Metabase :
   vues totales, pour un jour ou une période explicite.
 - **`ingest-notation-contributions`** — runs only the contribution clarity
   rating ingester (scores, reasons, remarks), for an explicit day or period.
+- **`ingest-notation-contributions-pages`** — runs only the per-contribution
+  clarity rating ingester, for an explicit day or period.
+- **`ingest-suggestions-contributions`** — runs only the clarity widget
+  suggestion verbatims ingester (free text, restricted access), for an explicit
+  day or period.
 
 ```bash
 # forme planifiée : agrège J-2 avec tous les ingesters (ce que lance le cronjob)

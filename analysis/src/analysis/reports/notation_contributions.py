@@ -21,8 +21,9 @@ For each device (desktop / mobile) and day, this report counts:
   of **reason events** for each reason.
 * ``nb_remarques`` — number of **"Une remarque ?" click events**.
 * ``nb_suggestions`` — number of **suggestions sent** (category
-  ``clarte_contribution_suggestion``, from either panel). Only counted: the
-  free text itself (the event action) is never read into the table.
+  ``clarte_contribution_suggestion``, from either panel). Only counted here:
+  the free text itself (the event action) is stored separately, in
+  ``suggestions_contributions`` (restricted access).
 
 The historical 5-point events (category ``notation_contribution``) are
 intentionally not ingested either, so the two scales never mix.
@@ -37,6 +38,9 @@ number of ratings = ``nb_notes_1 + nb_notes_2 + nb_notes_3``;
 response rate = number of ratings / ``nb_visites_contributions``;
 average score (1 to 3) = ``(1 * nb_notes_1 + 2 * nb_notes_2 + 3 * nb_notes_3)`` /
 number of ratings.
+
+The per-contribution detail of the same counters lives in
+``notation_contributions_pages``.
 """
 
 from __future__ import annotations
@@ -50,11 +54,12 @@ DEVICES: list[str] = list(DEVICE_SEGMENTS)
 
 # Events emitted by the CDTN clarity widget (``RatingMatomoCategory`` in the
 # frontend). The historical 5-point category ``notation_contribution`` is
-# deliberately left out. Suggestions carry the free text in their action: they
-# are only counted, the text never reaches the table.
-_RATING_CATEGORY = "clarte_contribution"
-_SUGGESTION_CATEGORY = "clarte_contribution_suggestion"
-_SUGGESTION_COLUMN = "nb_suggestions"
+# deliberately left out. Suggestions carry the free text in their action: in
+# this table they are only counted (the text goes to
+# ``suggestions_contributions``, see that report).
+RATING_CATEGORY = "clarte_contribution"
+SUGGESTION_CATEGORY = "clarte_contribution_suggestion"
+SUGGESTION_COLUMN = "nb_suggestions"
 SCORES: list[int] = [1, 2, 3]
 REASONS: list[str] = [
     "texte_difficile",
@@ -64,18 +69,18 @@ REASONS: list[str] = [
 ]
 
 # Event action -> counter column. Any other action is ignored.
-_ACTION_COLUMNS: dict[str, str] = {
+ACTION_COLUMNS: dict[str, str] = {
     **{f"note_{score}": f"nb_notes_{score}" for score in SCORES},
     **{f"raison_{reason}": f"nb_raisons_{reason}" for reason in REASONS},
     "remarque": "nb_remarques",
 }
-_EVENT_COUNT_COLUMNS = [*_ACTION_COLUMNS.values(), _SUGGESTION_COLUMN]
-_COLUMNS = ["device", "nb_visites_contributions", *_EVENT_COUNT_COLUMNS]
+EVENT_COUNT_COLUMNS = [*ACTION_COLUMNS.values(), SUGGESTION_COLUMN]
+_COLUMNS = ["device", "nb_visites_contributions", *EVENT_COUNT_COLUMNS]
 
 # Contribution page: ``/contribution/{slug}`` (optionally followed by a
 # collective agreement segment, a query string or an anchor). The bare
 # ``/contribution`` index does not match.
-_CONTRIBUTION_PAGE_RE = r"/contribution/[^/?#]+"
+CONTRIBUTION_PAGE_RE = r"/contribution/[^/?#]+"
 
 _EVENT_COLUMNS = [
     "idvisit",
@@ -84,8 +89,11 @@ _EVENT_COLUMNS = [
     "action_url",
     "action_eventcategory",
     "action_eventaction",
+    "action_eventname",
 ]
 
+# Contribution page views and clarity widget events of the day. Shared with the
+# per-contribution report (``notation_contributions_pages``).
 _QUERY = f"""
 SELECT {", ".join(_EVENT_COLUMNS)}
 FROM matomo_partitioned
@@ -96,6 +104,22 @@ WHERE action_timestamp >= %s
      OR (action_type = 'event' AND action_eventcategory IN (%s, %s))
   );
 """
+
+
+def query_events(date: str) -> pd.DataFrame:
+    """Fetch the contribution page views and clarity widget events of a day.
+
+    Args:
+        date: ISO date YYYY-MM-DD (e.g. "2026-06-01").
+
+    Returns:
+        DataFrame with the columns of ``_EVENT_COLUMNS`` (Matomo SQL replica).
+    """
+    with MatomoSQLConnectorSync() as client:
+        return client.run_query_df(
+            _QUERY,
+            (date, date, "%/contribution/%", RATING_CATEGORY, SUGGESTION_CATEGORY),
+        )
 
 
 def get_notation_contributions(date: str, matomo: object | None = None) -> pd.DataFrame:
@@ -113,12 +137,34 @@ def get_notation_contributions(date: str, matomo: object | None = None) -> pd.Da
         nb_remarques, nb_suggestions. One row per device, set to 0 when there
         is no data that day.
     """
-    with MatomoSQLConnectorSync() as client:
-        events = client.run_query_df(
-            _QUERY,
-            (date, date, "%/contribution/%", _RATING_CATEGORY, _SUGGESTION_CATEGORY),
-        )
-    return aggregate_events(events)
+    return aggregate_events(query_events(date))
+
+
+def contribution_page_views(events: pd.DataFrame) -> pd.DataFrame:
+    """Return the contribution page views (``/contribution`` index excluded)."""
+    return events[
+        (events["action_type"] == "action")
+        & events["action_url"].str.contains(CONTRIBUTION_PAGE_RE, na=False)
+    ]
+
+
+def widget_events(events: pd.DataFrame) -> pd.DataFrame:
+    """Return the clarity widget events, with the counter ``column`` they feed.
+
+    A suggestion maps to ``nb_suggestions`` whatever its (free text) action;
+    a rating event whose action is unknown is dropped.
+    """
+    widget = events[
+        (events["action_type"] == "event")
+        & events["action_eventcategory"].isin([RATING_CATEGORY, SUGGESTION_CATEGORY])
+    ]
+    is_suggestion = widget["action_eventcategory"] == SUGGESTION_CATEGORY
+    column = (
+        widget["action_eventaction"]
+        .map(ACTION_COLUMNS)
+        .where(~is_suggestion, SUGGESTION_COLUMN)
+    )
+    return widget.assign(column=column).dropna(subset=["column"])
 
 
 def aggregate_events(events: pd.DataFrame) -> pd.DataFrame:
@@ -140,10 +186,7 @@ def aggregate_events(events: pd.DataFrame) -> pd.DataFrame:
         return counts.reset_index()
 
     # Visits: a visit is "mobile" if at least one of its rows is.
-    pages = events[
-        (events["action_type"] == "action")
-        & events["action_url"].str.contains(_CONTRIBUTION_PAGE_RE, na=False)
-    ]
+    pages = contribution_page_views(events)
     is_mobile = (
         pages["operatingsystemname"]
         .map(device_from_os)
@@ -156,28 +199,20 @@ def aggregate_events(events: pd.DataFrame) -> pd.DataFrame:
 
     # Ratings, reasons, remarks and suggestions: counted as events (one per
     # click or send), device read from the user agent the CDTN forwards with
-    # each event. A suggestion maps to its column whatever its (free text)
-    # action.
-    widget = events[
-        (events["action_type"] == "event")
-        & events["action_eventcategory"].isin([_RATING_CATEGORY, _SUGGESTION_CATEGORY])
-    ]
-    is_suggestion = widget["action_eventcategory"] == _SUGGESTION_CATEGORY
+    # each event.
+    widget = widget_events(events)
     by_column = (
         pd.DataFrame(
             {
                 "device": widget["operatingsystemname"].map(device_from_os),
-                "column": widget["action_eventaction"]
-                .map(_ACTION_COLUMNS)
-                .where(~is_suggestion, _SUGGESTION_COLUMN),
+                "column": widget["column"],
             }
         )
-        .dropna(subset=["column"])
         .groupby(["device", "column"])
         .size()
         .unstack("column", fill_value=0)
-        .reindex(index=counts.index, columns=_EVENT_COUNT_COLUMNS, fill_value=0)
+        .reindex(index=counts.index, columns=EVENT_COUNT_COLUMNS, fill_value=0)
     )
-    counts[_EVENT_COUNT_COLUMNS] = by_column.to_numpy()
+    counts[EVENT_COUNT_COLUMNS] = by_column.to_numpy()
 
     return counts.reset_index()
