@@ -121,6 +121,18 @@ describe("generateNews", () => {
     expect(news.references).toEqual(references);
   });
 
+  it("indexe le contenu HTML en texte brut pour la recherche", async () => {
+    const [news] = await generateNews([
+      buildNews({
+        content:
+          '<p>Le <strong>préavis</strong> de <a href="https://externe.fr">démission</a></p>',
+      }),
+    ]);
+
+    expect(news.text).toBe("Le préavis de démission");
+    expect(news.content).toContain("<strong>");
+  });
+
   it("retire un contenu CDTN qui n'est plus publié", async () => {
     (fetchLinkedContent as jest.Mock).mockResolvedValue(undefined);
 
