@@ -99,6 +99,10 @@ build:
         BUILD_IMAGE: "$CI_REGISTRY_IMAGE/export"
         BUILD_DOCKERFILE: "targets/export-elasticsearch/Dockerfile"
         BUILD_SECRETS: "NPM_TIPTAP_TOKEN"
+      - COMPONENT: analysis
+        BUILD_IMAGE: "$CI_REGISTRY_IMAGE/analysis"
+        BUILD_CONTEXT: "analysis"
+        BUILD_DOCKERFILE: "Dockerfile"
   variables:
     BUILD_CONTEXT: "."
     BUILD_TAGS: "sha-$CI_COMMIT_SHA,$CI_COMMIT_REF_SLUG"
