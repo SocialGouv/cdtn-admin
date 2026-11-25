@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "matomo": {
+      "command": "sh",
+      "args": [
+        "-c",
+        "exec \"$(git rev-parse --show-toplevel)/scripts/mcp/matomo.sh\""
+      ],
+      "env": {
+        "MATOMO_HOST": "https://matomo.fabrique.social.gouv.fr",
+        "MATOMO_DEFAULT_SITE_ID": "4"
+      }
+    },
+    "metabase": {
+      "command": "sh",
+      "args": [
+        "-c",
+        "exec \"$(git rev-parse --show-toplevel)/scripts/mcp/metabase.sh\""
+      ],
+      "env": {
+        "METABASE_URL": "https://metabase-cdtn.fabrique.social.gouv.fr",
+        "METABASE_KUBE_CONTEXT": "ovh-prod",
+        "METABASE_KUBE_NAMESPACE": "startup-cdtn--metabase-prod",
+        "TOOL_MODE": "all"
+      }
+    }
+  }
+}
