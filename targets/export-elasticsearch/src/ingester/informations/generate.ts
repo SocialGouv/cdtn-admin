@@ -66,11 +66,15 @@ export const generateEditorialContents = (
       return content;
     });
 
-    const text = contents
-      ?.flatMap((c: { blocks: { html: string }[] }) =>
+    // Le texte indexé regroupe l'intro puis le contenu des blocs.
+    // L'intro est nécessaire : certaines pages n'ont aucun bloc dans `contents`
+    // et tout leur contenu est dans `intro`.
+    const introText = introWithGlossary ? htmlToText(introWithGlossary) : "";
+    const blocksText: string[] =
+      contents?.flatMap((c: { blocks: { html: string }[] }) =>
         c.blocks.map((b) => htmlToText(b.html))
-      )
-      .join("\n\n");
+      ) ?? [];
+    const text = [introText, ...blocksText].filter(Boolean).join("\n\n");
 
     return {
       ...document,
