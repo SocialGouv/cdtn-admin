@@ -116,6 +116,7 @@ type ChallengerDialogState = {
   selectedText: string;
   existingFormula: ChallengerFormula | null;
   existingParameter: string | null;
+  existingHideAsterisk: boolean;
 };
 
 type BulkChallengerDialogState = {
@@ -156,6 +157,7 @@ export const Editor = function Editor({
       selectedText: "",
       existingFormula: null,
       existingParameter: null,
+      existingHideAsterisk: false,
     });
   const [bulkChallengerDialog, setBulkChallengerDialog] =
     useState<BulkChallengerDialogState>({
@@ -265,6 +267,7 @@ export const Editor = function Editor({
               selectedText,
               existingFormula: attrs.formula as ChallengerFormula,
               existingParameter: attrs.parameter ?? null,
+              existingHideAsterisk: Boolean(attrs.hideAsterisk),
             });
           }
         }
@@ -335,6 +338,9 @@ export const Editor = function Editor({
                   existingParameter: hasExistingMark
                     ? (attrs.parameter ?? null)
                     : amount.parameter || null,
+                  existingHideAsterisk: hasExistingMark
+                    ? Boolean(attrs.hideAsterisk)
+                    : false,
                 });
               } else {
                 setBulkChallengerDialog({
@@ -392,8 +398,13 @@ export const Editor = function Editor({
             selectedText={challengerDialog.selectedText}
             existingFormula={challengerDialog.existingFormula}
             existingParameter={challengerDialog.existingParameter}
-            onConfirm={(formula, parameter) => {
-              editor?.chain().focus().setChallenger(formula, parameter).run();
+            existingHideAsterisk={challengerDialog.existingHideAsterisk}
+            onConfirm={(formula, parameter, hideAsterisk) => {
+              editor
+                ?.chain()
+                .focus()
+                .setChallenger(formula, parameter, hideAsterisk)
+                .run();
               setChallengerDialog((s) => ({ ...s, open: false }));
             }}
             onRemove={() => {

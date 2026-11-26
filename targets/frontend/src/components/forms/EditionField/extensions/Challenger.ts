@@ -13,7 +13,8 @@ declare module "@tiptap/core" {
     challenger: {
       setChallenger: (
         formula: ChallengerFormula,
-        parameter?: string | null
+        parameter?: string | null,
+        hideAsterisk?: boolean
       ) => ReturnType;
       unsetChallenger: () => ReturnType;
     };
@@ -48,6 +49,14 @@ export const Challenger = Mark.create({
             ? { "data-challenger-parameter": attrs.parameter }
             : {},
       },
+      // Indique au front de ne pas afficher l'astérisque après le montant.
+      hideAsterisk: {
+        default: false,
+        parseHTML: (el) =>
+          el.getAttribute("data-challenger-hide-asterisk") === "true",
+        renderHTML: (attrs) =>
+          attrs.hideAsterisk ? { "data-challenger-hide-asterisk": "true" } : {},
+      },
     };
   },
 
@@ -62,11 +71,16 @@ export const Challenger = Mark.create({
   addCommands() {
     return {
       setChallenger:
-        (formula: ChallengerFormula, parameter?: string | null) =>
+        (
+          formula: ChallengerFormula,
+          parameter?: string | null,
+          hideAsterisk?: boolean
+        ) =>
         ({ commands }) =>
           commands.setMark(this.name, {
             formula,
             parameter: parameter ?? null,
+            hideAsterisk: hideAsterisk ?? false,
           }),
 
       unsetChallenger:

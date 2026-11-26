@@ -3,11 +3,13 @@ import {
   Alert,
   Box,
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
   Select,
@@ -49,7 +51,12 @@ export type ChallengerDialogProps = {
   selectedText: string;
   existingFormula?: ChallengerFormula | null;
   existingParameter?: string | null;
-  onConfirm: (formula: ChallengerFormula, parameter?: string | null) => void;
+  existingHideAsterisk?: boolean;
+  onConfirm: (
+    formula: ChallengerFormula,
+    parameter: string | null,
+    hideAsterisk: boolean
+  ) => void;
   onRemove: () => void;
   onClose: () => void;
 };
@@ -59,6 +66,7 @@ export function ChallengerDialog({
   selectedText,
   existingFormula,
   existingParameter,
+  existingHideAsterisk,
   onConfirm,
   onRemove,
   onClose,
@@ -67,13 +75,17 @@ export function ChallengerDialog({
     existingFormula ?? "smic_monthly_35h"
   );
   const [parameter, setParameter] = useState<string>(existingParameter ?? "");
+  const [hideAsterisk, setHideAsterisk] = useState<boolean>(
+    existingHideAsterisk ?? false
+  );
 
   useEffect(() => {
     if (open) {
       setFormula(existingFormula ?? "smic_monthly_35h");
       setParameter(existingParameter ?? "");
+      setHideAsterisk(existingHideAsterisk ?? false);
     }
-  }, [open, existingFormula, existingParameter]);
+  }, [open, existingFormula, existingParameter, existingHideAsterisk]);
 
   const [smicResult] = useQuery<SmicQueryResult>({
     query: smicCurrentValueQuery,
@@ -161,6 +173,17 @@ export function ChallengerDialog({
             />
           )}
 
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={hideAsterisk}
+                onChange={(e) => setHideAsterisk(e.target.checked)}
+                disabled={isInvalidAmount}
+              />
+            }
+            label="Ne pas afficher l'astérisque"
+          />
+
           {!isInvalidAmount && reference !== null && currentSmic && (
             <Box
               sx={{
@@ -228,7 +251,9 @@ export function ChallengerDialog({
         )}
         <Button onClick={onClose}>Annuler</Button>
         <Button
-          onClick={() => onConfirm(formula, needsParam ? parameter : null)}
+          onClick={() =>
+            onConfirm(formula, needsParam ? parameter : null, hideAsterisk)
+          }
           variant="contained"
           disabled={!canConfirm}
         >

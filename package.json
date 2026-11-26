@@ -7,10 +7,10 @@
   "private": true,
   "scripts": {
     "build": "lerna run --stream build",
-    "build:internals": "lerna run --stream --scope shared* build",
+    "build:internals": "pnpm -r --filter './shared/**' build",
     "build:targets": "lerna run --stream --scope frontend --scope alert-cli build",
     "build:watch": "lerna run --stream build:watch",
-    "dev": "pnpm --filter=frontend dev",
+    "dev": "pnpm build:internals && pnpm --filter=frontend dev",
     "dev:simulate-deployment": "pnpm --filter=frontend build && pnpm --filter=frontend start",
     "e2e": "lerna run --stream --parallel e2e",
     "lint": "lerna run --stream --parallel lint",

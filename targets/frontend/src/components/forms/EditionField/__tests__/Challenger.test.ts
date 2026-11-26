@@ -7,6 +7,7 @@ import TableCell from "@tiptap/extension-table-cell";
 
 import { Challenger } from "../extensions";
 import {
+  applyAmountsToEditor,
   detectAmountsInRange,
   detectSmicPercentage,
   parseAmount,
@@ -119,6 +120,28 @@ describe("Challenger extension commands", () => {
     expect(html).toContain('data-challenger-formula="smic_monthly_custom"');
     expect(html).toContain('data-challenger-parameter="30"');
     expect(html).toContain('class="challenger"');
+  });
+
+  it("setChallenger does not persist hideAsterisk by default", () => {
+    const editor = createEditor("<p>2 109,25 €</p>");
+    editor.commands.selectAll();
+    editor.commands.setChallenger("smic_monthly_35h");
+    expect(editor.getHTML()).not.toContain("data-challenger-hide-asterisk");
+  });
+
+  it("setChallenger persists hideAsterisk when enabled", () => {
+    const editor = createEditor("<p>2 109,25 €</p>");
+    editor.commands.selectAll();
+    editor.commands.setChallenger("smic_monthly_35h", null, true);
+    expect(editor.getHTML()).toContain('data-challenger-hide-asterisk="true"');
+  });
+
+  it("parseHTML round-trip preserves hideAsterisk", () => {
+    const editor = createEditor(
+      '<p><span data-challenger-formula="smic_monthly_35h" data-challenger-hide-asterisk="true">2 109,25 €</span></p>'
+    );
+    expect(editor.getAttributes("challenger")).toBeDefined();
+    expect(editor.getHTML()).toContain('data-challenger-hide-asterisk="true"');
   });
 
   it("unsetChallenger removes the mark", () => {
@@ -478,5 +501,32 @@ describe("detectAmountsInRange — '% du SMIC' prefill", () => {
     const amounts = detectAll(editor);
     expect(amounts).toHaveLength(1);
     expect(amounts[0].formula).toBe("");
+  });
+});
+
+describe("applyAmountsToEditor — hideAsterisk", () => {
+  const prepare = () => {
+    const editor = createEditor("<p>Salaire de 1 500 € et prime de 200 €</p>");
+    const amounts = detectAmountsInRange(
+      editor,
+      0,
+      editor.state.doc.content.size
+    ).map((a) => ({ ...a, formula: "smic_monthly_35h" as const }));
+    return { editor, amounts };
+  };
+
+  it("does not set hideAsterisk by default", () => {
+    const { editor, amounts } = prepare();
+    applyAmountsToEditor(editor, amounts);
+    expect(editor.getHTML()).not.toContain("data-challenger-hide-asterisk");
+  });
+
+  it("sets hideAsterisk on every applied amount when enabled", () => {
+    const { editor, amounts } = prepare();
+    applyAmountsToEditor(editor, amounts, { hideAsterisk: true });
+    const matches = editor
+      .getHTML()
+      .match(/data-challenger-hide-asterisk="true"/g);
+    expect(matches).toHaveLength(2);
   });
 });

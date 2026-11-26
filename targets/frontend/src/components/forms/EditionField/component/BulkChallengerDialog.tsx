@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Button,
+  Checkbox,
   Chip,
   CircularProgress,
   Dialog,
@@ -9,6 +10,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
   Select,
@@ -65,8 +67,10 @@ export function BulkChallengerDialog({
 }: BulkChallengerDialogProps) {
   const [amounts, setAmounts] = useState<DetectedAmount[]>([]);
   const [detecting, setDetecting] = useState(false);
+  const [hideAsterisk, setHideAsterisk] = useState(false);
 
   useEffect(() => {
+    setHideAsterisk(false);
     if (!open || !editor || !range) {
       setAmounts([]);
       return;
@@ -159,7 +163,7 @@ export function BulkChallengerDialog({
 
   const handleConfirm = () => {
     if (editor) {
-      applyAmountsToEditor(editor, amounts);
+      applyAmountsToEditor(editor, amounts, { hideAsterisk });
     }
     onClose();
   };
@@ -281,6 +285,16 @@ export function BulkChallengerDialog({
                   Appliquer
                 </Button>
               </Stack>
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={hideAsterisk}
+                    onChange={(e) => setHideAsterisk(e.target.checked)}
+                  />
+                }
+                label="Ne pas afficher l'astérisque (pour tous les montants challengés)"
+              />
 
               <TableContainer>
                 <Table size="small">

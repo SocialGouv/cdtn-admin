@@ -139,7 +139,8 @@ export function detectAmountsInRange(
 
 export function applyAmountsToEditor(
   editor: Editor,
-  amounts: DetectedAmount[]
+  amounts: DetectedAmount[],
+  options: { hideAsterisk?: boolean } = {}
 ): void {
   const toApply = amounts.filter(
     (a) => a.formula && a.parsedValue !== null && !a.alreadyChallenged
@@ -154,6 +155,7 @@ export function applyAmountsToEditor(
     const mark = markType.create({
       formula: a.formula,
       parameter: a.parameter || null,
+      hideAsterisk: options.hideAsterisk ?? false,
     });
     tr.addMark(a.from, a.to, mark);
   });
