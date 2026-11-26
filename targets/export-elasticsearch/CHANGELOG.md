@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.80.2](https://github.com/SocialGouv/cdtn-admin/compare/v2.80.1...v2.80.2) (2026-11-26)
+
+### Bug Fixes
+
+- **export:** information - include introduction to searchable text ([#1747](https://github.com/SocialGouv/cdtn-admin/issues/1747)) ([6d5e6d1](https://github.com/SocialGouv/cdtn-admin/commit/6d5e6d1fa9a31c82f3820234e80831aadb052106))
+
 ## [2.80.1](https://github.com/SocialGouv/cdtn-admin/compare/v2.80.0...v2.80.1) (2026-11-13)
 
 ### Bug Fixes
