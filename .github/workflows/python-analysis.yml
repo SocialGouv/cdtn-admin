@@ -38,4 +38,6 @@ jobs:
       - name: Ruff format
         run: uv run ruff format --check .
       - name: Tests
-        run: uv run pytest
+        # Use the environment installed by `uv sync --frozen` above: no
+        # resolution or build at this step.
+        run: .venv/bin/python -m pytest
