@@ -14,6 +14,7 @@ import {
 } from "@socialgouv/cdtn-types";
 import { logger } from "@shared/utils";
 import { SOURCES } from "@socialgouv/cdtn-utils";
+import { SourceKeys } from "@socialgouv/cdtn-utils/build/sources";
 
 import { buildGetBreadcrumbs } from "./breadcrumbs";
 import { buildThemes } from "./themes/buildThemes";
@@ -39,6 +40,10 @@ import { updateExportStatuses } from "./documents/updateExportStatuses";
 import { generateInfographics } from "./infographics";
 import { generateNews } from "./news";
 import { htmlToText } from "./utils/textConverter";
+
+// Must match SETTINGS_SOURCE in the admin frontend (modules/settings) and in
+// the site (api/modules/settings).
+const SETTINGS_SOURCE = "settings";
 
 /**
  * Find duplicate slugs
@@ -157,6 +162,13 @@ export async function cdtnDocumentsGen(
     what_is_new: whatIsNewDocs.length,
   };
   await updateDocs("what_is_new", whatIsNewDocs);
+
+  logger.info("=== Paramètres du site ===");
+  // Single technical document edited from the admin settings page (e.g. NPS
+  // campaign switch). Not part of SOURCES: the site reads it by source only.
+  const settingsDocs = await getDocumentBySource(SETTINGS_SOURCE as SourceKeys);
+  logger.info(`Fetched ${settingsDocs.length} settings documents`);
+  await updateDocs(SETTINGS_SOURCE, settingsDocs);
 
   logger.info("=== Contributions ===");
   const contributions: DocumentElasticWithSource<ContributionDocumentJson>[] =

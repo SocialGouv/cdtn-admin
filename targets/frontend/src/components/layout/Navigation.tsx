@@ -79,8 +79,13 @@ export function Navigation() {
       label: "Mises à jour",
       href: "/mises-a-jour",
     },
-    system: {
+    settings: {
       order: 7,
+      label: "Paramètres",
+      href: "/parametres",
+    },
+    system: {
+      order: 8,
       label: "Gestion des utilisateurs",
       href: "/users",
     },
