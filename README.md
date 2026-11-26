@@ -25,6 +25,8 @@ cp .env.example .env
 
 Vous pouvez maintenant lancer la commande `pnpm install` pour installer les packages du projet et `pnpm build` pour build les packages.
 
+Les conventions de contribution (vérifications, migrations, Git et PR) sont résumées dans [AGENTS.md](AGENTS.md), à lire aussi par les agents de code.
+
 ## URLs
 
 | Environnement                                      | URL                                                       |

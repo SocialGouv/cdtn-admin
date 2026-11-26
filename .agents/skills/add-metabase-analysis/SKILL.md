@@ -190,7 +190,7 @@ notebook complet** et tu **le lances pour lui** (Jupyter), en lui donnant le lie
    (contenu attendu dans `references/notebook-oneshot.md`) :
 
 ```bash
-python3 .claude/skills/add-metabase-analysis/scripts/new_notebook.py \
+python3 .agents/skills/add-metabase-analysis/scripts/new_notebook.py \
   --theme "<Thème>" --name "<nom_court_snake_case>" --title "<Titre lisible>" \
   --question "<la question du PO>"
 ```
