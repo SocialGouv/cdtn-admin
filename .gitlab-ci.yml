@@ -143,8 +143,9 @@ deploy-prod:
 #      @socialgouv/cdtn-elasticsearch), puis tag vX.Y.Z + release GitLab.
 # Variables CI/CD requises (masquées) :
 #   - GITLAB_TOKEN : scopes api + write_repository (pousse release/*, ouvre la MR, crée le tag).
-#   - NPM_TOKEN : token npm avec droit de publication sur le scope @socialgouv
-#     (le trusted publishing OIDC npm ne supporte pas les GitLab auto-hébergés).
+#   - NPM_TOKEN (facultatif) : token npm avec droit de publication sur le scope @socialgouv
+#     (le trusted publishing OIDC npm ne supporte pas les GitLab auto-hébergés). Absent : tag
+#     et release GitLab créés, libs non publiées.
 #   - NPM_TIPTAP_TOKEN : déjà requis pour le build (pnpm install).
 .release-job:
   stage: release
@@ -178,5 +179,6 @@ publish-release:
   rules:
     - if: $SCHEDULED_JOB
       when: never
+    # Pas de `changes: [lerna.json]` : un job en échec doit pouvoir être rattrapé au pipeline
+    # suivant. Sortie immédiate si la version de lerna.json est déjà taguée.
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      changes: [lerna.json]

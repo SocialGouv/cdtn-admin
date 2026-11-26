@@ -24,11 +24,15 @@ if [ -n "$LATEST" ] && [ "$(printf '%s\n%s\n' "$LATEST" "$TAG" | sort -V | tail 
 fi
 
 # npm d'abord : `from-package` est idempotent, on peut relancer le job tant que le tag
-# n'existe pas.
-install_deps
-pnpm build:internals
-npm config set --location=user "//registry.npmjs.org/:_authToken" "${NPM_TOKEN}"
-pnpm exec lerna publish from-package --yes
+# n'existe pas. Facultatif : sans NPM_TOKEN, on tague et on crée la release sans publier.
+if [ -n "${NPM_TOKEN:-}" ]; then
+  install_deps
+  pnpm build:internals
+  npm config set --location=user "//registry.npmjs.org/:_authToken" "${NPM_TOKEN}"
+  pnpm exec lerna publish from-package --yes
+else
+  echo "NPM_TOKEN absent : publication npm des libs ignorée."
+fi
 
 NOTES="$(changelog_section "$VERSION" | json_string)"
 gitlab_api POST "/releases" \
