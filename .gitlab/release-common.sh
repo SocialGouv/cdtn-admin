@@ -3,7 +3,9 @@
 # Git authentifié avec GITLAB_TOKEN (api + write_repository) et tags à jour.
 setup_git() {
   git remote set-url origin "https://${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
-  git config credential.helper '!f(){ echo username=gitlab-ci-token; echo "password=${GITLAB_TOKEN}"; };f'
+  # `oauth2` et non `gitlab-ci-token` : ce dernier fait traiter le mot de passe comme un
+  # CI_JOB_TOKEN, qui n'a pas le droit de pousser (403 « You are not allowed to push code »).
+  git config credential.helper '!f(){ echo username=oauth2; echo "password=${GITLAB_TOKEN}"; };f'
   git config user.name "${GITLAB_USER_NAME}"
   git config user.email "${GITLAB_USER_EMAIL}"
   git fetch origin --tags --force --prune
