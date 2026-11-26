@@ -2,10 +2,13 @@
 
 # Git authentifié avec GITLAB_TOKEN (api + write_repository) et tags à jour.
 setup_git() {
-  git remote set-url origin "https://${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
-  # `oauth2` et non `gitlab-ci-token` : ce dernier fait traiter le mot de passe comme un
-  # CI_JOB_TOKEN, qui n'a pas le droit de pousser (403 « You are not allowed to push code »).
-  git config credential.helper '!f(){ echo username=oauth2; echo "password=${GITLAB_TOKEN}"; };f'
+  # Identifiants dans l'URL : le runner installe son propre credential helper (CI_JOB_TOKEN,
+  # sans droit de push), consulté avant tout helper ajouté ici → 403 au push. Des identifiants
+  # présents dans l'URL court-circuitent les helpers. `oauth2` : utilisateur attendu pour un
+  # token d'accès (personnel, projet ou groupe). GITLAB_TOKEN est masqué dans les logs.
+  git remote set-url origin "https://oauth2:${GITLAB_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+  # Diagnostic (non bloquant) : le token doit avoir les scopes api + write_repository.
+  gitlab_token_info || true
   git config user.name "${GITLAB_USER_NAME}"
   git config user.email "${GITLAB_USER_EMAIL}"
   git fetch origin --tags --force --prune
@@ -28,6 +31,12 @@ gitlab_api() {
   curl --fail-with-body -sS -X "$1" \
     -H "PRIVATE-TOKEN: ${GITLAB_TOKEN}" -H "Content-Type: application/json" \
     ${3:+--data "$3"} "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}$2"
+}
+
+# Affiche le nom, les scopes et l'expiration de GITLAB_TOKEN.
+gitlab_token_info() {
+  curl --fail -sS -H "PRIVATE-TOKEN: ${GITLAB_TOKEN}" "${CI_API_V4_URL}/personal_access_tokens/self" \
+    | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const t=JSON.parse(s);console.log(`GITLAB_TOKEN : ${t.name} ; scopes ${t.scopes.join(",")} ; expire ${t.expires_at}`)})'
 }
 
 # Section du CHANGELOG racine pour une version (« ## [X.Y.Z] » ou « # [X.Y.Z] »).
