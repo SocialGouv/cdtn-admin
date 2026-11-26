@@ -98,5 +98,10 @@
     "prebuild": "only-include-used-icons",
     "test": "jest --silent",
     "type-check": "tsc --noEmit"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --cache --fix"
+    ]
   }
 }

@@ -198,7 +198,7 @@ select audit.audit_table('documents',
                          '{text}');
 ```
 
-Pour voir la [configuration du trigger](targets/hasura/migrations/1613474820206_audit_trigger/up.sql)
+Pour voir la [configuration du trigger](targets/hasura/migrations/default/1613474820206_audit_trigger/up.sql)
 
 ## Suppression des données anciennes
 
