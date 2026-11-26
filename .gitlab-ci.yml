@@ -179,6 +179,7 @@ publish-release:
   rules:
     - if: $SCHEDULED_JOB
       when: never
-    # Pas de `changes: [lerna.json]` : un job en échec doit pouvoir être rattrapé au pipeline
-    # suivant. Sortie immédiate si la version de lerna.json est déjà taguée.
+    # Seulement quand lerna.json change (merge d'une MR release/*). Job en échec : le relancer
+    # depuis son pipeline.
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes: [lerna.json]
