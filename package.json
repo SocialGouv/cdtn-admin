@@ -21,7 +21,7 @@
     "k8s": "pnpm --silent --dir .k8s",
     "prepare": "test -n \"$CI\" || husky install",
     "clean": "lerna clean",
-    "precommit": "lerna run --exclude-dependents --parallel 1 --since HEAD --stream"
+    "precommit": "lerna run precommit --exclude-dependents --concurrency 1 --since HEAD --stream"
   },
   "name": "cdtn-admin",
   "packageManager": "pnpm@10.30.0"
