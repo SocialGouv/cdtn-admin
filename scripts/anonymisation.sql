@@ -20,7 +20,13 @@ VALUES (
     'super',
     TRUE,
     '8babda41-6001-4665-96f5-c430fddb0c53'
-  );
+  )
+ON CONFLICT (id) DO UPDATE SET
+  email = EXCLUDED.email,
+  password = EXCLUDED.password,
+  name = EXCLUDED.name,
+  role = EXCLUDED.role,
+  is_active = EXCLUDED.is_active;
 
 -- Anonymize contrib comments
 update contribution.answer_comments ac set content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec volutpat vitae felis sed iaculis. Donec.';
