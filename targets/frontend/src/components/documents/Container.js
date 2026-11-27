@@ -126,7 +126,7 @@ DocumentListContainer.propTypes = {
 const searchDocumentQuery = `
 query documents($source: String, $search: String!, $published: [Boolean!]!, $available: [Boolean!]!, $offset: Int = 0, $limit: Int = 50) {
   documents(where: {
-      source: {_eq: $source, _neq: "code_du_travail"}
+      source: {_eq: $source, _nin: ["code_du_travail", "settings"]}
       title: {_ilike: $search}
       is_published: {_in: $published}
       is_available: {_in: $available}
@@ -143,7 +143,7 @@ query documents($source: String, $search: String!, $published: [Boolean!]!, $ava
   }
 
   documents_aggregate(where: {
-      source: {_eq: $source, _neq: "code_du_travail"}
+      source: {_eq: $source, _nin: ["code_du_travail", "settings"]}
       title: {_ilike: $search},
       is_published: {_in: $published}
       is_available: {_in: $available}
