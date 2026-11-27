@@ -65,7 +65,7 @@ docker compose exec -T postgres pg_restore \
 echo -e "${YELLOW}Clean de la base de données...${NC}"
 
 docker compose exec -T postgres psql \
-  --dbname postgres --user postgres <.kontinuous/sql/post-restore.sql
+  --dbname postgres --user postgres <scripts/anonymisation.sql
 
 echo -e "${YELLOW}Lancement d'hasura, d'elasticsearch et de minio...${NC}"
 
